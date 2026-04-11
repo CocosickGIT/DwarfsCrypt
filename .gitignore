@@ -1,7 +1,10 @@
 # Gradle files
 .gradle/
 build/
-library/
+Library/
+Temp/
+Logs/
+UserSettings/
 
 # Local configuration file (sdk path, etc)
 local.properties
