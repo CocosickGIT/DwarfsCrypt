@@ -1,0 +1,21 @@
+{
+    "Name": "Thorin",
+    "Race": "Dwarf",
+    "Level": 1,
+    "Stats": {
+        "Str": 14,
+        "Dex": 8,
+        "Con": 16,
+        "Wit": 6,
+        "Men": 8,
+        "Luc": 5
+    },
+    "MaxHp": 120,
+    "MaxStamina": 100,
+    "MaxMana": 40,
+    "Equipment": [
+        "IronAxe",
+        "LeatherArmor",
+        "WoodenShield"
+    ]
+}
