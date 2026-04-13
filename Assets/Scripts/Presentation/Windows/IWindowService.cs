@@ -1,0 +1,11 @@
+namespace DwarfsCrypt.Presentation.Windows
+{
+    public interface IWindowService
+    {
+        void Open(WindowType type);
+        void Close(WindowType type);
+        void CloseAll();
+        bool IsOpen(WindowType type);
+        T GetWindow<T>(WindowType type) where T : WindowBase;
+    }
+}
