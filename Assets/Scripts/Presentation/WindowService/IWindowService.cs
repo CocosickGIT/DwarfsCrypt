@@ -1,4 +1,6 @@
-namespace DwarfsCrypt.Presentation.Windows
+using DwarfsCrypt.Presentation.Windows;
+
+namespace Presentation.WindowService
 {
     public interface IWindowService
     {

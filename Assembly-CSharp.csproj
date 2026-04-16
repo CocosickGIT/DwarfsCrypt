@@ -49,14 +49,14 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Presentation\Windows\ErrorWindow.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\CharacterConfig.cs" />
+    <Compile Include="Assets\Scripts\Presentation\WindowService\IWindowService.cs" />
     <Compile Include="Assets\Scripts\Core\Characters\CharacterConfigLoader.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\InventoryWindow.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\CraftWindow.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\MenuWindow.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\Race.cs" />
-    <Compile Include="Assets\Scripts\Presentation\Windows\WindowService.cs" />
+    <Compile Include="Assets\Scripts\Presentation\WindowService\WindowService.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\LevelSelectWindow.cs" />
-    <Compile Include="Assets\Scripts\Presentation\Windows\IWindowService.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\WindowType.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\CharacterBase.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\CharacterStats.cs" />

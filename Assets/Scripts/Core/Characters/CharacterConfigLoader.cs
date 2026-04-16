@@ -3,7 +3,7 @@ using System.IO;
 using DwarfsCrypt.Domain.Characters;
 using UnityEngine;
 
-namespace DwarfsCrypt.Core.Characters
+namespace Core.Characters
 {
     public static class CharacterConfigLoader
     {

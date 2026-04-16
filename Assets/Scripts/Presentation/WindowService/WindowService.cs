@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using DwarfsCrypt.Presentation.Windows;
 using UnityEngine;
 
-namespace DwarfsCrypt.Presentation.Windows
+namespace Presentation.WindowService
 {
     public class WindowService : MonoBehaviour, IWindowService
     {
