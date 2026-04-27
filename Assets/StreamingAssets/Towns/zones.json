@@ -1,0 +1,54 @@
+{
+    "Zones": [
+        {
+            "Id": "zone_ironhold_mines",
+            "TownId": "town_ironhold",
+            "MinLevel": 1,
+            "MonsterTable": [
+                { "MonsterId": "monster_goblin", "Weight": 0.5 },
+                { "MonsterId": "monster_cave_spider", "Weight": 0.3 },
+                { "MonsterId": "monster_rock_troll", "Weight": 0.2 }
+            ]
+        },
+        {
+            "Id": "zone_ironhold_forest",
+            "TownId": "town_ironhold",
+            "MinLevel": 3,
+            "MonsterTable": [
+                { "MonsterId": "monster_wolf", "Weight": 0.5 },
+                { "MonsterId": "monster_bandit", "Weight": 0.35 },
+                { "MonsterId": "monster_giant_boar", "Weight": 0.15 }
+            ]
+        },
+        {
+            "Id": "zone_ironhold_ruins",
+            "TownId": "town_ironhold",
+            "MinLevel": 6,
+            "MonsterTable": [
+                { "MonsterId": "monster_skeleton", "Weight": 0.4 },
+                { "MonsterId": "monster_zombie", "Weight": 0.35 },
+                { "MonsterId": "monster_wraith", "Weight": 0.25 }
+            ]
+        },
+        {
+            "Id": "zone_ironhold_deepshaft",
+            "TownId": "town_ironhold",
+            "MinLevel": 10,
+            "MonsterTable": [
+                { "MonsterId": "monster_stone_golem", "Weight": 0.3 },
+                { "MonsterId": "monster_cave_drake", "Weight": 0.4 },
+                { "MonsterId": "monster_deep_gnome", "Weight": 0.3 }
+            ]
+        },
+        {
+            "Id": "zone_ironhold_vault",
+            "TownId": "town_ironhold",
+            "MinLevel": 13,
+            "MonsterTable": [
+                { "MonsterId": "monster_iron_sentinel", "Weight": 0.35 },
+                { "MonsterId": "monster_lava_elemental", "Weight": 0.35 },
+                { "MonsterId": "monster_dwarven_revenant", "Weight": 0.3 }
+            ]
+        }
+    ]
+}
