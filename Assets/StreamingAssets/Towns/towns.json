@@ -1,0 +1,16 @@
+{
+    "Towns": [
+        {
+            "Id": "town_ironhold",
+            "Name": "Ironhold",
+            "LevelBand": { "Min": 1, "Max": 15 },
+            "Modifiers": [
+                { "Type": "SmithingBonus", "Value": 0.15 },
+                { "Type": "TradeDiscount", "Value": 0.05 },
+                { "Type": "XpGain", "Value": 0.10 },
+                { "Type": "HealingRate", "Value": 0.20 },
+                { "Type": "RecruitCostReduction", "Value": 0.08 }
+            ]
+        }
+    ]
+}
