@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +10,7 @@ namespace DwarfsCrypt.Presentation.Player
     {
         [Header("References")]
         [SerializeField] private GameHUD _hud;
+        [SerializeField] private SPUM_Prefabs _spum;
 
         [Header("Movement")]
         [SerializeField] private float _moveSpeed = 5f;
@@ -29,12 +32,12 @@ namespace DwarfsCrypt.Presentation.Player
         private Vector2 _dashDirection;
         private Vector2 _lastMoveDirection;
 
-        private Transform _transform;
+        private PlayerState _currentState;
+        private Dictionary<PlayerState, int> _animationIndex = new();
+        private int _facingSign = 0; // 0 = unset, 1 = right (-x scale), -1 = left (+x scale)
 
         private void Awake()
         {
-            _transform = transform;
-            
             _rb = GetComponent<Rigidbody2D>();
             _input = new PlayerInputActions();
             _input.Dash.performed += OnDashPerformed;
@@ -45,16 +48,41 @@ namespace DwarfsCrypt.Presentation.Player
         {
             if (_hud != null)
                 _hud.OnDashPressed += RequestDash;
+
+            InitSpum();
         }
 
         private void OnDestroy()
         {
             _input.Dash.performed -= OnDashPerformed;
             _input.Disable();
-            // _input.Dispose();
 
             if (_hud != null)
                 _hud.OnDashPressed -= RequestDash;
+        }
+
+        private void InitSpum()
+        {
+            if (_spum == null)
+            {
+                // Search children only — never self, to avoid flipping the physics root
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    _spum = transform.GetChild(i).GetComponentInChildren<SPUM_Prefabs>();
+                    if (_spum != null) break;
+                }
+            }
+
+            if (_spum == null) return;
+
+            if (!_spum.allListsHaveItemsExist())
+                _spum.PopulateAnimationLists();
+
+            _spum.OverrideControllerInit();
+            _spum._anim.applyRootMotion = false;
+
+            foreach (PlayerState state in Enum.GetValues(typeof(PlayerState)))
+                _animationIndex[state] = 0;
         }
 
         private void Update()
@@ -67,6 +95,8 @@ namespace DwarfsCrypt.Presentation.Player
                 _dashTimer -= Time.deltaTime;
                 if (_dashTimer <= 0f)
                     _isDashing = false;
+
+                PlayStateAnimation(PlayerState.MOVE);
                 return;
             }
 
@@ -77,6 +107,10 @@ namespace DwarfsCrypt.Presentation.Player
                 _dashRequested = false;
                 TryDash();
             }
+
+            PlayerState state = _moveInput.sqrMagnitude > 0.01f ? PlayerState.MOVE : PlayerState.IDLE;
+            UpdateFacing();
+            PlayStateAnimation(state);
         }
 
         private void FixedUpdate()
@@ -96,11 +130,46 @@ namespace DwarfsCrypt.Presentation.Player
             Vector2 keyboard = _input.Move.ReadValue<Vector2>();
             Vector2 joystick = _hud != null ? _hud.Joystick.Direction : Vector2.zero;
             _moveInput = keyboard.sqrMagnitude >= joystick.sqrMagnitude ? keyboard : joystick;
-            
+
             if (_moveInput.sqrMagnitude > 0.01f)
-            {
                 _lastMoveDirection = _moveInput.normalized;
-            }
+        }
+
+        private void UpdateFacing()
+        {
+            if (_spum == null) return;
+
+            float facingX = _moveInput.sqrMagnitude > 0.01f ? _moveInput.x : _lastMoveDirection.x;
+
+            int newSign;
+            if (facingX > 0f) newSign = 1;
+            else if (facingX < 0f) newSign = -1;
+            else return;
+
+            if (newSign == _facingSign) return;
+
+            _facingSign = newSign;
+            float absX = Mathf.Abs(transform.localScale.x);
+            transform.localScale = new Vector3(
+                _facingSign == 1 ? -absX : absX,
+                transform.localScale.y,
+                transform.localScale.z
+            );
+        }
+
+        private void PlayStateAnimation(PlayerState state)
+        {
+            if (_spum == null) return;
+            _currentState = state;
+            _spum.PlayAnimation(_currentState, _animationIndex[_currentState]);
+        }
+
+        // Call externally to trigger one-shot states (ATTACK, DAMAGED, DEATH, etc.)
+        public void PlayAnimation(PlayerState state, int index = 0)
+        {
+            if (_spum == null) return;
+            _animationIndex[state] = index;
+            _spum.PlayAnimation(state, index);
         }
 
         private void OnDashPerformed(InputAction.CallbackContext _) => RequestDash();

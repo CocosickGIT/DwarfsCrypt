@@ -267,8 +267,8 @@ namespace DwarfsCrypt.Presentation.Player
     {
         _asset = InputActionAsset.FromJson(k_Json);
         _map = _asset.FindActionMap("GamePlayer", throwIfNotFound: true);
-        Move = _map.FindAction("Move", throwIfNotFound: true);
-        Dash = _map.FindAction("Dash", throwIfNotFound: true);
+        Move   = _map.FindAction("Move", throwIfNotFound: true);
+        Dash   = _map.FindAction("Dash", throwIfNotFound: true);
         Skill1 = _map.FindAction("Skill1", throwIfNotFound: true);
         Skill2 = _map.FindAction("Skill2", throwIfNotFound: true);
         Skill3 = _map.FindAction("Skill3", throwIfNotFound: true);
