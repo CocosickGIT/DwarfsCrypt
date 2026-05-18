@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,6 +22,10 @@ namespace DwarfsCrypt.Presentation.Player
         [SerializeField] private float _dashDuration = 0.15f;
         [SerializeField] private float _dashCooldown = 1f;
 
+        [Header("Attack")]
+        [SerializeField] private float _attackCooldown = 0.8f;
+        [SerializeField] private float _attackDuration = 0.5f;
+
         private Rigidbody2D _rb;
         private PlayerInputActions _input;
 
@@ -30,7 +35,12 @@ namespace DwarfsCrypt.Presentation.Player
         private float _dashTimer;
         private float _dashCooldownTimer;
         private Vector2 _dashDirection;
-        private Vector2 _lastMoveDirection;
+        private Vector2 _lastMoveDirection = Vector2.left;
+
+        private bool _attackRequested;
+        private bool _isAttacking;
+        private float _attackCooldownTimer;
+        private float _attackDurationTimer;
 
         private PlayerState _currentState;
         private Dictionary<PlayerState, int> _animationIndex = new();
@@ -47,18 +57,27 @@ namespace DwarfsCrypt.Presentation.Player
         private void Start()
         {
             if (_hud != null)
+            {
                 _hud.OnDashPressed += RequestDash;
+                _hud.OnAttackPressed += RequestAttack;
+            }
 
             InitSpum();
         }
 
         private void OnDestroy()
         {
-            _input.Dash.performed -= OnDashPerformed;
-            _input.Disable();
+            if (_input != null)
+            {
+                _input.Dash.performed -= OnDashPerformed;
+                _input.Disable();
+            }
 
             if (_hud != null)
+            {
                 _hud.OnDashPressed -= RequestDash;
+                _hud.OnAttackPressed -= RequestAttack;
+            }
         }
 
         private void InitSpum()
@@ -90,6 +109,16 @@ namespace DwarfsCrypt.Presentation.Player
             if (_dashCooldownTimer > 0f)
                 _dashCooldownTimer -= Time.deltaTime;
 
+            if (_attackCooldownTimer > 0f)
+                _attackCooldownTimer -= Time.deltaTime;
+
+            if (_isAttacking)
+            {
+                _attackDurationTimer -= Time.deltaTime;
+                if (_attackDurationTimer <= 0f)
+                    _isAttacking = false;
+            }
+
             if (_isDashing)
             {
                 _dashTimer -= Time.deltaTime;
@@ -108,11 +137,19 @@ namespace DwarfsCrypt.Presentation.Player
                 TryDash();
             }
 
+            if (_attackRequested)
+            {
+                _attackRequested = false;
+                TryAttack();
+            }
+
+            if (_isAttacking) return;
+
             PlayerState state = _moveInput.sqrMagnitude > 0.01f ? PlayerState.MOVE : PlayerState.IDLE;
             UpdateFacing();
             PlayStateAnimation(state);
         }
-
+        
         private void FixedUpdate()
         {
             if (_isDashing)
@@ -120,7 +157,7 @@ namespace DwarfsCrypt.Presentation.Player
                 _rb.linearVelocity = _dashDirection * _dashSpeed;
                 return;
             }
-
+            
             Vector2 move = _useIsometric ? ToIsometric(_moveInput) : _moveInput;
             _rb.linearVelocity = move * _moveSpeed;
         }
@@ -137,7 +174,7 @@ namespace DwarfsCrypt.Presentation.Player
 
         private void UpdateFacing()
         {
-            if (_spum == null) return;
+            if (_spum == null || _isAttacking) return;
 
             float facingX = _moveInput.sqrMagnitude > 0.01f ? _moveInput.x : _lastMoveDirection.x;
 
@@ -175,6 +212,18 @@ namespace DwarfsCrypt.Presentation.Player
         private void OnDashPerformed(InputAction.CallbackContext _) => RequestDash();
 
         private void RequestDash() => _dashRequested = true;
+
+        private void RequestAttack() => _attackRequested = true;
+
+        private void TryAttack()
+        {
+            if (_attackCooldownTimer > 0f || _isAttacking || _isDashing) return;
+
+            _attackCooldownTimer = _attackCooldown;
+            _isAttacking = true;
+            _attackDurationTimer = _attackDuration;
+            PlayAnimation(PlayerState.ATTACK, _animationIndex[PlayerState.ATTACK]);
+        }
 
         private void TryDash()
         {

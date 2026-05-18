@@ -290,6 +290,7 @@ MonoBehaviour:
   _dashSpeed: 15
   _dashDuration: 0.15
   _dashCooldown: 1
+  _attackCooldown: 0.8
 --- !u!50 &107160339
 Rigidbody2D:
   serializedVersion: 5
@@ -1472,7 +1473,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1603923520828293710, guid: d4beff68b488448d0813100000431371, type: 3}
   m_PrefabInstance: {fileID: 526270915}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1805596562}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28ac21711b0ec40a0812d33a586eb7ec, type: 3}
@@ -2108,6 +2109,7 @@ MonoBehaviour:
   _dashSpeed: 15
   _dashDuration: 0.15
   _dashCooldown: 1
+  _attackCooldown: 0.8
 --- !u!50 &1794192347
 Rigidbody2D:
   serializedVersion: 5
@@ -2151,6 +2153,11 @@ Transform:
   - {fileID: 236560407}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1805596562 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8930912608245659456, guid: d4beff68b488448d0813100000431371, type: 3}
+  m_PrefabInstance: {fileID: 526270915}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1980849394
 GameObject:
   m_ObjectHideFlags: 0
@@ -2282,7 +2289,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2009947341}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1805596562}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2009947341
 MonoBehaviour:
   m_ObjectHideFlags: 0
