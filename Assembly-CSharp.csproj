@@ -64,6 +64,7 @@
     <Compile Include="Assets\SPUM\Sample\Script\PlayerObj.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SpumPackage.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\ItemData.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Spawner\EnemySpawnEntry.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\CraftWindow.cs" />
     <Compile Include="Assets\Scripts\Presentation\Player\VirtualJoystick.cs" />
     <Compile Include="Assets\SPUM\Sample\Script\PlayerManager.cs" />
@@ -80,13 +81,17 @@
     <Compile Include="Assets\Scripts\Presentation\WindowService\WindowService.cs" />
     <Compile Include="Assets\Scripts\Domain\Towns\LevelBand.cs" />
     <Compile Include="Assets\Scripts\Core\Towns\TownConfigLoader.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Spawner\CharacterSpawner.cs" />
     <Compile Include="Assets\Scripts\Domain\Towns\TownModifier.cs" />
+    <Compile Include="Assets\Scripts\Domain\Characters\CharacterAttributes.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SpumAnimationClip.cs" />
     <Compile Include="Assets\Scripts\Domain\Towns\ZoneConfig.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\LevelSelectWindow.cs" />
+    <Compile Include="Assets\Scripts\Core\Extentions\SharedTimer.cs" />
     <Compile Include="Assets\Scripts\Domain\Towns\TownConfig.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\WindowType.cs" />
     <Compile Include="Assets\Scripts\Presentation\Features\YSorting.cs" />
+    <Compile Include="Assets\Scripts\Domain\Characters\ModifierType.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\CharacterBase.cs" />
     <Compile Include="Assets\Scripts\Presentation\Player\GameHUD.cs" />
     <Compile Include="Assets\Scripts\Core\Items\ItemConfigLoader.cs" />
@@ -96,8 +101,10 @@
     <Compile Include="Assets\Scripts\Domain\Items\InventoryItem.cs" />
     <Compile Include="Assets\Scripts\Presentation\Player\PlayerInputActions.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_Prefabs.cs" />
+    <Compile Include="Assets\Scripts\Domain\Characters\AttributeType.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\Inventory\BaseSlot.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\ItemRarity.cs" />
+    <Compile Include="Assets\Scripts\Domain\Characters\StatModifier.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SpumTextureData.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\EquipmentSlotType.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\Inventory\ItemSlot.cs" />

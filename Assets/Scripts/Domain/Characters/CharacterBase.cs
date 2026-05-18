@@ -9,14 +9,15 @@ namespace DwarfsCrypt.Domain.Characters
         public Race Race { get; protected set; }
         public int Level { get; protected set; }
         public CharacterStats Stats { get; protected set; }
+        public CharacterAttributes Attributes { get; protected set; }
 
-        public int MaxHp { get; protected set; }
-        public int MaxStamina { get; protected set; }
-        public int MaxMana { get; protected set; }
+        public int MaxHp      => (int)Attributes.GetFinal(AttributeType.MaxHp);
+        public int MaxStamina => (int)Attributes.GetFinal(AttributeType.MaxStamina);
+        public int MaxMana    => (int)Attributes.GetFinal(AttributeType.MaxMana);
 
-        public int CurrentHp { get; protected set; }
-        public int CurrentStamina { get; protected set; }
-        public int CurrentMana { get; protected set; }
+        public float CurrentHp      { get; protected set; }
+        public float CurrentStamina { get; protected set; }
+        public float CurrentMana    { get; protected set; }
 
         public IReadOnlyList<string> Equipment { get; protected set; }
 
@@ -27,16 +28,17 @@ namespace DwarfsCrypt.Domain.Characters
 
         protected void ApplyConfig(CharacterConfig config)
         {
-            Name = config.Name;
-            Race = (Race)Enum.Parse(typeof(Race), config.Race, ignoreCase: true);
+            Name  = config.Name;
+            Race  = (Race)Enum.Parse(typeof(Race), config.Race, ignoreCase: true);
             Level = config.Level;
             Stats = config.Stats;
-            MaxHp = config.MaxHp;
-            MaxStamina = config.MaxStamina;
-            MaxMana = config.MaxMana;
-            CurrentHp = MaxHp;
+
+            Attributes = new CharacterAttributes(config.Stats, config.MaxHp, config.MaxStamina, config.MaxMana);
+
+            CurrentHp      = MaxHp;
             CurrentStamina = MaxStamina;
-            CurrentMana = MaxMana;
+            CurrentMana    = MaxMana;
+
             Equipment = config.Equipment ?? new List<string>();
         }
     }

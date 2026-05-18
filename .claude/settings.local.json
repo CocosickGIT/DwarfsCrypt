@@ -1,6 +1,12 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"E:\\\\UnityProjects\\\\DwarfsCrypt\\\\Assets\\\\SPUM\\\\Sample\\\\Script\" -Filter \"*.cs\")",
+      "Bash(Select-Object -ExpandProperty FullName)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "ai-game-developer"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }

@@ -57,6 +57,15 @@ namespace DwarfsCrypt.Presentation.Player
                             ""processors"": """",
                             ""interactions"": """",
                             ""initialStateCheck"": false
+                        },
+                        {
+                            ""name"": ""Attack"",
+                            ""type"": ""Button"",
+                            ""id"": ""d2e3f4a5-b6c7-4d8e-9f0a-1b2c3d4e5f6a"",
+                            ""expectedControlType"": ""Button"",
+                            ""processors"": """",
+                            ""interactions"": """",
+                            ""initialStateCheck"": false
                         }
                     ],
                     ""bindings"": [
@@ -224,6 +233,17 @@ namespace DwarfsCrypt.Presentation.Player
                             ""action"": ""Skill3"",
                             ""isComposite"": false,
                             ""isPartOfComposite"": false
+                        },
+                        {
+                            ""name"": """",
+                            ""id"": ""f4a5b6c7-d8e9-4f0a-1b2c-3d4e5f6a7b8c"",
+                            ""path"": ""<Gamepad>/buttonWest"",
+                            ""interactions"": """",
+                            ""processors"": """",
+                            ""groups"": ""Gamepad"",
+                            ""action"": ""Attack"",
+                            ""isComposite"": false,
+                            ""isPartOfComposite"": false
                         }
                     ]
                 }
@@ -259,6 +279,7 @@ namespace DwarfsCrypt.Presentation.Player
     public InputAction Skill1 { get; }
     public InputAction Skill2 { get; }
     public InputAction Skill3 { get; }
+    public InputAction Attack { get; }
 
     private readonly InputActionAsset _asset;
     private readonly InputActionMap _map;
@@ -272,6 +293,7 @@ namespace DwarfsCrypt.Presentation.Player
         Skill1 = _map.FindAction("Skill1", throwIfNotFound: true);
         Skill2 = _map.FindAction("Skill2", throwIfNotFound: true);
         Skill3 = _map.FindAction("Skill3", throwIfNotFound: true);
+        Attack = _map.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Enable() => _map.Enable();
