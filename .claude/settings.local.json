@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(Get-ChildItem -Path \"E:\\\\UnityProjects\\\\DwarfsCrypt\\\\Assets\\\\SPUM\\\\Sample\\\\Script\" -Filter \"*.cs\")",
-      "Bash(Select-Object -ExpandProperty FullName)"
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Get-ChildItem -Path \"E:\\\\UnityProjects\\\\DwarfsCrypt\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(grep -E \"\\\\.\\(prefab|cs\\)$\")",
+      "PowerShell(Remove-Item *)"
     ]
   },
   "enableAllProjectMcpServers": true,

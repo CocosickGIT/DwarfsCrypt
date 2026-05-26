@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DwarfsCrypt.Domain.Characters;
+using DwarfsCrypt.Presentation.Combat;
 
 namespace DwarfsCrypt.Presentation.Player
 {
@@ -25,6 +27,8 @@ namespace DwarfsCrypt.Presentation.Player
         [Header("Attack")]
         [SerializeField] private float _attackCooldown = 0.8f;
         [SerializeField] private float _attackDuration = 0.5f;
+        [SerializeField] private MeleeAttackHitbox _hitbox;
+        [SerializeField] private CharacterComponent _character;
 
         private Rigidbody2D _rb;
         private PlayerInputActions _input;
@@ -223,6 +227,15 @@ namespace DwarfsCrypt.Presentation.Player
             _isAttacking = true;
             _attackDurationTimer = _attackDuration;
             PlayAnimation(PlayerState.ATTACK, _animationIndex[PlayerState.ATTACK]);
+
+            if (_hitbox != null && _character != null)
+            {
+                Vector2 dir = _useIsometric
+                    ? ToIsometric(_lastMoveDirection).normalized
+                    : _lastMoveDirection;
+                float damage = _character.Attributes.GetFinal(AttributeType.PhysicalAttack);
+                _hitbox.PerformAttack(dir, damage, _attackDuration);
+            }
         }
 
         private void TryDash()
