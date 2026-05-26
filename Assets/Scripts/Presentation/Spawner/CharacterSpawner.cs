@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Presentation.Features;
 
 namespace DwarfsCrypt.Presentation.Spawner
 {
@@ -8,6 +9,9 @@ namespace DwarfsCrypt.Presentation.Spawner
         [Header("Player")]
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private Transform _playerSpawnPoint;
+
+        [Header("Camera")]
+        [SerializeField] private CameraFollow _cameraFollow;
 
         [Header("Enemies")]
         [SerializeField] private List<EnemySpawnEntry> _enemies = new();
@@ -31,6 +35,8 @@ namespace DwarfsCrypt.Presentation.Spawner
 
             Vector3 pos = _playerSpawnPoint != null ? _playerSpawnPoint.position : Vector3.zero;
             Player = Instantiate(_playerPrefab, pos, Quaternion.identity);
+
+            _cameraFollow?.SetTarget(Player.transform);
         }
 
         public void SpawnEnemies()

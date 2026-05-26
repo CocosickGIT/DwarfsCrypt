@@ -17,7 +17,7 @@ namespace DwarfsCrypt.Domain.Characters
             BuildBase(stats, baseMaxHp, baseMaxStamina, baseMaxMana);
         }
 
-        private void BuildBase(CharacterStats s, int hp, int stamina, int mana)
+        private void BuildBase(CharacterStats s, int hp, int stamina, int mana)//additional class with formulas(I, II)
         {
             Set(AttributeType.Strength,       s.Str);
             Set(AttributeType.Dexterity,      s.Dex);
