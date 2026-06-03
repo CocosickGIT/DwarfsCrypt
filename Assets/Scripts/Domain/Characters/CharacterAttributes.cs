@@ -7,53 +7,43 @@ namespace DwarfsCrypt.Domain.Characters
     {
         private static readonly int Count = Enum.GetValues(typeof(AttributeType)).Length;
 
-        private readonly float[] _base = new float[Count];
-        private readonly List<StatModifier> _modifiers = new();
+        private readonly float[]               _base      = new float[Count];
+        private readonly float?[]              _cache     = new float?[Count];
+        private readonly List<StatModifier>[]  _modifiers;
 
         public event Action<AttributeType> OnChanged;
 
-        public CharacterAttributes(CharacterStats stats, int baseMaxHp, int baseMaxStamina, int baseMaxMana)
+        public CharacterAttributes(CharacterStats stats, AttributeFormulas formulas)
         {
-            BuildBase(stats, baseMaxHp, baseMaxStamina, baseMaxMana);
+            _modifiers = new List<StatModifier>[Count];
+            for (int i = 0; i < Count; i++)
+                _modifiers[i] = new List<StatModifier>();
+
+            foreach (var (attr, formula) in formulas.All)
+                Set(attr, formula(stats));
         }
 
-        private void BuildBase(CharacterStats s, int hp, int stamina, int mana)//additional class with formulas(I, II)
+        private void Set(AttributeType attr, float value)
         {
-            Set(AttributeType.Strength,       s.Str);
-            Set(AttributeType.Dexterity,      s.Dex);
-            Set(AttributeType.Constitution,   s.Con);
-            Set(AttributeType.Wit,            s.Wit);
-            Set(AttributeType.Mentality,      s.Men);
-            Set(AttributeType.Luck,           s.Luc);
-
-            Set(AttributeType.MaxHp,          hp      + s.Con * 10f);
-            Set(AttributeType.MaxStamina,     stamina + s.Con * 5f);
-            Set(AttributeType.MaxMana,        mana    + s.Men * 5f);
-
-            Set(AttributeType.PhysicalAttack, s.Str * 2f);
-            Set(AttributeType.MagicAttack,    s.Wit * 2f);
-            Set(AttributeType.PhysicalDefense,s.Con * 1f);
-            Set(AttributeType.MagicDefense,   s.Men * 1f);
-
-            Set(AttributeType.AttackSpeed,    1f  + s.Dex * 0.01f);
-            Set(AttributeType.MoveSpeed,      5f  + s.Dex * 0.05f);
-            Set(AttributeType.CritChance,     s.Luc * 0.5f);
-            Set(AttributeType.CritDamage,     150f + s.Luc * 1f);
+            _base[(int)attr] = value;
+            Invalidate(attr);
         }
 
-        private void Set(AttributeType attr, float value) => _base[(int)attr] = value;
+        private void Invalidate(AttributeType attr) => _cache[(int)attr] = null;
 
         public float GetBase(AttributeType attr) => _base[(int)attr];
 
         public float GetFinal(AttributeType attr)
         {
-            float flat        = _base[(int)attr];
-            float percentBase = 0f;
+            int i = (int)attr;
+            if (_cache[i].HasValue) return _cache[i].Value;
+
+            float flat         = _base[i];
+            float percentBase  = 0f;
             float percentFinal = 0f;
 
-            foreach (var mod in _modifiers)
+            foreach (var mod in _modifiers[i])
             {
-                if (mod.Attribute != attr) continue;
                 switch (mod.Type)
                 {
                     case ModifierType.Flat:         flat         += mod.Value; break;
@@ -62,27 +52,38 @@ namespace DwarfsCrypt.Domain.Characters
                 }
             }
 
-            return flat * (1f + percentBase) * (1f + percentFinal);
+            float result = flat * (1f + percentBase) * (1f + percentFinal);
+            _cache[i] = result;
+            return result;
         }
 
         public void AddModifier(StatModifier modifier)
         {
-            _modifiers.Add(modifier);
+            _modifiers[(int)modifier.Attribute].Add(modifier);
+            Invalidate(modifier.Attribute);
             OnChanged?.Invoke(modifier.Attribute);
         }
 
         public void RemoveModifiersFromSource(string source)
         {
             var affected = new HashSet<AttributeType>();
-            _modifiers.RemoveAll(m =>
+
+            for (int i = 0; i < Count; i++)
             {
-                if (m.Source != source) return false;
-                affected.Add(m.Attribute);
-                return true;
-            });
+                var list = _modifiers[i];
+                for (int j = list.Count - 1; j >= 0; j--)
+                {
+                    if (list[j].Source != source) continue;
+                    list.RemoveAt(j);
+                    affected.Add((AttributeType)i);
+                }
+            }
 
             foreach (var attr in affected)
+            {
+                Invalidate(attr);
                 OnChanged?.Invoke(attr);
+            }
         }
     }
 }

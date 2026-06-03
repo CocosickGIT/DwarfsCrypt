@@ -33,7 +33,7 @@ namespace DwarfsCrypt.Domain.Characters
             Level = config.Level;
             Stats = config.Stats;
 
-            Attributes = new CharacterAttributes(config.Stats, config.MaxHp, config.MaxStamina, config.MaxMana);
+            Attributes = new CharacterAttributes(config.Stats, AttributeFormulas.Default(config.MaxHp, config.MaxStamina, config.MaxMana));
 
             CurrentHp      = MaxHp;
             CurrentStamina = MaxStamina;

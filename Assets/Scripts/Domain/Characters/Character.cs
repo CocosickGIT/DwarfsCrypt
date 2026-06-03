@@ -19,7 +19,7 @@ namespace DwarfsCrypt.Domain.Characters
             CurrentHp = Math.Max(0f, CurrentHp - damage);
             OnDamaged?.Invoke(CurrentHp, MaxHp);
 
-            Debug.Log($"{this.Name} " + " CurrentHp= " + $"{CurrentHp}");
+            Debug.Log($"{this.Name} " +$"take {damage} damage " + " CurrentHp= " + $"{CurrentHp}");
 
             if (CurrentHp <= 0f)
             {

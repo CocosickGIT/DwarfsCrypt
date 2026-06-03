@@ -1,53 +1,86 @@
 using System.Collections.Generic;
-using UnityEngine;
+using DwarfsCrypt.Domain.Characters;
+using DwarfsCrypt.Presentation.Combat;
+using DwarfsCrypt.Presentation.Player;
 using Presentation.Features;
+using UnityEngine;
 
 namespace DwarfsCrypt.Presentation.Spawner
 {
+    [DefaultExecutionOrder(-1000)]
+    [RequireComponent(typeof(CharacterFactory))]
     public class CharacterSpawner : MonoBehaviour
     {
         [Header("Player")]
-        [SerializeField] private GameObject _playerPrefab;
-        [SerializeField] private Transform _playerSpawnPoint;
-
-        [Header("Camera")]
+        [SerializeField] private UnitSpawnConfig _playerConfig;
+        [SerializeField] private GameHUD _gameHUD;
         [SerializeField] private CameraFollow _cameraFollow;
 
-        [Header("Enemies")]
-        [SerializeField] private List<EnemySpawnEntry> _enemies = new();
+        [Header("Camp Zones")]
+        [SerializeField] private List<CampSpawnZone> _campZones = new();
 
         public GameObject Player { get; private set; }
         public IReadOnlyList<GameObject> SpawnedEnemies => _spawnedEnemies;
 
+        private CharacterFactory _factory;
         private readonly List<GameObject> _spawnedEnemies = new();
 
-        private void Start() => SpawnAll();
+        private void Awake()
+        {
+            _factory = GetComponent<CharacterFactory>();
+        }
 
-        public void SpawnAll()
+        private void Start()
+        {
+            SpawnAll();
+        }
+
+        private void SpawnAll()
         {
             SpawnPlayer();
             SpawnEnemies();
         }
 
-        public void SpawnPlayer()
+        private void SpawnPlayer()
         {
-            if (_playerPrefab == null) return;
+            if (_playerConfig?.Prefab == null) return;
 
-            Vector3 pos = _playerSpawnPoint != null ? _playerSpawnPoint.position : Vector3.zero;
-            Player = Instantiate(_playerPrefab, pos, Quaternion.identity);
+            Player = _factory.Spawn(_playerConfig.Prefab, _playerConfig.ConfigPath, FirstPosition(_playerConfig), transform);
 
-            _cameraFollow?.SetTarget(Player.transform);
+            if (_cameraFollow != null)
+                _cameraFollow.SetTarget(Player.transform);
+
+            if (_gameHUD != null)
+                Player.GetComponent<PlayerController>()?.SetHUD(_gameHUD);
         }
 
         public void SpawnEnemies()
         {
-            foreach (var entry in _enemies)
-            {
-                if (entry.Prefab == null) continue;
+            float luck = Player != null
+                ? Player.GetComponent<CharacterComponent>()?.Character?.Attributes.GetFinal(AttributeType.Luck) ?? 0f
+                : 0f;
 
-                Vector3 pos = entry.SpawnPoint != null ? entry.SpawnPoint.position : Vector3.zero;
-                _spawnedEnemies.Add(Instantiate(entry.Prefab, pos, Quaternion.identity));
+            foreach (var zone in _campZones)
+            {
+                if (zone == null) continue;
+
+                foreach (var (prefab, configPath, position) in zone.GetSpawnData(luck))
+                    _spawnedEnemies.Add(_factory.Spawn(prefab, configPath, position, zone.transform));
             }
+        }
+
+        /// <summary>Release an enemy back to the pool (e.g. after a death animation finishes).</summary>
+        public void ReleaseEnemy(GameObject enemy, GameObject prefab)
+        {
+            _spawnedEnemies.Remove(enemy);
+            _factory.Release(enemy, prefab);
+        }
+
+        private static Vector3 FirstPosition(UnitSpawnConfig config)
+        {
+            return config.SpawnPoints is { Count: > 0 } && config.SpawnPoints[0] != null
+                ? config.SpawnPoints[0].position
+                : Vector3.zero;
         }
     }
 }

@@ -58,6 +58,7 @@
     <Compile Include="Assets\Scripts\Presentation\Windows\Inventory\EquipmentPanel.cs" />
     <Compile Include="Assets\Scripts\Core\Characters\CharacterConfigLoader.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\IDamageable.cs" />
+    <Compile Include="Assets\Scripts\Domain\Boosters\BoosterEffectType.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\InventoryWindow.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\Inventory\InventoryGrid.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_ImprovedClassData.cs" />
@@ -66,13 +67,16 @@
     <Compile Include="Assets\SPUM\Sample\Script\PlayerObj.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SpumPackage.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\ItemData.cs" />
-    <Compile Include="Assets\Scripts\Presentation\Spawner\EnemySpawnEntry.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Spawner\CharacterFactory.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Boosters\BoosterController.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\CraftWindow.cs" />
     <Compile Include="Assets\Scripts\Presentation\Player\VirtualJoystick.cs" />
     <Compile Include="Assets\SPUM\Sample\Script\PlayerManager.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_CustomStyleData.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Spawner\CampSpawnZone.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\Character.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\Inventory\EquipmentSlot.cs" />
+    <Compile Include="Assets\Scripts\Domain\Characters\AttributeFormulas.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_ImprovedStyleData.cs" />
     <Compile Include="Assets\Scripts\Presentation\Combat\CharacterComponent.cs" />
     <Compile Include="Assets\Scripts\Presentation\Player\PlayerController.cs" />
@@ -85,6 +89,7 @@
     <Compile Include="Assets\Scripts\Domain\Towns\ZonesCollection.cs" />
     <Compile Include="Assets\Scripts\Presentation\WindowService\WindowService.cs" />
     <Compile Include="Assets\Scripts\Domain\Towns\LevelBand.cs" />
+    <Compile Include="Assets\Scripts\Domain\Boosters\StrengthBoosterEffect.cs" />
     <Compile Include="Assets\Scripts\Core\Towns\TownConfigLoader.cs" />
     <Compile Include="Assets\Scripts\Presentation\Spawner\CharacterSpawner.cs" />
     <Compile Include="Assets\Scripts\Domain\Towns\TownModifier.cs" />
@@ -103,6 +108,8 @@
     <Compile Include="Assets\Scripts\Domain\Characters\CharacterBase.cs" />
     <Compile Include="Assets\Scripts\Presentation\Player\GameHUD.cs" />
     <Compile Include="Assets\Scripts\Core\Items\ItemConfigLoader.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Enemy\BossController.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Spawner\UnitSpawnConfig.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\PreviewMatchingElement.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\CharacterStats.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\WindowBase.cs" />
@@ -111,6 +118,8 @@
     <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_Prefabs.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\AttributeType.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\Inventory\BaseSlot.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Enemy\MobController.cs" />
+    <Compile Include="Assets\Scripts\Domain\Boosters\BoosterEffect.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\ItemRarity.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\StatModifier.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SpumTextureData.cs" />
@@ -126,6 +135,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\SPUM\Resources\Addons\Ver300\Index.json" />
+    <None Include="Assets\StreamingAssets\Characters\example_enemy.json" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />

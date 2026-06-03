@@ -7,6 +7,7 @@ namespace DwarfsCrypt.Domain.Characters
         Elf,
         DarkElf,
         Orc,
-        Kamael
+        Kamael,
+        Skeleton
     }
 }
