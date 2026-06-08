@@ -1,0 +1,17 @@
+{
+    "Name": "Bonny",
+    "Race": "Skeleton",
+    "Level": 1,
+    "Stats": {
+        "Str": 3,
+        "Dex": 8,
+        "Con": 5,
+        "Wit": 6,
+        "Men": 8,
+        "Luc": 5
+    },
+    "MaxHp": 120,
+    "MaxStamina": 100,
+    "MaxMana": 40,
+    "Equipment": []
+}

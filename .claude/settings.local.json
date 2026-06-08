@@ -6,7 +6,14 @@
       "Bash(Get-ChildItem -Path \"E:\\\\UnityProjects\\\\DwarfsCrypt\" -Directory)",
       "Bash(Select-Object Name)",
       "Bash(grep -E \"\\\\.\\(prefab|cs\\)$\")",
-      "PowerShell(Remove-Item *)"
+      "PowerShell(Remove-Item *)",
+      "Bash(New-Item -ItemType Directory -Force \"E:\\\\UnityProjects\\\\DwarfsCrypt\\\\Assets\\\\Scripts\\\\Domain\\\\Boosters\")",
+      "Bash(Out-Null)",
+      "Bash(New-Item -ItemType Directory -Force \"E:\\\\UnityProjects\\\\DwarfsCrypt\\\\Assets\\\\Scripts\\\\Presentation\\\\Boosters\")",
+      "Bash(Write-Output \"Directories created\")",
+      "Bash(Remove-Item \"E:\\\\UnityProjects\\\\DwarfsCrypt\\\\Assets\\\\Scripts\\\\Presentation\\\\Spawner\\\\EnemySpawnEntry.cs\" -Force)",
+      "Bash(Remove-Item \"E:\\\\UnityProjects\\\\DwarfsCrypt\\\\Assets\\\\Scripts\\\\Presentation\\\\Spawner\\\\EnemySpawnEntry.cs.meta\" -Force -ErrorAction SilentlyContinue)",
+      "Bash(Write-Output \"done\")"
     ]
   },
   "enableAllProjectMcpServers": true,

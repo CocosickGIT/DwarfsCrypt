@@ -13,6 +13,7 @@ namespace DwarfsCrypt.Presentation.Player
         [SerializeField] private Button _skill1Button;
         [SerializeField] private Button _skill2Button;
         [SerializeField] private Button _skill3Button;
+        [SerializeField] private Button _interactButton;
 
         public override WindowType Type => WindowType.GameHUD;
         public VirtualJoystick Joystick => _joystick;
@@ -22,6 +23,7 @@ namespace DwarfsCrypt.Presentation.Player
         public event Action OnSkill1Pressed;
         public event Action OnSkill2Pressed;
         public event Action OnSkill3Pressed;
+        public event Action OnInteractPressed;
 
         private void Awake()
         {
@@ -30,6 +32,11 @@ namespace DwarfsCrypt.Presentation.Player
             _skill1Button.onClick.AddListener(() => OnSkill1Pressed?.Invoke());
             _skill2Button.onClick.AddListener(() => OnSkill2Pressed?.Invoke());
             _skill3Button.onClick.AddListener(() => OnSkill3Pressed?.Invoke());
+            _interactButton.onClick.AddListener(() => OnInteractPressed?.Invoke());
+            _interactButton.gameObject.SetActive(false);
         }
+
+        public void SetInteractVisible(bool visible) =>
+            _interactButton.gameObject.SetActive(visible);
     }
 }

@@ -30,6 +30,7 @@ namespace DwarfsCrypt.Presentation.Player
         [SerializeField] private MeleeAttackHitbox _hitbox;
         [SerializeField] private CharacterComponent _character;
 
+        
         private Rigidbody2D _rb;
         private PlayerInputActions _input;
 
@@ -45,10 +46,14 @@ namespace DwarfsCrypt.Presentation.Player
         private bool _isAttacking;
         private float _attackCooldownTimer;
         private float _attackDurationTimer;
+        private float _hitStaggerTimer;
 
         private PlayerState _currentState;
         private Dictionary<PlayerState, int> _animationIndex = new();
         private int _facingSign = 0; // 0 = unset, 1 = right (-x scale), -1 = left (+x scale)
+
+        /// <summary>Called by CharacterSpawner before Start to bind the HUD.</summary>
+        public void SetHUD(GameHUD hud) => _hud = hud;
 
         private void Awake()
         {
@@ -60,11 +65,14 @@ namespace DwarfsCrypt.Presentation.Player
 
         private void Start()
         {
-            if (_hud != null)
-            {
-                _hud.OnDashPressed += RequestDash;
-                _hud.OnAttackPressed += RequestAttack;
-            }
+            if (_hud == null)
+                _hud = FindObjectsByType<GameHUD>(FindObjectsSortMode.None)[0];
+
+            _hud.OnDashPressed += RequestDash;
+            _hud.OnAttackPressed += RequestAttack;
+
+            if (_character != null)
+                _character.OnDamaged += OnCharacterDamaged;
 
             InitSpum();
         }
@@ -82,6 +90,9 @@ namespace DwarfsCrypt.Presentation.Player
                 _hud.OnDashPressed -= RequestDash;
                 _hud.OnAttackPressed -= RequestAttack;
             }
+
+            if (_character != null)
+                _character.OnDamaged -= OnCharacterDamaged;
         }
 
         private void InitSpum()
@@ -106,6 +117,17 @@ namespace DwarfsCrypt.Presentation.Player
 
             foreach (PlayerState state in Enum.GetValues(typeof(PlayerState)))
                 _animationIndex[state] = 0;
+
+            // Pre-load every clip into the override controller at init time.
+            // SPUM's PlayAnimation reassigns the same clip reference at runtime, and Unity
+            // skips the animator rebind when the reference hasn't changed — preventing the
+            // position reset (snap to 0,0) that the rebind causes.
+            foreach (PlayerState state in Enum.GetValues(typeof(PlayerState)))
+            {
+                string key = state.ToString();
+                if (_spum.StateAnimationPairs.TryGetValue(key, out var list) && list.Count > 0)
+                    _spum.OverrideController[key] = list[0];
+            }
         }
 
         private void Update()
@@ -115,6 +137,14 @@ namespace DwarfsCrypt.Presentation.Player
 
             if (_attackCooldownTimer > 0f)
                 _attackCooldownTimer -= Time.deltaTime;
+
+            if (_hitStaggerTimer > 0f)
+            {
+                _hitStaggerTimer -= Time.deltaTime;
+                _dashRequested = false;
+                _attackRequested = false;
+                return;
+            }
 
             if (_isAttacking)
             {
@@ -156,12 +186,18 @@ namespace DwarfsCrypt.Presentation.Player
         
         private void FixedUpdate()
         {
+            if (_hitStaggerTimer > 0f)
+            {
+                _rb.linearVelocity = Vector2.zero;
+                return;
+            }
+
             if (_isDashing)
             {
                 _rb.linearVelocity = _dashDirection * _dashSpeed;
                 return;
             }
-            
+
             Vector2 move = _useIsometric ? ToIsometric(_moveInput) : _moveInput;
             _rb.linearVelocity = move * _moveSpeed;
         }
@@ -213,6 +249,11 @@ namespace DwarfsCrypt.Presentation.Player
             _spum.PlayAnimation(state, index);
         }
 
+        private void OnCharacterDamaged(float _currentHp, float _maxHp)
+        {
+            PlayAnimation(PlayerState.DAMAGED);
+        }
+
         private void OnDashPerformed(InputAction.CallbackContext _) => RequestDash();
 
         private void RequestDash() => _dashRequested = true;
@@ -233,7 +274,8 @@ namespace DwarfsCrypt.Presentation.Player
                 Vector2 dir = _useIsometric
                     ? ToIsometric(_lastMoveDirection).normalized
                     : _lastMoveDirection;
-                float damage = _character.Attributes.GetFinal(AttributeType.PhysicalAttack);
+                float damage = AttributeFormulas.RollPhysicalDamage(_character.Character.Attributes);
+
                 _hitbox.PerformAttack(dir, damage, _attackDuration);
             }
         }
