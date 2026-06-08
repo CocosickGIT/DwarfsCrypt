@@ -2887,9 +2887,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Presentation.Features.YSorting
   sr: {fileID: 0}
   sg: {fileID: 1784362940577946668}
-  offset: 0
+  sortPoint: {fileID: 0}
   multiplier: 1
-  _transform: {fileID: 8064598165610551386}
+  offset: 0
+  isStatic: 0
 --- !u!33 &2767344578076594652
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ namespace DwarfsCrypt.Domain.Boosters
         private readonly float _bonus;
         private readonly float _duration;
 
-        public StrengthBoosterEffect(float bonus = 10f, float duration = 120f)
+        public StrengthBoosterEffect(float bonus = 10f, float duration = 5f)
         {
             _bonus = bonus;
             _duration = duration;

@@ -67,6 +67,7 @@
     <Compile Include="Assets\SPUM\Sample\Script\PlayerObj.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SpumPackage.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\ItemData.cs" />
+    <Compile Include="Assets\Scripts\Environment\EnvironmentScatter.cs" />
     <Compile Include="Assets\Scripts\Presentation\Spawner\CharacterFactory.cs" />
     <Compile Include="Assets\Scripts\Presentation\Boosters\BoosterController.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\CraftWindow.cs" />

@@ -4987,6 +4987,37 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!1 &2485788282641382813
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3750524070951013639}
+  m_Layer: 0
+  m_Name: Srineoffset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3750524070951013639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2485788282641382813}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.53, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 251903504112889543}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4505024471619091295
 GameObject:
   m_ObjectHideFlags: 0
@@ -5021,6 +5052,7 @@ Transform:
   m_Children:
   - {fileID: 1232492372668986651}
   - {fileID: 1575734142167853138}
+  - {fileID: 3750524070951013639}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1603214644375159906
@@ -5037,9 +5069,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Presentation.Features.YSorting
   sr: {fileID: 0}
   sg: {fileID: 1571943792413552832}
-  offset: 0
+  sortPoint: {fileID: 3750524070951013639}
   multiplier: 1
-  _transform: {fileID: 1232492372668986651}
+  offset: 0
+  isStatic: 0
 --- !u!114 &7215513551507458061
 MonoBehaviour:
   m_ObjectHideFlags: 0

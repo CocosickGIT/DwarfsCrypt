@@ -67,7 +67,7 @@ namespace DwarfsCrypt.Presentation.Boosters
         {
             yield return new WaitForSeconds(_effect.Duration);
             _effect.Remove(character.Attributes);
-            Destroy(gameObject);
+            // Destroy(gameObject);
         }
 
         private void HideObject() //TODO fix, hide whole obj, make an additional obj that would be hided 
