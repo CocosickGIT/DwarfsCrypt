@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1232492372668986651}
   - component: {fileID: 3119164818553604657}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Shrine_Booster_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 8267848606786038629}
   - component: {fileID: 2631388923949064882}
   - component: {fileID: 4981030401755503744}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Glow_Shrine_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4996,7 +4996,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3750524070951013639}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Srineoffset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5030,7 +5030,9 @@ GameObject:
   - component: {fileID: 1603214644375159906}
   - component: {fileID: 7215513551507458061}
   - component: {fileID: 1571943792413552832}
-  m_Layer: 0
+  - component: {fileID: 3582293194467727175}
+  - component: {fileID: 2003954136660571404}
+  m_Layer: 10
   m_Name: Srine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5072,7 +5074,7 @@ MonoBehaviour:
   sortPoint: {fileID: 3750524070951013639}
   multiplier: 1
   offset: 0
-  isStatic: 0
+  isStatic: 1
 --- !u!114 &7215513551507458061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5105,3 +5107,77 @@ SortingGroup:
   m_SortingOrder: 0
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
+--- !u!70 &3582293194467727175
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4505024471619091295}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 3, y: -0.24}
+  m_Size: {x: 1.07, y: 3.4}
+  m_Direction: 0
+--- !u!70 &2003954136660571404
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4505024471619091295}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -2.47, y: -0.24}
+  m_Size: {x: 1.07, y: 3.4}
+  m_Direction: 0

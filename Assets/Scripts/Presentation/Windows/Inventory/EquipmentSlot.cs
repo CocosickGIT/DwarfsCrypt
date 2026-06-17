@@ -19,6 +19,9 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
         // Wired by EquipmentPanel
         public Action<BaseSlot, EquipmentSlot> OnDropOnEquipment;
 
+        // Fired whenever this slot's item changes (equip, unequip, or programmatic set/clear).
+        public Action OnContentChanged;
+
         private static readonly HashSet<(ItemType, EquipmentSlotType)> ValidCombinations = new()
         {
             (ItemType.Weapon, EquipmentSlotType.MainHand),
@@ -51,6 +54,7 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
             _icon.color = Color.white;
             if (_slotPlaceholderIcon != null)
                 _slotPlaceholderIcon.gameObject.SetActive(false);
+            OnContentChanged?.Invoke();
         }
 
         protected override void OnSlotCleared()
@@ -59,6 +63,7 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
             _icon.color = Color.clear;
             if (_slotPlaceholderIcon != null)
                 _slotPlaceholderIcon.gameObject.SetActive(true);
+            OnContentChanged?.Invoke();
         }
 
         protected override void HandleDrop(BaseSlot source) =>

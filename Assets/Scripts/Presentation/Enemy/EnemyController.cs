@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Core.Rewards;
 using DwarfsCrypt.Domain.Characters;
 using DwarfsCrypt.Presentation.Combat;
 
@@ -18,11 +19,15 @@ namespace DwarfsCrypt.Presentation.Enemy
 
         [Header("Detection")]
         [SerializeField] protected float _aggroRange = 8f;
-        [SerializeField] protected float _deAggroRange = 12f;
+        [SerializeField] protected float _deAggroRange = 32f;
         [SerializeField] protected LayerMask _playerLayer;
 
         [Header("Combat")]
         [SerializeField] protected float _attackRange = 1.2f;
+
+        [Tooltip("Enemy stops approaching at this fraction of attack range, so it doesn't shove the player. 0.7 = stop at 70% of attack range.")]
+        [SerializeField, Range(0.1f, 1f)] protected float _stopDistanceFactor = 0.7f;
+
         [SerializeField] protected float _attackCooldown = 1.5f;
         [SerializeField] protected float _attackDuration = 0.5f;
 
@@ -149,7 +154,9 @@ namespace DwarfsCrypt.Presentation.Enemy
 
         protected virtual void UpdateChase()
         {
-            if (_target == null || DistToTarget() > _deAggroRange)
+            float dist = DistToTarget();
+
+            if (_target == null || dist > _deAggroRange)
             {
                 _target = null;
                 _desiredVelocity = Vector2.zero;
@@ -158,11 +165,23 @@ namespace DwarfsCrypt.Presentation.Enemy
             }
 
             Vector2 dir = ((Vector2)_target.position - (Vector2)transform.position).normalized;
-            _desiredVelocity = dir * _moveSpeed;
             UpdateFacing(dir.x);
-            PlayStateAnimation(PlayerState.MOVE);
 
-            if (DistToTarget() <= _attackRange && _attackCooldownTimer <= 0f)
+            // Approach only until 70% of attack range, then hold position so the enemy
+            // attacks from a distance instead of walking into and shoving the player.
+            float stopDistance = _attackRange * _stopDistanceFactor;
+            if (dist > stopDistance)
+            {
+                _desiredVelocity = dir * _moveSpeed;
+                PlayStateAnimation(PlayerState.MOVE);
+            }
+            else
+            {
+                _desiredVelocity = Vector2.zero;
+                PlayStateAnimation(PlayerState.IDLE);
+            }
+
+            if (dist <= _attackRange && _attackCooldownTimer <= 0f)
                 EnterState(EnemyAIState.Attack);
         }
 
@@ -214,6 +233,10 @@ namespace DwarfsCrypt.Presentation.Enemy
             _rb.linearVelocity = Vector2.zero;
             StopAllCoroutines();
             PlayAnimation(PlayerState.DEATH);
+
+            // Grant this kill's rewards (exp/gold/item drops) to the player immediately.
+            if (_character != null && _character.Character != null)
+                RewardGranter.GrantKill(_character.Character.Rewards);
         }
 
         protected Transform ScanForPlayer()
@@ -281,6 +304,8 @@ namespace DwarfsCrypt.Presentation.Enemy
             Gizmos.DrawWireSphere(transform.position, _aggroRange);
             Gizmos.color = new Color(1f, 0.35f, 0.35f);
             Gizmos.DrawWireSphere(transform.position, _attackRange);
+            Gizmos.color = new Color(0.35f, 0.6f, 1f);
+            Gizmos.DrawWireSphere(transform.position, _attackRange * _stopDistanceFactor);
             Gizmos.color = Color.gray;
             Gizmos.DrawWireSphere(transform.position, _deAggroRange);
         }

@@ -44,7 +44,7 @@ namespace DwarfsCrypt.Presentation.Boosters
 
             _playerInRange = inRange;
             _playerCharacter = inRange
-                ? (hit.GetComponentInParent<CharacterComponent>() ?? hit.GetComponent<CharacterComponent>())
+                ? (hit.GetComponentInChildren<CharacterComponent>() ?? hit.GetComponent<CharacterComponent>())
                 : null;
 
             _hud?.SetInteractVisible(inRange);
@@ -58,6 +58,7 @@ namespace DwarfsCrypt.Presentation.Boosters
             _hud.SetInteractVisible(false);
 
             _effect.Apply(_playerCharacter.Attributes);
+            Debug.Log($"{_effect} " + "is applied");
             StartCoroutine(RemoveEffectCoroutine(_playerCharacter));
 
             HideObject();

@@ -1,0 +1,27 @@
+{
+    "Name": "Thorin",
+    "Race": "Dwarf",
+    "Level": 1,
+    "Exp": 0,
+    "Gold": 0,
+    "Stats": {
+        "Str": 14,
+        "Dex": 8,
+        "Con": 16,
+        "Wit": 6,
+        "Men": 8,
+        "Luc": 5
+    },
+    "MaxHp": 120,
+    "MaxStamina": 100,
+    "MaxMana": 40,
+    "Equipment": [
+        "iron_axe",
+        "leather_armor",
+        "wooden_shield"
+    ],
+    "Inventory": [
+        { "ItemId": "health_potion", "Quantity": 3 },
+        { "ItemId": "iron_ore", "Quantity": 10 }
+    ]
+}

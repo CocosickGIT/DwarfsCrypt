@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 449263839754268494}
   - component: {fileID: 1964536658559755331}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Rock_grass_offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8468691196881496462}
   - component: {fileID: 1497311075153186562}
-  m_Layer: 0
+  - component: {fileID: 5191767104731866911}
+  m_Layer: 10
   m_Name: Rock_noGrass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,6 +144,43 @@ MonoBehaviour:
   multiplier: 1
   offset: 1
   isStatic: 1
+--- !u!70 &5191767104731866911
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5116830013726689694}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.27}
+  m_Size: {x: 2.25, y: 0.29}
+  m_Direction: 1
 --- !u!1 &6058719987424116454
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 467430794448229091}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sortpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

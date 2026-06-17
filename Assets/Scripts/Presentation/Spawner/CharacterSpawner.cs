@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Core.Player;
 using DwarfsCrypt.Domain.Characters;
 using DwarfsCrypt.Presentation.Combat;
 using DwarfsCrypt.Presentation.Player;
@@ -47,6 +49,11 @@ namespace DwarfsCrypt.Presentation.Spawner
 
             Player = _factory.Spawn(_playerConfig.Prefab, _playerConfig.ConfigPath, FirstPosition(_playerConfig), transform);
 
+            // Drive the player from the persisted profile (level/stats/equipment) rather than the
+            // static spawn-config JSON, so progression carries across runs and scenes.
+            PlayerProfileService.EnsureLoaded();
+            Player.GetComponentInChildren<CharacterComponent>()?.Initialize(PlayerProfileService.Current.ToCharacterConfig());
+
             if (_cameraFollow != null)
                 _cameraFollow.SetTarget(Player.transform);
 
@@ -81,6 +88,12 @@ namespace DwarfsCrypt.Presentation.Spawner
             return config.SpawnPoints is { Count: > 0 } && config.SpawnPoints[0] != null
                 ? config.SpawnPoints[0].position
                 : Vector3.zero;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(_playerConfig.SpawnPoints[0].position,0.5f );
         }
     }
 }
