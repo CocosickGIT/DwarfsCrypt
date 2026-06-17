@@ -13,5 +13,14 @@
     "MaxHp": 120,
     "MaxStamina": 100,
     "MaxMana": 40,
-    "Equipment": []
+    "Equipment": [],
+    "Rewards": {
+        "Exp": 25,
+        "Gold": 10,
+        "Drops": [
+            { "ItemId": "health_potion", "Chance": 0.5, "MinQuantity": 1, "MaxQuantity": 2 },
+            { "ItemId": "iron_ore", "Chance": 0.3, "MinQuantity": 1, "MaxQuantity": 3 },
+            { "ItemId": "silver_ring", "Chance": 0.05, "MinQuantity": 1, "MaxQuantity": 1 }
+        ]
+    }
 }

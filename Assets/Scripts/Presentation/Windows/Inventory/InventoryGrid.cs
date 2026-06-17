@@ -85,6 +85,13 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
             GrowSlots(_items.Count + _expandAmount);
         }
 
+        /// <summary>Empty every slot (keeps the slot objects, just clears their items).</summary>
+        public void Clear()
+        {
+            for (int i = 0; i < _items.Count; i++)
+                SetItemAt(i, null);
+        }
+
         public void SortByType()
         {
             var sorted = _items

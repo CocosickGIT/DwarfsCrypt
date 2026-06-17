@@ -1,0 +1,22 @@
+{
+    "Blueprints": [
+        {
+            "Id": "bp_iron_ingot",
+            "Name": "Iron Ingot",
+            "ResultItemId": "iron_ingot",
+            "ResultQuantity": 1,
+            "Ingredients": [
+                { "ItemId": "iron_ore", "Quantity": 2 }
+            ]
+        },
+        {
+            "Id": "bp_iron_sword",
+            "Name": "Iron Sword",
+            "ResultItemId": "iron_sword",
+            "ResultQuantity": 1,
+            "Ingredients": [
+                { "ItemId": "iron_ingot", "Quantity": 3 }
+            ]
+        }
+    ]
+}

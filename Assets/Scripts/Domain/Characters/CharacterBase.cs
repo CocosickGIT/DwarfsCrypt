@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DwarfsCrypt.Domain.Rewards;
 
 namespace DwarfsCrypt.Domain.Characters
 {
@@ -21,6 +22,8 @@ namespace DwarfsCrypt.Domain.Characters
 
         public IReadOnlyList<string> Equipment { get; protected set; }
 
+        public RewardTable Rewards { get; protected set; }
+
         protected CharacterBase(CharacterConfig config)
         {
             ApplyConfig(config);
@@ -40,6 +43,7 @@ namespace DwarfsCrypt.Domain.Characters
             CurrentMana    = MaxMana;
 
             Equipment = config.Equipment ?? new List<string>();
+            Rewards   = config.Rewards ?? new RewardTable();
         }
     }
 }

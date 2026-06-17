@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Core.Items;
 using DwarfsCrypt.Domain.Items;
 using UnityEngine;
 
@@ -11,10 +13,26 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
         private readonly Dictionary<EquipmentSlotType, EquipmentSlot> _slotMap = new();
         private InventoryGrid _inventoryGrid;
 
+        /// <summary>Raised whenever the set of equipped items changes.</summary>
+        public event Action EquipmentChanged;
+
         private void Awake()
         {
             foreach (var slot in _slots)
+            {
                 _slotMap[slot.SlotType] = slot;
+                slot.OnContentChanged += () => EquipmentChanged?.Invoke();
+            }
+        }
+
+        /// <summary>Sum of the stat bonuses from every currently equipped item.</summary>
+        public EquipmentBonuses GetTotalBonuses()
+        {
+            var bonuses = new EquipmentBonuses();
+            foreach (var slot in _slots)
+                if (slot.Item != null)
+                    bonuses.Add(slot.Item.Data);
+            return bonuses;
         }
 
         public void SetInventoryGrid(InventoryGrid grid)
@@ -47,6 +65,35 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
 
         public InventoryItem GetEquipped(EquipmentSlotType slotType) =>
             _slotMap.TryGetValue(slotType, out var slot) ? slot.Item : null;
+
+        /// <summary>Item ids currently equipped, for persisting to the player profile.</summary>
+        public List<string> GetEquippedItemIds()
+        {
+            var ids = new List<string>();
+            foreach (var slot in _slots)
+                if (slot.Item != null)
+                    ids.Add(slot.Item.Data.Id);
+            return ids;
+        }
+
+        /// <summary>Clear all slots and place the given saved item ids into their matching slots.</summary>
+        public void LoadEquipped(IEnumerable<string> itemIds)
+        {
+            foreach (var slot in _slots)
+                slot.Clear();
+
+            if (itemIds == null) return;
+
+            foreach (var id in itemIds)
+            {
+                if (!ItemCatalog.TryGet(id, out var data)) continue;
+
+                var item = new InventoryItem(data);
+                var slotType = ResolveRingSlot(item);
+                if (_slotMap.TryGetValue(slotType, out var slot))
+                    slot.SetItem(item);
+            }
+        }
 
         private void HandleEquipmentDrop(BaseSlot source, EquipmentSlot target)
         {

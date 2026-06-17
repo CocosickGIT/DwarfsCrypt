@@ -30,8 +30,14 @@ namespace DwarfsCrypt.Presentation.Player
         [SerializeField] private MeleeAttackHitbox _hitbox;
         [SerializeField] private CharacterComponent _character;
 
-        
+        [Header("Dash Phasing")]
+        [Tooltip("Layers the player stops colliding with while dashing (e.g. Enemy + Environment). " +
+                 "Do NOT include the Boundary layer, so the map walls still block a dashing player.")]
+        [SerializeField] private LayerMask _dashPhaseLayers;
+
         private Rigidbody2D _rb;
+        private Collider2D _collider;
+        private LayerMask _baseExcludeLayers;
         private PlayerInputActions _input;
 
         private Vector2 _moveInput;
@@ -58,6 +64,8 @@ namespace DwarfsCrypt.Presentation.Player
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _collider = GetComponent<Collider2D>();
+            if (_collider != null) _baseExcludeLayers = _collider.excludeLayers;
             _input = new PlayerInputActions();
             _input.Dash.performed += OnDashPerformed;
             _input.Enable();
@@ -157,7 +165,7 @@ namespace DwarfsCrypt.Presentation.Player
             {
                 _dashTimer -= Time.deltaTime;
                 if (_dashTimer <= 0f)
-                    _isDashing = false;
+                    SetDashing(false);
 
                 PlayStateAnimation(PlayerState.MOVE);
                 return;
@@ -288,9 +296,22 @@ namespace DwarfsCrypt.Presentation.Player
                 ? (_useIsometric ? ToIsometric(_moveInput) : _moveInput).normalized
                 : _lastMoveDirection;
 
-            _isDashing = true;
+            SetDashing(true);
             _dashTimer = _dashDuration;
             _dashCooldownTimer = _dashCooldown;
+        }
+
+        // Toggles the dash state. While dashing, the collider excludes the phase layers
+        // (e.g. Enemy + Environment) so the player passes through them, but keeps colliding
+        // with every other layer — crucially the Boundary walls — so it can never dash out of the map.
+        private void SetDashing(bool dashing)
+        {
+            _isDashing = dashing;
+            if (_collider == null) return;
+
+            int exclude = _baseExcludeLayers;
+            if (dashing) exclude |= _dashPhaseLayers;
+            _collider.excludeLayers = exclude;
         }
 
         // Standard 2:1 isometric projection: squish Y and rotate 45°

@@ -13,7 +13,11 @@
       "Bash(Write-Output \"Directories created\")",
       "Bash(Remove-Item \"E:\\\\UnityProjects\\\\DwarfsCrypt\\\\Assets\\\\Scripts\\\\Presentation\\\\Spawner\\\\EnemySpawnEntry.cs\" -Force)",
       "Bash(Remove-Item \"E:\\\\UnityProjects\\\\DwarfsCrypt\\\\Assets\\\\Scripts\\\\Presentation\\\\Spawner\\\\EnemySpawnEntry.cs.meta\" -Force -ErrorAction SilentlyContinue)",
-      "Bash(Write-Output \"done\")"
+      "Bash(Write-Output \"done\")",
+      "Bash(python *)",
+      "Bash(grep -vE \"m_Name: $\")",
+      "Bash(powershell.exe -NoProfile -Command \"[guid]::NewGuid\\(\\).ToString\\('N'\\)\")",
+      "Read(//proc/sys/kernel/random/**)"
     ]
   },
   "enableAllProjectMcpServers": true,

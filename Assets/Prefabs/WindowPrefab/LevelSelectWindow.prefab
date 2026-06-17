@@ -321,9 +321,9 @@ RectTransform:
   - {fileID: 3871635082217535674}
   m_Father: {fileID: 779422085491367791}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 61, y: -121.56275}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 121.999985, y: 243.1255}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7352800887793648549
@@ -443,9 +443,9 @@ RectTransform:
   - {fileID: 4362282664012207085}
   m_Father: {fileID: 779422085491367791}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 689, y: -121.56275}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 121.999985, y: 243.1255}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3020008210842519338
@@ -576,7 +576,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7960524234231840488}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3915317055813058517}
+        m_TargetAssemblyTypeName: DwarfsCrypt.Presentation.Windows.LevelSelectWindow,
+          Assembly-CSharp
+        m_MethodName: EnterSelectedZone
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4612960296507614973
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,9 +908,9 @@ RectTransform:
   - {fileID: 5919681307180090092}
   m_Father: {fileID: 779422085491367791}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 375, y: -121.56275}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 121.999985, y: 243.1255}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5208069964581725774
@@ -1560,7 +1573,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4080042487916426192
 Transform:
   m_ObjectHideFlags: 0
@@ -1589,6 +1602,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961647703f3915542a4ab2705acc6f91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DwarfsCrypt.Presentation.Windows.LevelSelectWindow
+  icons: []
+  enterButton: {fileID: 0}
 --- !u!1 &7151978025892993762
 GameObject:
   m_ObjectHideFlags: 0
@@ -2052,9 +2067,9 @@ RectTransform:
   - {fileID: 5831658080787010195}
   m_Father: {fileID: 779422085491367791}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 218, y: -121.56275}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 121.999985, y: 243.1255}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &183045499790646023
@@ -2478,9 +2493,9 @@ RectTransform:
   - {fileID: 6694131321543114061}
   m_Father: {fileID: 779422085491367791}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 532, y: -121.56275}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 121.999985, y: 243.1255}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3425756741192489066

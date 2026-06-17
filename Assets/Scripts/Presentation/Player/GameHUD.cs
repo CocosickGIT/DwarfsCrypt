@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DwarfsCrypt.Presentation.Windows;
+using Presentation.WindowService;
 
 namespace DwarfsCrypt.Presentation.Player
 {
@@ -15,6 +16,11 @@ namespace DwarfsCrypt.Presentation.Player
         [SerializeField] private Button _skill3Button;
         [SerializeField] private Button _interactButton;
 
+        [Header("Menu")]
+        [SerializeField] private Button _menuButton;
+        [Tooltip("Window service used to open the Menu window when the menu button is pressed.")]
+        [SerializeField] private WindowService _windowService;
+
         public override WindowType Type => WindowType.GameHUD;
         public VirtualJoystick Joystick => _joystick;
 
@@ -24,6 +30,7 @@ namespace DwarfsCrypt.Presentation.Player
         public event Action OnSkill2Pressed;
         public event Action OnSkill3Pressed;
         public event Action OnInteractPressed;
+        public event Action OnMenuPressed;
 
         private void Awake()
         {
@@ -34,9 +41,22 @@ namespace DwarfsCrypt.Presentation.Player
             _skill3Button.onClick.AddListener(() => OnSkill3Pressed?.Invoke());
             _interactButton.onClick.AddListener(() => OnInteractPressed?.Invoke());
             _interactButton.gameObject.SetActive(false);
+
+            if (_menuButton != null)
+                _menuButton.onClick.AddListener(OpenMenu);
         }
 
         public void SetInteractVisible(bool visible) =>
             _interactButton.gameObject.SetActive(visible);
+
+        private void OpenMenu()
+        {
+            OnMenuPressed?.Invoke();
+
+            if (_windowService != null)
+                _windowService.Open(WindowType.Menu);
+            else
+                Debug.LogWarning("[GameHUD] Menu button pressed but no WindowService is assigned.");
+        }
     }
 }

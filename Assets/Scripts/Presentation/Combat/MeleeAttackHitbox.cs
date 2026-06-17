@@ -48,9 +48,26 @@ namespace DwarfsCrypt.Presentation.Combat
 
                 if (Vector2.Angle(direction, toTarget) > _halfAngle) continue;
 
-                if (hit.TryGetComponent<IDamageable>(out var damageable))
+                IDamageable damageable = ResolveDamageable(hit);
+                if (damageable != null)
                     damageable.TakeDamage(damage);
             }
+        }
+
+        // The collider may live on the physics root (e.g. SPUM_Player / SPUM_Skeleton_Enemy)
+        // while CharacterComponent (IDamageable) sits on a child (UnitRoot). Resolve from the
+        // attached Rigidbody2D's hierarchy so the lookup works regardless of which GameObject
+        // in the character holds the collider vs. the gameplay logic.
+        private static IDamageable ResolveDamageable(Collider2D hit)
+        {
+            if (hit.TryGetComponent<IDamageable>(out var direct))
+                return direct;
+
+            Transform root = hit.attachedRigidbody != null
+                ? hit.attachedRigidbody.transform
+                : hit.transform;
+
+            return root.GetComponentInChildren<IDamageable>();
         }
 
         private void OnDrawGizmosSelected()
