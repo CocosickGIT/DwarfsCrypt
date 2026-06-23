@@ -121,16 +121,29 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
             }
             else if (source is EquipmentSlot equipSlot)
             {
-                // Unequip: move equipment item into this inventory slot, put displaced item in equipment slot
+                // Unequip the dragged item into the inventory.
                 var equipItem = equipSlot.Item;
+                if (equipItem == null) return;
+
                 var invItem = _items[target.SlotIndex];
 
-                SetItemAt(target.SlotIndex, equipItem);
+                // Swap only when the displaced inventory item can legally go into the
+                // equipment slot. Otherwise the dragged item lands in the inventory and the
+                // target item stays put (it can't be force-pushed into an incompatible slot).
+                if (invItem == null || equipSlot.AcceptsItem(invItem.Data))
+                {
+                    SetItemAt(target.SlotIndex, equipItem);
 
-                if (invItem != null)
-                    equipSlot.SetItem(invItem);
+                    if (invItem != null)
+                        equipSlot.SetItem(invItem);
+                    else
+                        equipSlot.Clear();
+                }
                 else
+                {
                     equipSlot.Clear();
+                    TryAddItem(equipItem);
+                }
             }
         }
 

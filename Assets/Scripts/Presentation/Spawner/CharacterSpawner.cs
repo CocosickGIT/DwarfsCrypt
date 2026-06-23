@@ -26,6 +26,8 @@ namespace DwarfsCrypt.Presentation.Spawner
 
         private CharacterFactory _factory;
         private readonly List<GameObject> _spawnedEnemies = new();
+        // Remembers which prefab each live enemy came from, so it can be pooled by key on death.
+        private readonly Dictionary<GameObject, GameObject> _enemyPrefabs = new();
 
         private void Awake()
         {
@@ -72,7 +74,29 @@ namespace DwarfsCrypt.Presentation.Spawner
                 if (zone == null) continue;
 
                 foreach (var (prefab, configPath, position) in zone.GetSpawnData(luck))
-                    _spawnedEnemies.Add(_factory.Spawn(prefab, configPath, position, zone.transform));
+                {
+                    var enemy = _factory.Spawn(prefab, configPath, position, zone.transform);
+                    _spawnedEnemies.Add(enemy);
+                    _enemyPrefabs[enemy] = prefab;
+
+                    // Pool the unit only once its death dissolve has finished playing.
+                    var dissolve = enemy.GetComponentInChildren<DissolveOnDeath>();
+                    if (dissolve != null)
+                        dissolve.Dissolved += HandleEnemyDissolved;
+                }
+            }
+        }
+
+        // Death animation + dissolve are done — return the corpse to the pool.
+        private void HandleEnemyDissolved(DissolveOnDeath dissolve)
+        {
+            dissolve.Dissolved -= HandleEnemyDissolved;
+
+            GameObject enemy = dissolve.Unit;
+            if (enemy != null && _enemyPrefabs.TryGetValue(enemy, out var prefab))
+            {
+                _enemyPrefabs.Remove(enemy);
+                ReleaseEnemy(enemy, prefab);
             }
         }
 

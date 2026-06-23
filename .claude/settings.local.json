@@ -17,7 +17,19 @@
       "Bash(python *)",
       "Bash(grep -vE \"m_Name: $\")",
       "Bash(powershell.exe -NoProfile -Command \"[guid]::NewGuid\\(\\).ToString\\('N'\\)\")",
-      "Read(//proc/sys/kernel/random/**)"
+      "Read(//proc/sys/kernel/random/**)",
+      "Bash(xargs cat)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(node -e \"require\\('./Assets/StreamingAssets/Quests/quests.json'\\);console.log\\('quests.json OK'\\)\")",
+      "Bash(printf 'fileFormatVersion: 2\\\\nguid: 724b3465f05b41a89541145e5872121e\\\\nMonoImporter:\\\\n  externalObjects: {}\\\\n  serializedVersion: 2\\\\n  defaultReferences: []\\\\n  executionOrder: 0\\\\n  icon: {instanceID: 0}\\\\n  userData: \\\\n  assetBundleName: \\\\n  assetBundleVariant: \\\\n')",
+      "Bash(printf 'fileFormatVersion: 2\\\\nguid: a82c14a46b1941a1b8a9f59a1dd9d505\\\\nMonoImporter:\\\\n  externalObjects: {}\\\\n  serializedVersion: 2\\\\n  defaultReferences: []\\\\n  executionOrder: 0\\\\n  icon: {instanceID: 0}\\\\n  userData: \\\\n  assetBundleName: \\\\n  assetBundleVariant: \\\\n')",
+      "Bash(printf 'fileFormatVersion: 2\\\\nguid: a1bff4ccddad471594951a0dc3f0371a\\\\nMonoImporter:\\\\n  externalObjects: {}\\\\n  serializedVersion: 2\\\\n  defaultReferences: []\\\\n  executionOrder: 0\\\\n  icon: {instanceID: 0}\\\\n  userData: \\\\n  assetBundleName: \\\\n  assetBundleVariant: \\\\n')",
+      "Bash(grep -nA2 \"7411990523587670801\" \"Assets/Prefabs/Characters/SPUM_Player.prefab\")",
+      "Bash(printf 'fileFormatVersion: 2\\\\nguid: ae595b0469df4c1098ce2e63622ec274\\\\nfolderAsset: yes\\\\nDefaultImporter:\\\\n  externalObjects: {}\\\\n  userData: \\\\n  assetBundleName: \\\\n  assetBundleVariant: \\\\n')",
+      "Bash(printf 'fileFormatVersion: 2\\\\nguid: b14717c3dc934bca86e2ddc07e0f599d\\\\nShaderImporter:\\\\n  externalObjects: {}\\\\n  defaultTextures: []\\\\n  nonModifiableTextures: []\\\\n  preprocessorOverride: 0\\\\n  userData: \\\\n  assetBundleName: \\\\n  assetBundleVariant: \\\\n')",
+      "Bash(printf 'fileFormatVersion: 2\\\\nguid: 4f2e8b652a924e208bbda64e4eac5f3b\\\\nMonoImporter:\\\\n  externalObjects: {}\\\\n  serializedVersion: 2\\\\n  defaultReferences: []\\\\n  executionOrder: 0\\\\n  icon: {instanceID: 0}\\\\n  userData: \\\\n  assetBundleName: \\\\n  assetBundleVariant: \\\\n')",
+      "Bash(grep -iv \"m_Name: $\")",
+      "Bash(grep -n \"m_Name: UI$\\\\|m_Name: Canvas\" Assets/Scenes/Town.unity)"
     ]
   },
   "enableAllProjectMcpServers": true,

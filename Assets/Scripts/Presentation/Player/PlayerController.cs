@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using DwarfsCrypt.Domain.Characters;
 using DwarfsCrypt.Presentation.Combat;
+using DwarfsCrypt.Presentation.Windows;
+using Core.Player;
+using Core.Rewards;
+using Core.Scenes;
 
 namespace DwarfsCrypt.Presentation.Player
 {
@@ -30,6 +34,10 @@ namespace DwarfsCrypt.Presentation.Player
         [SerializeField] private MeleeAttackHitbox _hitbox;
         [SerializeField] private CharacterComponent _character;
 
+        [Header("Death")]
+        [Tooltip("Seconds to let the death animation play before the reward summary appears.")]
+        [SerializeField] private float _deathScreenDelay = 1.5f;
+
         [Header("Dash Phasing")]
         [Tooltip("Layers the player stops colliding with while dashing (e.g. Enemy + Environment). " +
                  "Do NOT include the Boundary layer, so the map walls still block a dashing player.")]
@@ -50,6 +58,7 @@ namespace DwarfsCrypt.Presentation.Player
 
         private bool _attackRequested;
         private bool _isAttacking;
+        private bool _isDead;
         private float _attackCooldownTimer;
         private float _attackDurationTimer;
         private float _hitStaggerTimer;
@@ -80,7 +89,10 @@ namespace DwarfsCrypt.Presentation.Player
             _hud.OnAttackPressed += RequestAttack;
 
             if (_character != null)
+            {
                 _character.OnDamaged += OnCharacterDamaged;
+                _character.OnDied += HandleDied;
+            }
 
             InitSpum();
         }
@@ -100,7 +112,10 @@ namespace DwarfsCrypt.Presentation.Player
             }
 
             if (_character != null)
+            {
                 _character.OnDamaged -= OnCharacterDamaged;
+                _character.OnDied -= HandleDied;
+            }
         }
 
         private void InitSpum()
@@ -140,6 +155,8 @@ namespace DwarfsCrypt.Presentation.Player
 
         private void Update()
         {
+            if (_isDead) return;
+
             if (_dashCooldownTimer > 0f)
                 _dashCooldownTimer -= Time.deltaTime;
 
@@ -194,6 +211,12 @@ namespace DwarfsCrypt.Presentation.Player
         
         private void FixedUpdate()
         {
+            if (_isDead)
+            {
+                _rb.linearVelocity = Vector2.zero;
+                return;
+            }
+
             if (_hitStaggerTimer > 0f)
             {
                 _rb.linearVelocity = Vector2.zero;
@@ -259,7 +282,69 @@ namespace DwarfsCrypt.Presentation.Player
 
         private void OnCharacterDamaged(float _currentHp, float _maxHp)
         {
+            if (_isDead) return;
             PlayAnimation(PlayerState.DAMAGED);
+        }
+
+        private void HandleDied()
+        {
+            if (_isDead) return;
+            _isDead = true;
+
+            // Freeze the player and cancel any pending actions, then play the death animation.
+            _rb.linearVelocity = Vector2.zero;
+            _dashRequested = false;
+            _attackRequested = false;
+            _isAttacking = false;
+            SetDashing(false);
+
+            // Stop enemies from targeting/hitting the corpse, and hide the gameplay HUD.
+            if (_collider != null) _collider.enabled = false;
+            if (_hud != null) _hud.Hide();
+
+            PlayAnimation(PlayerState.DEATH);
+
+            StartCoroutine(ShowRewardsAfterDeath());
+        }
+
+        // Let the death animation play out, then surface the run reward summary.
+        private IEnumerator ShowRewardsAfterDeath()
+        {
+            yield return new WaitForSeconds(_deathScreenDelay);
+
+            // Rewards were applied to the profile on each kill; just persist and summarize.
+            PlayerProfileService.Save();
+
+            var rewardWindow = GetRewardWindow();
+            if (rewardWindow != null)
+            {
+                rewardWindow.Closed -= OnDeathRewardClosed;
+                rewardWindow.Closed += OnDeathRewardClosed;
+                rewardWindow.Show(RunRewards.Summary);
+            }
+            else
+            {
+                // No reward UI wired — return to Town directly.
+                OnDeathRewardClosed();
+            }
+        }
+
+        private void OnDeathRewardClosed()
+        {
+            var rewardWindow = GetRewardWindow();
+            if (rewardWindow != null)
+                rewardWindow.Closed -= OnDeathRewardClosed;
+
+            RunRewards.Reset();
+            SceneLoader.Load(SceneNames.Town);
+        }
+
+        private RewardWindow GetRewardWindow()
+        {
+            var windowService = _hud != null ? _hud.WindowService : null;
+            return windowService != null
+                ? windowService.GetWindow<RewardWindow>(WindowType.Reward)
+                : null;
         }
 
         private void OnDashPerformed(InputAction.CallbackContext _) => RequestDash();
@@ -282,7 +367,7 @@ namespace DwarfsCrypt.Presentation.Player
                 Vector2 dir = _useIsometric
                     ? ToIsometric(_lastMoveDirection).normalized
                     : _lastMoveDirection;
-                float damage = AttributeFormulas.RollPhysicalDamage(_character.Character.Attributes);
+                DamageResult damage = AttributeFormulas.RollPhysicalDamage(_character.Character.Attributes);
 
                 _hitbox.PerformAttack(dir, damage, _attackDuration);
             }

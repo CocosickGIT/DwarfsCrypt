@@ -2774,6 +2774,8 @@ GameObject:
   - component: {fileID: 7536775835589921261}
   - component: {fileID: 8450572014961691581}
   - component: {fileID: 5479230187591744913}
+  - component: {fileID: 7411990523587670804}
+  - component: {fileID: 7411990523587670814}
   m_Layer: 8
   m_Name: UnitRoot
   m_TagString: Untagged
@@ -3003,6 +3005,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DwarfsCrypt.Presentation.Combat.CharacterComponent
   _configPath: Characters/example_enemy
+--- !u!114 &7411990523587670804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456520147176332557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1bff4ccddad471594951a0dc3f0371a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::DwarfsCrypt.Presentation.Combat.DamagePopupSpawner
+  _spawnOffset: {x: 0, y: 1.5, z: 0}
+  _spawnScatter: 0.3
+  _normalColor: {r: 1, g: 1, b: 1, a: 1}
+  _normalFontSize: 4
+  _critColor: {r: 1, g: 0.2, b: 0.15, a: 1}
+  _critFontSize: 5.6
+  _lifetime: 0.8
+  _riseSpeed: 1.5
+  _horizontalDrift: 0.3
+  _sortingLayerName: Default
+  _sortingOrder: 300
+  _font: {fileID: 0}
+--- !u!114 &7411990523587670814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456520147176332557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f2e8b652a924e208bbda64e4eac5f3b, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::DwarfsCrypt.Presentation.Combat.DissolveOnDeath
+  _dissolveShader: {fileID: 4800000, guid: b14717c3dc934bca86e2ddc07e0f599d, type: 3}
+  _unitRoot: {fileID: 4160947741747493130}
+  _delayBeforeDissolve: 0.6
+  _dissolveDuration: 1
+  _noiseScale: 12
+  _edgeWidth: 0.06
+  _edgeColor: {r: 2, g: 0.9, b: 0.25, a: 1}
 --- !u!1 &3663307337058719223
 GameObject:
   m_ObjectHideFlags: 0

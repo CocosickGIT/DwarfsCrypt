@@ -18,7 +18,7 @@ namespace DwarfsCrypt.Presentation.Combat
         private Coroutine _activeAttack;
         private Vector2 _lastAttackDirection = Vector2.right;
 
-        public void PerformAttack(Vector2 direction, float damage, float attackDuration)
+        public void PerformAttack(Vector2 direction, DamageResult damage, float attackDuration)
         {
             _lastAttackDirection = direction;
             _swipeVFX?.Play(direction, _radius, _halfAngle, attackDuration);
@@ -29,14 +29,14 @@ namespace DwarfsCrypt.Presentation.Combat
             _activeAttack = StartCoroutine(AttackRoutine(direction, damage, attackDuration));
         }
 
-        private IEnumerator AttackRoutine(Vector2 direction, float damage, float attackDuration)
+        private IEnumerator AttackRoutine(Vector2 direction, DamageResult damage, float attackDuration)
         {
             yield return new WaitForSeconds(attackDuration * _hitNormalizedTime);
             ApplyHit(direction, damage);
             _activeAttack = null;
         }
 
-        private void ApplyHit(Vector2 direction, float damage)
+        private void ApplyHit(Vector2 direction, DamageResult damage)
         {
             Vector2 origin = transform.position;
             Collider2D[] hits = Physics2D.OverlapCircleAll(origin, _radius, _targetLayers);
@@ -50,7 +50,7 @@ namespace DwarfsCrypt.Presentation.Combat
 
                 IDamageable damageable = ResolveDamageable(hit);
                 if (damageable != null)
-                    damageable.TakeDamage(damage);
+                    damageable.TakeDamage(damage.Amount, damage.IsCrit);
             }
         }
 

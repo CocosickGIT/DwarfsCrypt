@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Core.Items;
 using DwarfsCrypt.Domain.Characters;
 using DwarfsCrypt.Domain.Items;
+using DwarfsCrypt.Domain.Quests;
+using DwarfsCrypt.Domain.Statistics;
 
 namespace DwarfsCrypt.Domain.Player
 {
@@ -24,6 +26,11 @@ namespace DwarfsCrypt.Domain.Player
         public int MaxMana;
         public List<string> Equipment = new List<string>();   // item ids
         public List<ItemStack> Inventory = new List<ItemStack>();
+
+        // Lifetime statistic counters (kills, crafts, ...) and the player's quest log.
+        // Quests measure progress against a baseline snapshotted from Statistics at accept-time.
+        public List<StatEntry> Statistics = new List<StatEntry>();
+        public List<QuestProgress> QuestLog = new List<QuestProgress>();
 
         /// <summary>
         /// Build the runtime <see cref="CharacterConfig"/> the spawner uses for the player.

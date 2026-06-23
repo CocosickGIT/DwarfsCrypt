@@ -20,7 +20,8 @@ namespace DwarfsCrypt.Presentation.Combat
         public int MaxHp => Character.MaxHp;
         public bool IsDead => Character.IsDead;
 
-        public event Action<float, float> OnDamaged;
+        public event Action<float, float> OnDamaged;       // currentHp, maxHp
+        public event Action<float, bool> OnDamageTaken;     // damageAmount, isCrit
         public event Action OnDied;
 
         private void Awake()
@@ -38,17 +39,20 @@ namespace DwarfsCrypt.Presentation.Combat
             if (Character != null)
             {
                 Character.OnDamaged -= PropagateOnDamaged;
+                Character.OnDamageTaken -= PropagateOnDamageTaken;
                 Character.OnDied -= PropagateOnDied;
             }
             Character = new Character(config);
             Character.OnDamaged += PropagateOnDamaged;
+            Character.OnDamageTaken += PropagateOnDamageTaken;
             Character.OnDied += PropagateOnDied;
         }
 
         private void PropagateOnDamaged(float hp, float max) => OnDamaged?.Invoke(hp, max);
+        private void PropagateOnDamageTaken(float amount, bool isCrit) => OnDamageTaken?.Invoke(amount, isCrit);
         private void PropagateOnDied() => OnDied?.Invoke();
 
-        public void TakeDamage(float damage) => Character.TakeDamage(damage);
+        public void TakeDamage(float damage, bool isCrit = false) => Character.TakeDamage(damage, isCrit);
         public void Heal(float amount) => Character.Heal(amount);
     }
 }

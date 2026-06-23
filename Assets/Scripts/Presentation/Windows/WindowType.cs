@@ -8,6 +8,7 @@ namespace DwarfsCrypt.Presentation.Windows
         Reward,
         LevelSelect,
         Craft,
+        Quest,
         GameHUD
     }
 }

@@ -23,6 +23,7 @@ namespace DwarfsCrypt.Presentation.Player
 
         public override WindowType Type => WindowType.GameHUD;
         public VirtualJoystick Joystick => _joystick;
+        public WindowService WindowService => _windowService;
 
         public event Action OnDashPressed;
         public event Action OnAttackPressed;
@@ -48,6 +49,17 @@ namespace DwarfsCrypt.Presentation.Player
 
         public void SetInteractVisible(bool visible) =>
             _interactButton.gameObject.SetActive(visible);
+
+        /// <summary>
+        /// Hide the whole on-screen HUD. The GameHUD component sits on an empty logic object whose
+        /// parent (the HUD canvas) holds the joystick/buttons as siblings, so closing this object
+        /// alone leaves the visuals on screen — deactivate the canvas root instead.
+        /// </summary>
+        public void Hide()
+        {
+            var root = transform.parent != null ? transform.parent.gameObject : gameObject;
+            root.SetActive(false);
+        }
 
         private void OpenMenu()
         {

@@ -27,6 +27,16 @@ namespace DwarfsCrypt.Presentation.Enemy
         private bool _isEnraging;
         private float _heavyCooldownTimer;
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            _isEnraged = false;
+            _isEnraging = false;
+            _heavyCooldownTimer = 0f;
+            // Note: enrage permanently buffs _moveSpeed/_attackCooldown; if bosses are ever
+            // pooled and reused, cache and restore those base values here too.
+        }
+
         protected override void Start()
         {
             base.Start();
@@ -100,8 +110,8 @@ namespace DwarfsCrypt.Presentation.Enemy
             {
                 Vector2 dir = ((Vector2)_target.position - (Vector2)transform.position).normalized;
                 UpdateFacing(dir.x);
-                float damage = AttributeFormulas.RollPhysicalDamage(_character.Character.Attributes)
-                               * _heavyAttackDamageMultiplier;
+                DamageResult damage = AttributeFormulas.RollPhysicalDamage(_character.Character.Attributes)
+                                      * _heavyAttackDamageMultiplier;
                 _heavyHitbox.PerformAttack(dir, damage, _heavyAttackDuration);
             }
 

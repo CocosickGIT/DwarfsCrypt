@@ -13,6 +13,9 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
         private static GameObject _dragVisualGO;
         private static Canvas _rootCanvas;
 
+        private ScrollRect _scrollRect;
+        private bool _routingToScroll;
+
         public InventoryItem Item { get; protected set; }
 
         public static void SetRootCanvas(Canvas canvas) => _rootCanvas = canvas;
@@ -39,7 +42,13 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (Item == null || _rootCanvas == null) return;
+            // Empty slot, or the gesture runs along the scroll axis → hand the drag to the
+            // ScrollRect so the list scrolls instead of trying to pick up an item.
+            if (Item == null || _rootCanvas == null || IsScrollGesture(eventData))
+            {
+                _routingToScroll = TryRouteToScroll(eventData, ExecuteEvents.beginDragHandler);
+                return;
+            }
 
             DragSource = this;
             OnBeginDragInternal();
@@ -48,17 +57,54 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (_routingToScroll)
+            {
+                TryRouteToScroll(eventData, ExecuteEvents.dragHandler);
+                return;
+            }
             MoveDragVisual(eventData);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (_routingToScroll)
+            {
+                TryRouteToScroll(eventData, ExecuteEvents.endDragHandler);
+                _routingToScroll = false;
+                return;
+            }
+
             DestroyDragVisual();
             if (DragSource == this)
             {
                 OnEndDragInternal();
                 DragSource = null;
             }
+        }
+
+        // A drag that moves mostly along the scroll axis is treated as a scroll, not an item pickup.
+        private bool IsScrollGesture(PointerEventData eventData)
+        {
+            if (!FindScroll()) return false;
+            Vector2 drag = eventData.position - eventData.pressPosition;
+            return _scrollRect.vertical
+                ? Mathf.Abs(drag.y) >= Mathf.Abs(drag.x)
+                : Mathf.Abs(drag.x) >= Mathf.Abs(drag.y);
+        }
+
+        private bool TryRouteToScroll<T>(PointerEventData eventData, ExecuteEvents.EventFunction<T> handler)
+            where T : IEventSystemHandler
+        {
+            if (!FindScroll()) return false;
+            ExecuteEvents.Execute(_scrollRect.gameObject, eventData, handler);
+            return true;
+        }
+
+        private bool FindScroll()
+        {
+            if (_scrollRect == null)
+                _scrollRect = GetComponentInParent<ScrollRect>();
+            return _scrollRect != null;
         }
 
         public virtual void OnDrop(PointerEventData eventData)
