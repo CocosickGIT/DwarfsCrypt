@@ -5300,6 +5300,7 @@ GameObject:
   - component: {fileID: 394666440403788858}
   - component: {fileID: 206546397335953051}
   - component: {fileID: 4690898736446137331}
+  - component: {fileID: 7411990523587670801}
   - component: {fileID: 8314990523587670882}
   - component: {fileID: 2261351546539813796}
   m_Layer: 7
@@ -5474,6 +5475,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DwarfsCrypt.Presentation.Combat.CharacterComponent
   _configPath: Characters/example_character
+--- !u!114 &7411990523587670801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944349575342735220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1bff4ccddad471594951a0dc3f0371a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::DwarfsCrypt.Presentation.Combat.DamagePopupSpawner
+  _spawnOffset: {x: 0, y: 1.5, z: 0}
+  _spawnScatter: 0.3
+  _normalColor: {r: 1, g: 1, b: 1, a: 1}
+  _normalFontSize: 4
+  _critColor: {r: 1, g: 0.2, b: 0.15, a: 1}
+  _critFontSize: 5.6
+  _lifetime: 0.8
+  _riseSpeed: 1.5
+  _horizontalDrift: 0.3
+  _sortingLayerName: Default
+  _sortingOrder: 300
+  _font: {fileID: 0}
 --- !u!33 &8314990523587670882
 MeshFilter:
   m_ObjectHideFlags: 0

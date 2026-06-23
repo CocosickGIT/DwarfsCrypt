@@ -9,7 +9,15 @@ namespace Core.Rewards
     /// </summary>
     public static class RewardGranter
     {
-        public static RewardResult GrantKill(RewardTable table)
+        /// <summary>Roll and apply a kill's rewards, folding the outcome into the run total.</summary>
+        public static RewardResult GrantKill(RewardTable table) => Grant(table, foldIntoRun: true);
+
+        /// <summary>
+        /// Roll a reward table and apply exp/gold/items to the active profile. Set
+        /// <paramref name="foldIntoRun"/> for kill rewards (which feed the end-of-run summary); leave
+        /// it false for one-off grants like quest turn-ins that shouldn't inflate the run total.
+        /// </summary>
+        public static RewardResult Grant(RewardTable table, bool foldIntoRun)
         {
             if (table == null) return null;
 
@@ -23,7 +31,8 @@ namespace Core.Rewards
             foreach (var stack in result.Items)
                 profile.AddItem(stack.ItemId, stack.Quantity);
 
-            RunRewards.Add(result);
+            if (foldIntoRun)
+                RunRewards.Add(result);
             return result;
         }
     }

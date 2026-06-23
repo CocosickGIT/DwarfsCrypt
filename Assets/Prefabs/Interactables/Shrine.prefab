@@ -5033,7 +5033,7 @@ GameObject:
   - component: {fileID: 3582293194467727175}
   - component: {fileID: 2003954136660571404}
   m_Layer: 10
-  m_Name: Srine
+  m_Name: Shrine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

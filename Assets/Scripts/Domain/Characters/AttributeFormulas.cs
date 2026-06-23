@@ -43,23 +43,22 @@ namespace DwarfsCrypt.Domain.Characters
                 // Movement
                 .Register(AttributeType.MoveSpeed,       s => 5f   + s.Dex * 0.05f);
 
-        private static float CalcCritDamage(CharacterStats s) => Mathf.Max(1,s.Luc * 0.1f);
+        // CritDamage is a MULTIPLIER applied on top of a normal hit, so it must be > 1 —
+        // otherwise a crit deals the same damage as a regular hit. 150% base, +5% per Luck.
+        private static float CalcCritDamage(CharacterStats s) => 1.5f + s.Luc * 0.05f;
         private static float CalcCritChance(CharacterStats s) => s.Luc;
         private static float CalcPhysicalAttack(CharacterStats s) => s.Str * 2f;
 
-        public static float RollPhysicalDamage(CharacterAttributes attrs)
+        public static DamageResult RollPhysicalDamage(CharacterAttributes attrs)
         {
-            float str    = attrs.GetFinal(AttributeType.Strength);
-            float luc    = attrs.GetFinal(AttributeType.Luck);
-            float dmg    = attrs.GetFinal(AttributeType.CritDamage);
-            
-            float physAtk   = str;
-            float critChance = luc;
-            float critDmg    = dmg;
+            float physAtk    = attrs.GetFinal(AttributeType.PhysicalAttack);
+            float critChance = attrs.GetFinal(AttributeType.CritChance);
+            float critMult   = attrs.GetFinal(AttributeType.CritDamage);
 
-            return Random.value * 100f < critChance
-                ? physAtk * critDmg
-                : physAtk;
+            bool isCrit = Random.value * 100f < critChance;
+            return isCrit
+                ? new DamageResult(physAtk * critMult, true)   // crit: base scaled by CritDamage
+                : new DamageResult(physAtk, false);            // normal hit: just PhysicalAttack
         }
 
 

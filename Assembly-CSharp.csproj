@@ -27,7 +27,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\Bin\Debug\Assembly-CSharp\</OutputPath>
-    <DefineConstants>UNITY_6000_3_11;UNITY_6000_3;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;UNITY_6000_1_OR_NEWER;UNITY_6000_2_OR_NEWER;UNITY_6000_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_AUDIO_SCRIPTABLE_PIPELINE;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_UNITY_CONSENT;ENABLE_UNITY_CLOUD_IDENTIFIERS;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_ACCESSIBILITY_SCREEN_READER;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_CLOUD_SERVICES_ENGINE_DIAGNOSTICS;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;TEXTCORE_FONT_ENGINE_1_6_OR_NEWER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>UNITY_6000_3_11;UNITY_6000_3;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;UNITY_6000_1_OR_NEWER;UNITY_6000_2_OR_NEWER;UNITY_6000_3_OR_NEWER;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_AUDIO_SCRIPTABLE_PIPELINE;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_UNITY_CONSENT;ENABLE_UNITY_CLOUD_IDENTIFIERS;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_ENGINE_CODE_STRIPPING;ENABLE_ONSCREEN_KEYBOARD;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_ACCESSIBILITY_SCREEN_READER;ENABLE_ACCESSIBILITY_SETTINGS;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_ANDROID;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_CLOUD_SERVICES_ENGINE_DIAGNOSTICS;ENABLE_FIREBASE_IDENTIFIERS;UNITY_CAN_SHOW_SPLASH_SCREEN;UNITY_HAS_GOOGLEVR;UNITY_HAS_TANGO;ENABLE_SPATIALTRACKING;ENABLE_ETC_COMPRESSION;PLATFORM_EXTENDS_VULKAN_DEVICE;PLATFORM_HAS_MULTIPLE_SWAPCHAINS;UNITY_ANDROID_SUPPORTS_SHADOWFILES;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;PLATFORM_EXTENDS_VULKAN_PIPELINE_CACHE;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;PLATFORM_HAS_ADDITIONAL_API_CHECKS;PLATFORM_HAS_GRAPHICS_JOBS_SUPPORT_CHECK_OVERRIDE;PLATFORM_IMPLEMENTS_INSIGHTS_ANR;PLATFORM_SUPPORTS_INSIGHTS_DEVICE_INFO;ENABLE_ANDROID_ADVERTISING_IDS;PLATFORM_HAS_BUGGY_MSAA_RESOLVE;ENABLE_ANDROID_APP_SET_ID;ENABLE_INSIGHTS_PLATFORM_SPECIFIC_RESOURCES;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;TEXTCORE_FONT_ENGINE_1_6_OR_NEWER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169,0649</NoWarn>
@@ -50,10 +50,13 @@
     <Compile Include="Assets\Scripts\Domain\Items\ItemsCollection.cs" />
     <Compile Include="Assets\Scripts\Core\Scenes\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\Presentation\Light\LightSource.cs" />
+    <Compile Include="Assets\Scripts\Domain\Statistics\StatEntry.cs" />
+    <Compile Include="Assets\Scripts\Core\Statistics\StatisticsService.cs" />
     <Compile Include="Assets\Scripts\Core\Rewards\RewardRoller.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\WindowPresets\InventoryWindow.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\CharacterConfig.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\ItemEntry.cs" />
+    <Compile Include="Assets\Scripts\Domain\Quests\QuestDefinition.cs" />
     <Compile Include="Assets\Scripts\Presentation\Features\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Domain\Player\PlayerProfile.cs" />
     <Compile Include="Assets\Scripts\Core\Player\LevelCurve.cs" />
@@ -77,10 +80,12 @@
     <Compile Include="Assets\SPUM\Sample\Script\PlayerObj.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SpumPackage.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\ItemData.cs" />
+    <Compile Include="Assets\Scripts\Domain\Statistics\StatKeys.cs" />
     <Compile Include="Assets\Scripts\Environment\MapBoundary.cs" />
     <Compile Include="Assets\Scripts\Environment\EnvironmentScatter.cs" />
     <Compile Include="Assets\Scripts\Presentation\Spawner\CharacterFactory.cs" />
     <Compile Include="Assets\Scripts\Presentation\Boosters\BoosterController.cs" />
+    <Compile Include="Assets\Scripts\Core\Quests\QuestService.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\LevelIcon.cs" />
     <Compile Include="Assets\Scripts\Presentation\Player\VirtualJoystick.cs" />
     <Compile Include="Assets\SPUM\Sample\Script\PlayerManager.cs" />
@@ -90,13 +95,17 @@
     <Compile Include="Assets\Scripts\Domain\Characters\Character.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\Inventory\EquipmentSlot.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\AttributeFormulas.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Combat\DamagePopupSpawner.cs" />
+    <Compile Include="Assets\Scripts\Core\Quests\QuestCatalog.cs" />
     <Compile Include="Assets\Scripts\Core\Player\PlayerProfileService.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_ImprovedStyleData.cs" />
     <Compile Include="Assets\Scripts\Presentation\Combat\CharacterComponent.cs" />
     <Compile Include="Assets\Scripts\Presentation\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Presentation\Combat\AttackSwipeVFX.cs" />
+    <Compile Include="Assets\Scripts\Core\Quests\QuestConfigLoader.cs" />
     <Compile Include="Assets\Scripts\Domain\Crafting\BlueprintCollection.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\Race.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Windows\PlayerInfoPanel.cs" />
     <Compile Include="Assets\Scripts\Domain\Towns\MonsterEntry.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_MatchingList.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\ItemType.cs" />
@@ -112,6 +121,7 @@
     <Compile Include="Assets\Scripts\Core\Towns\TownConfigLoader.cs" />
     <Compile Include="Assets\Scripts\Presentation\Spawner\CharacterSpawner.cs" />
     <Compile Include="Assets\Scripts\Domain\Towns\TownModifier.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Combat\DamagePopup.cs" />
     <Compile Include="Assets\Scripts\Core\Crafting\BlueprintCatalog.cs" />
     <Compile Include="Assets\Scripts\Presentation\Combat\HitFlashEffect.cs" />
     <Compile Include="Assets\Scripts\Presentation\Combat\MeleeAttackHitbox.cs" />
@@ -125,6 +135,7 @@
     <Compile Include="Assets\Scripts\Presentation\Windows\WindowPresets\CraftWindow.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\WindowType.cs" />
     <Compile Include="Assets\Scripts\Presentation\Features\YSorting.cs" />
+    <Compile Include="Assets\Scripts\Domain\Characters\DamageResult.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\ModifierType.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\CharacterBase.cs" />
     <Compile Include="Assets\Scripts\Presentation\Player\GameHUD.cs" />
@@ -134,9 +145,12 @@
     <Compile Include="Assets\SPUM\Core\Script\Data\PreviewMatchingElement.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\CharacterStats.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\WindowBase.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Combat\DissolveOnDeath.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\InventoryItem.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Windows\WindowPresets\QuestWindow.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\EquipmentBonuses.cs" />
     <Compile Include="Assets\Scripts\Presentation\Player\PlayerInputActions.cs" />
+    <Compile Include="Assets\Scripts\Domain\Quests\QuestObjective.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\WindowPresets\ErrorWindow.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SPUM_Prefabs.cs" />
     <Compile Include="Assets\Scripts\Domain\Rewards\DropEntry.cs" />
@@ -146,16 +160,20 @@
     <Compile Include="Assets\Scripts\Domain\Boosters\BoosterEffect.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\ItemRarity.cs" />
     <Compile Include="Assets\Scripts\Domain\Characters\StatModifier.cs" />
+    <Compile Include="Assets\Scripts\Domain\Quests\QuestCollection.cs" />
     <Compile Include="Assets\SPUM\Core\Script\Data\SpumTextureData.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\EquipmentSlotType.cs" />
     <Compile Include="Assets\Scripts\Presentation\Windows\Inventory\ItemSlot.cs" />
+    <Compile Include="Assets\Scripts\Domain\Quests\QuestProgress.cs" />
     <Compile Include="Assets\Scripts\Domain\Items\ItemStack.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\SPUM\ReadMe - 3.1.1.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
+    <None Include="Assets\Shaders\SpriteDissolve.shader" />
     <None Include="Assets\SPUM\Resources\Addons\Legacy\Index.json" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\StreamingAssets\Quests\quests.json" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\SPUM\Resources\Addons\Ver300\Index.json" />
@@ -214,12 +232,6 @@
     </Reference>
     <Reference Include="UnityEngine.ClothModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClothModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ClusterInputModule">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterInputModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ClusterRendererModule">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterRendererModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ContentLoadModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.ContentLoadModule.dll</HintPath>
@@ -413,9 +425,6 @@
     <Reference Include="UnityEngine.VideoModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.VirtualTexturingModule">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.VirtualTexturingModule.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.WindModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.WindModule.dll</HintPath>
     </Reference>
@@ -604,6 +613,12 @@
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>E:\UnityProjects\DwarfsCrypt\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Android.Types">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Android.Gradle">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Gradle.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>

@@ -1,0 +1,81 @@
+{
+    "Quests": [
+        {
+            "Id": "q_first_blood",
+            "Name": "First Blood",
+            "Description": "Prove yourself by slaying any foes in the crypt.",
+            "Category": "Normal",
+            "Objectives": [
+                { "Type": "Kill", "TargetId": "", "Amount": 5 }
+            ],
+            "Reward": {
+                "Exp": 50,
+                "Gold": 25,
+                "Drops": [
+                    { "ItemId": "health_potion", "Chance": 1.0, "MinQuantity": 2, "MaxQuantity": 2 }
+                ]
+            }
+        },
+        {
+            "Id": "q_bonecrusher",
+            "Name": "Bonecrusher",
+            "Description": "The skeletons grow restless. Put Bonny back to rest.",
+            "Category": "Normal",
+            "Objectives": [
+                { "Type": "Kill", "TargetId": "Bonny", "Amount": 10 }
+            ],
+            "Reward": {
+                "Exp": 120,
+                "Gold": 60,
+                "Drops": [
+                    { "ItemId": "iron_ore", "Chance": 1.0, "MinQuantity": 5, "MaxQuantity": 5 }
+                ]
+            }
+        },
+        {
+            "Id": "q_apprentice_smith",
+            "Name": "Apprentice Smith",
+            "Description": "Learn the forge: smelt iron ore into ingots.",
+            "Category": "Normal",
+            "Objectives": [
+                { "Type": "Craft", "TargetId": "bp_iron_ingot", "Amount": 3 }
+            ],
+            "Reward": {
+                "Exp": 40,
+                "Gold": 20,
+                "Drops": []
+            }
+        },
+        {
+            "Id": "q_daily_culling",
+            "Name": "Daily Culling",
+            "Description": "Keep the crypt thinned out. Resets each day.",
+            "Category": "Daily",
+            "Objectives": [
+                { "Type": "Kill", "TargetId": "", "Amount": 20 }
+            ],
+            "Reward": {
+                "Exp": 80,
+                "Gold": 50,
+                "Drops": []
+            }
+        },
+        {
+            "Id": "q_weekly_armory",
+            "Name": "Weekly Armory",
+            "Description": "Forge weapons for the militia. Resets each week.",
+            "Category": "Weekly",
+            "Objectives": [
+                { "Type": "Craft", "TargetId": "bp_iron_sword", "Amount": 2 },
+                { "Type": "Kill", "TargetId": "", "Amount": 50 }
+            ],
+            "Reward": {
+                "Exp": 300,
+                "Gold": 200,
+                "Drops": [
+                    { "ItemId": "silver_ring", "Chance": 1.0, "MinQuantity": 1, "MaxQuantity": 1 }
+                ]
+            }
+        }
+    ]
+}

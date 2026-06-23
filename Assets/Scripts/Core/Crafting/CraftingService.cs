@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Statistics;
 using DwarfsCrypt.Domain.Crafting;
 using DwarfsCrypt.Domain.Player;
 
@@ -46,6 +47,10 @@ namespace Core.Crafting
 
             int resultQty = blueprint.ResultQuantity > 0 ? blueprint.ResultQuantity : 1;
             profile.AddItem(blueprint.ResultItemId, resultQty);
+
+            // Count the craft toward the statistics quests track. The caller saves the profile,
+            // which also persists this counter.
+            StatisticsService.RecordCraft(profile, blueprint.Id);
             return true;
         }
 

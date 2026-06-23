@@ -21,7 +21,7 @@ namespace DwarfsCrypt.Presentation.Spawner
             go.transform.SetPositionAndRotation(position, Quaternion.identity);
 
             if (!string.IsNullOrEmpty(configPath))
-                go.GetComponentInChildren<CharacterComponent>()?.Initialize(configPath);
+                go.GetComponentInChildren<CharacterComponent>(true)?.Initialize(configPath);
 
             go.SetActive(true);
             return go;
@@ -68,7 +68,7 @@ namespace DwarfsCrypt.Presentation.Spawner
             if (wasActive) prefab.SetActive(true);
 
             if (!string.IsNullOrEmpty(configPath))
-                go.GetComponentInChildren<CharacterComponent>()?.Initialize(configPath);
+                go.GetComponentInChildren<CharacterComponent>(true)?.Initialize(configPath);
 
             return go; // still inactive — caller activates when ready
         }

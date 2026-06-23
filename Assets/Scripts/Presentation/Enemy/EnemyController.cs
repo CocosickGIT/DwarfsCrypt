@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Core.Rewards;
+using Core.Statistics;
 using DwarfsCrypt.Domain.Characters;
 using DwarfsCrypt.Presentation.Combat;
 
@@ -39,6 +40,7 @@ namespace DwarfsCrypt.Presentation.Enemy
 
         protected Rigidbody2D _rb;
         protected Transform _target;
+        protected CharacterComponent _targetCharacter;
         protected EnemyAIState _state = EnemyAIState.Idle;
         protected float _attackCooldownTimer;
         protected float _hitStaggerTimer;
@@ -51,6 +53,18 @@ namespace DwarfsCrypt.Presentation.Enemy
         protected virtual void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+        }
+
+        // Reset combat/AI state on every (re)activation so a unit pulled from the pool
+        // doesn't come back stuck in its previous Dead state.
+        protected virtual void OnEnable()
+        {
+            _state = EnemyAIState.Idle;
+            _target = null;
+            _targetCharacter = null;
+            _attackCooldownTimer = 0f;
+            _hitStaggerTimer = 0f;
+            _desiredVelocity = Vector2.zero;
         }
 
         protected virtual void Start()
@@ -110,6 +124,14 @@ namespace DwarfsCrypt.Presentation.Enemy
         {
             if (_state == EnemyAIState.Dead) return;
 
+            // Stop chasing/attacking the moment the target dies (e.g. the player), so a dead
+            // target is never pursued or hit.
+            if (_targetCharacter != null && _targetCharacter.IsDead)
+            {
+                DropTarget();
+                return;
+            }
+
             if (_attackCooldownTimer > 0f)
                 _attackCooldownTimer -= Time.deltaTime;
 
@@ -149,7 +171,25 @@ namespace DwarfsCrypt.Presentation.Enemy
 
             _target = ScanForPlayer();
             if (_target != null)
+            {
+                // The hit collider is on the physics root while CharacterComponent lives on a
+                // child (see MeleeAttackHitbox.ResolveDamageable) — search children, not parents.
+                _targetCharacter = _target.GetComponentInChildren<CharacterComponent>();
                 EnterState(EnemyAIState.Chase);
+            }
+        }
+
+        // Forget the current target and return to a calm idle state. Also stops any
+        // in-flight attack coroutine so a queued hit can't land after the target is gone.
+        protected void DropTarget()
+        {
+            StopAllCoroutines();
+            _target = null;
+            _targetCharacter = null;
+            _desiredVelocity = Vector2.zero;
+            _rb.linearVelocity = Vector2.zero;
+            _state = EnemyAIState.Idle;
+            PlayStateAnimation(PlayerState.IDLE);
         }
 
         protected virtual void UpdateChase()
@@ -202,7 +242,7 @@ namespace DwarfsCrypt.Presentation.Enemy
             {
                 Vector2 dir = ((Vector2)_target.position - (Vector2)transform.position).normalized;
                 UpdateFacing(dir.x);
-                float damage = AttributeFormulas.RollPhysicalDamage(_character.Character.Attributes);
+                DamageResult damage = AttributeFormulas.RollPhysicalDamage(_character.Character.Attributes);
                 _hitbox.PerformAttack(dir, damage, _attackDuration);
             }
 
@@ -234,9 +274,13 @@ namespace DwarfsCrypt.Presentation.Enemy
             StopAllCoroutines();
             PlayAnimation(PlayerState.DEATH);
 
-            // Grant this kill's rewards (exp/gold/item drops) to the player immediately.
+            // Grant this kill's rewards (exp/gold/item drops) to the player immediately,
+            // and count it toward the kill statistics that quests track.
             if (_character != null && _character.Character != null)
+            {
                 RewardGranter.GrantKill(_character.Character.Rewards);
+                StatisticsService.RecordKill(_character.Character.Name);
+            }
         }
 
         protected Transform ScanForPlayer()
