@@ -9,7 +9,7 @@ namespace DwarfsCrypt.Presentation.Spawner
     public class CampEnemyEntry
     {
         public GameObject Prefab;
-        [Tooltip("StreamingAssets path without extension, e.g. Characters/skeleton")]
+        [Tooltip("Resources path without extension, e.g. Characters/skeleton")]
         public string ConfigPath;
         [Min(0.01f), Tooltip("Relative spawn weight. Higher = more common. Player Luck compresses differences, making rarer (lower-weight) units proportionally more likely.")]
         public float Weight = 1f;

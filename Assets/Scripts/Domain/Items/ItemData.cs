@@ -14,6 +14,10 @@ namespace DwarfsCrypt.Domain.Items
         public bool IsStackable;
         public int MaxStack = 1;
 
+        // Restored when this item is consumed (Type == Consumable). Zero = no effect of that kind.
+        public int RestoreHp;
+        public int RestoreMana;
+
         // Stat bonuses applied when equipped
         public int BonusStr;
         public int BonusDex;

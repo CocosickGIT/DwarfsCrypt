@@ -5,7 +5,7 @@ namespace Core.Crafting
 {
     /// <summary>
     /// In-memory list of every crafting blueprint, loaded once from
-    /// StreamingAssets/Crafting/blueprints.json. Mirrors <c>ItemCatalog</c>.
+    /// Resources/Crafting/blueprints.json. Mirrors <c>ItemCatalog</c>.
     /// </summary>
     public static class BlueprintCatalog
     {
@@ -30,7 +30,7 @@ namespace Core.Crafting
             _all = new List<Blueprint>();
             _byId = new Dictionary<string, Blueprint>();
 
-            var collection = BlueprintConfigLoader.LoadFromStreamingAssets(BlueprintsPath);
+            var collection = BlueprintConfigLoader.LoadFromResources(BlueprintsPath);
             if (collection?.Blueprints == null) return;
 
             foreach (var bp in collection.Blueprints)

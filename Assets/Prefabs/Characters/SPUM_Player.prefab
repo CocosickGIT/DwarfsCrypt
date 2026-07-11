@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6882438991764085952}
   - component: {fileID: 8024375155473886769}
   - component: {fileID: 7720786556283132153}
+  - component: {fileID: 8560023432180079704}
   m_Layer: 7
   m_Name: SPUM_Player
   m_TagString: Untagged
@@ -3129,9 +3130,31 @@ MonoBehaviour:
   _attackDuration: 0.5
   _hitbox: {fileID: 206546397335953051}
   _character: {fileID: 4690898736446137331}
+  _deathScreenDelay: 1.5
+  _healthPotionItemId: health_potion
   _dashPhaseLayers:
     serializedVersion: 2
     m_Bits: 1408
+--- !u!114 &8560023432180079704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211371159422950207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f284dfd6ccb8741bfc5e28b2bbfb16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DwarfsCrypt.Presentation.Skills.SkillCaster
+  _skillController: {fileID: 0}
+  _player: {fileID: 7720786556283132153}
+  _hitbox: {fileID: 206546397335953051}
+  _character: {fileID: 4690898736446137331}
+  _hud: {fileID: 0}
+  _skillsResourcePath: Skills/skills
+  _attackDuration: 0.5
+  _skillId: wide_attack
 --- !u!1 &387403716040090594
 GameObject:
   m_ObjectHideFlags: 0
@@ -5485,7 +5508,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1bff4ccddad471594951a0dc3f0371a, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DwarfsCrypt.Presentation.Combat.DamagePopupSpawner
   _spawnOffset: {x: 0, y: 1.5, z: 0}
   _spawnScatter: 0.3

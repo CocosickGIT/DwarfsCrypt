@@ -5032,6 +5032,7 @@ GameObject:
   - component: {fileID: 1571943792413552832}
   - component: {fileID: 3582293194467727175}
   - component: {fileID: 2003954136660571404}
+  - component: {fileID: -1178201217216422609}
   m_Layer: 10
   m_Name: Shrine
   m_TagString: Untagged
@@ -5094,6 +5095,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _sprite: {fileID: 1845596450344986356}
+  _buffIcon: {fileID: 0}
 --- !u!210 &1571943792413552832
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -5181,3 +5183,56 @@ CapsuleCollider2D:
   m_Offset: {x: -2.47, y: -0.24}
   m_Size: {x: 1.07, y: 3.4}
   m_Direction: 0
+--- !u!114 &-1178201217216422609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4505024471619091295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.ShadowCaster2D
+  m_ShadowGroup: 0
+  m_Priority: 0
+  m_ComponentVersion: 5
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 3582293194467727175}
+  m_ShadowShape2DProvider:
+    rid: 7702461176819482698
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 2.9999924, y: -0.23999786, z: 0}
+      m_Extent: {x: 0.53499603, y: 1.6999893, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 2
+  m_PreviousShadowShape2DSource: {fileID: 3582293194467727175}
+  references:
+    version: 2
+    RefIds:
+    - rid: 7702461176819482698
+      type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 

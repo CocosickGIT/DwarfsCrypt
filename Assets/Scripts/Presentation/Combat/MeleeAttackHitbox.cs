@@ -18,35 +18,57 @@ namespace DwarfsCrypt.Presentation.Combat
         private Coroutine _activeAttack;
         private Vector2 _lastAttackDirection = Vector2.right;
 
+        // Basic attack: uses the inspector-configured radius / half-angle.
         public void PerformAttack(Vector2 direction, DamageResult damage, float attackDuration)
+            => PerformAttack(direction, damage, attackDuration, _radius, _halfAngle);
+
+        // Skill attack: overrides the hit shape per cast (e.g. a wider swing or a full-circle
+        // smash with halfAngle = 180).
+        public void PerformAttack(Vector2 direction, DamageResult damage, float attackDuration, float radius, float halfAngle)
         {
             _lastAttackDirection = direction;
-            _swipeVFX?.Play(direction, _radius, _halfAngle, attackDuration);
+            _swipeVFX?.Play(direction, radius, halfAngle, attackDuration);
 
             if (_activeAttack != null)
                 StopCoroutine(_activeAttack);
 
-            _activeAttack = StartCoroutine(AttackRoutine(direction, damage, attackDuration));
+            _activeAttack = StartCoroutine(AttackRoutine(direction, damage, attackDuration, radius, halfAngle));
         }
 
-        private IEnumerator AttackRoutine(Vector2 direction, DamageResult damage, float attackDuration)
+        // Telegraphed attack detonation: the wind-up already happened elsewhere (TelegraphZone),
+        // so the hit lands immediately — only a brief swipe flash is played for impact feedback.
+        public void PerformAttackImmediate(Vector2 direction, DamageResult damage, float radius, float halfAngle)
+        {
+            _lastAttackDirection = direction;
+            _swipeVFX?.Play(direction, radius, halfAngle, 0.25f);
+
+            if (_activeAttack != null)
+            {
+                StopCoroutine(_activeAttack);
+                _activeAttack = null;
+            }
+
+            ApplyHit(direction, damage, radius, halfAngle);
+        }
+
+        private IEnumerator AttackRoutine(Vector2 direction, DamageResult damage, float attackDuration, float radius, float halfAngle)
         {
             yield return new WaitForSeconds(attackDuration * _hitNormalizedTime);
-            ApplyHit(direction, damage);
+            ApplyHit(direction, damage, radius, halfAngle);
             _activeAttack = null;
         }
 
-        private void ApplyHit(Vector2 direction, DamageResult damage)
+        private void ApplyHit(Vector2 direction, DamageResult damage, float radius, float halfAngle)
         {
             Vector2 origin = transform.position;
-            Collider2D[] hits = Physics2D.OverlapCircleAll(origin, _radius, _targetLayers);
+            Collider2D[] hits = Physics2D.OverlapCircleAll(origin, radius, _targetLayers);
 
             foreach (var hit in hits)
             {
                 Vector2 toTarget = (Vector2)hit.transform.position - origin;
                 if (toTarget.sqrMagnitude < 0.001f) continue;
 
-                if (Vector2.Angle(direction, toTarget) > _halfAngle) continue;
+                if (Vector2.Angle(direction, toTarget) > halfAngle) continue;
 
                 IDamageable damageable = ResolveDamageable(hit);
                 if (damageable != null)

@@ -4,7 +4,7 @@ using DwarfsCrypt.Domain.Items;
 namespace Core.Items
 {
     /// <summary>
-    /// In-memory lookup of every item by id, loaded once from StreamingAssets/Items/items.json.
+    /// In-memory lookup of every item by id, loaded once from Resources/Items/items.json.
     /// Resolves drop ids and saved inventory ids back to full <see cref="ItemData"/>.
     /// </summary>
     public static class ItemCatalog
@@ -18,7 +18,7 @@ namespace Core.Items
             if (_byId != null) return;
 
             _byId = new Dictionary<string, ItemData>();
-            var collection = ItemConfigLoader.LoadFromStreamingAssets(ItemsPath);
+            var collection = ItemConfigLoader.LoadFromResources(ItemsPath);
             if (collection?.Items == null) return;
 
             foreach (var item in collection.Items)

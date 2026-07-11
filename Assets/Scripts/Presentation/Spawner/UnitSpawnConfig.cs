@@ -9,7 +9,7 @@ namespace DwarfsCrypt.Presentation.Spawner
     public class UnitSpawnConfig
     {
         public GameObject Prefab;
-        [Tooltip("StreamingAssets path without extension, e.g. Characters/skeleton")]
+        [Tooltip("Resources path without extension, e.g. Characters/skeleton")]
         public string ConfigPath;
         public List<Transform> SpawnPoints = new();
     }

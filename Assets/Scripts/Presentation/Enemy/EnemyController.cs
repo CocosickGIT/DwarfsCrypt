@@ -252,7 +252,8 @@ namespace DwarfsCrypt.Presentation.Enemy
             _state = EnemyAIState.Chase;
         }
 
-        private void HandleDamaged(float _, float __)
+        // Virtual so bosses can grant themselves super armor (no interrupt) during committed attacks.
+        protected virtual void HandleDamaged(float _, float __)
         {
             if (_state == EnemyAIState.Dead) return;
 
@@ -318,7 +319,7 @@ namespace DwarfsCrypt.Presentation.Enemy
 
         // Guard: prevents IndexOutOfRangeException when an animation list isn't populated,
         // which would otherwise leave the animator in a partial state and cause position resets.
-        private bool HasAnimation(PlayerState state, int index) =>
+        protected bool HasAnimation(PlayerState state, int index) =>
             _spum.StateAnimationPairs.TryGetValue(state.ToString(), out var list) && index < list.Count;
 
         protected void UpdateFacing(float dirX)
