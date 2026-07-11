@@ -1,6 +1,6 @@
-using System.Collections;
 using UnityEngine;
 using DwarfsCrypt.Domain.Boosters;
+using DwarfsCrypt.Domain.Characters;
 using DwarfsCrypt.Presentation.Player;
 using DwarfsCrypt.Presentation.Combat;
 
@@ -13,6 +13,8 @@ namespace DwarfsCrypt.Presentation.Boosters
         [SerializeField] private float _interactRadius = 2f;
         [SerializeField] private LayerMask _playerLayer;
         [SerializeField] private GameObject _sprite;
+        [Tooltip("Icon shown in the on-screen buff bar while this shrine's effect is active.")]
+        [SerializeField] private Sprite _buffIcon;
         
         private BoosterEffect _effect;
         private GameHUD _hud;
@@ -57,18 +59,18 @@ namespace DwarfsCrypt.Presentation.Boosters
             _consumed = true;
             _hud.SetInteractVisible(false);
 
-            _effect.Apply(_playerCharacter.Attributes);
-            Debug.Log($"{_effect} " + "is applied");
-            StartCoroutine(RemoveEffectCoroutine(_playerCharacter));
+            // Apply the effect, then hand the timing to the BuffTracker so the UI can mirror it
+            // and the modifier is removed centrally when the timer runs out.
+            var effect = _effect;
+            CharacterAttributes attributes = _playerCharacter.Attributes;
+            effect.Apply(attributes);
+            Debug.Log($"{effect} " + "is applied");
+
+            BuffTracker.Instance.Add(
+                effect.Source, effect.DisplayName, _buffIcon, effect.Duration,
+                onExpire: () => effect.Remove(attributes));
 
             HideObject();
-        }
-
-        private IEnumerator RemoveEffectCoroutine(CharacterComponent character)
-        {
-            yield return new WaitForSeconds(_effect.Duration);
-            _effect.Remove(character.Attributes);
-            // Destroy(gameObject);
         }
 
         private void HideObject() //TODO fix, hide whole obj, make an additional obj that would be hided 

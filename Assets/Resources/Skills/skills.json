@@ -1,0 +1,28 @@
+{
+    "Skills": [
+        {
+            "Id": "wide_attack",
+            "Name": "Wide Attack",
+            "Effect": "MeleeArc",
+            "Icon": "Skills/wide_attack",
+            "Cooldown": 3,
+            "ManaCost": 10,
+            "DamageMultiplier": 1.0,
+            "Radius": 2.2,
+            "HalfAngle": 120,
+            "Duration": 0
+        },
+        {
+            "Id": "ground_smash",
+            "Name": "Ground Smash",
+            "Effect": "MeleeArc",
+            "Icon": "Skills/ground_smash",
+            "Cooldown": 3,
+            "ManaCost": 20,
+            "DamageMultiplier": 1.75,
+            "Radius": 3.0,
+            "HalfAngle": 180,
+            "Duration": 0
+        }
+    ]
+}

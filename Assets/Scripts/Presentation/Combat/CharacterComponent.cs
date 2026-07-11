@@ -10,7 +10,7 @@ namespace DwarfsCrypt.Presentation.Combat
     // CharacterFactory calls Initialize() before activation for spawner-driven units.
     public class CharacterComponent : MonoBehaviour, IDamageable
     {
-        [Tooltip("Path relative to StreamingAssets, no extension. E.g. Characters/dwarf_warrior")]
+        [Tooltip("Path relative to Resources, no extension. E.g. Characters/dwarf_warrior")]
         [SerializeField] private string _configPath;
 
         public Character Character { get; private set; }
@@ -22,7 +22,11 @@ namespace DwarfsCrypt.Presentation.Combat
 
         public event Action<float, float> OnDamaged;       // currentHp, maxHp
         public event Action<float, bool> OnDamageTaken;     // damageAmount, isCrit
+        public event Action<float, float> OnManaChanged;    // currentMana, maxMana
         public event Action OnDied;
+
+        public float CurrentMana => Character.CurrentMana;
+        public int MaxMana => Character.MaxMana;
 
         private void Awake()
         {
@@ -32,7 +36,7 @@ namespace DwarfsCrypt.Presentation.Combat
         }
 
         public void Initialize(string configPath) =>
-            Initialize(CharacterConfigLoader.LoadFromStreamingAssets(configPath));
+            Initialize(CharacterConfigLoader.LoadFromResources(configPath));
 
         public void Initialize(CharacterConfig config)
         {
@@ -40,16 +44,19 @@ namespace DwarfsCrypt.Presentation.Combat
             {
                 Character.OnDamaged -= PropagateOnDamaged;
                 Character.OnDamageTaken -= PropagateOnDamageTaken;
+                Character.OnManaChanged -= PropagateOnManaChanged;
                 Character.OnDied -= PropagateOnDied;
             }
             Character = new Character(config);
             Character.OnDamaged += PropagateOnDamaged;
             Character.OnDamageTaken += PropagateOnDamageTaken;
+            Character.OnManaChanged += PropagateOnManaChanged;
             Character.OnDied += PropagateOnDied;
         }
 
         private void PropagateOnDamaged(float hp, float max) => OnDamaged?.Invoke(hp, max);
         private void PropagateOnDamageTaken(float amount, bool isCrit) => OnDamageTaken?.Invoke(amount, isCrit);
+        private void PropagateOnManaChanged(float mana, float max) => OnManaChanged?.Invoke(mana, max);
         private void PropagateOnDied() => OnDied?.Invoke();
 
         public void TakeDamage(float damage, bool isCrit = false) => Character.TakeDamage(damage, isCrit);

@@ -1,0 +1,23 @@
+# ninja log v5
+1	3026	8039285734392844	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	7a68731252748f58
+103	614	8039285709781796	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	2b59f6f55d6cdd9a
+73	2631	8039285730424952	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	f021925d2e8f955e
+11	2606	8039285730198883	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	4a1e09c00b4ce6a
+3026	3118	8039285735301964	E:/UnityProjects/DwarfsCrypt/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4765f43q/obj/arm64-v8a/libgame.so	b975c79569f69603
+616	1180	8039285714525377	E:/UnityProjects/DwarfsCrypt/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4765f43q/obj/arm64-v8a/libswappywrapper.so	c7156772526331ed
+86	2830	8039285732433800	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	99f3828b60bc6ff0
+20	2497	8039285728891185	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	15b997bb5dde5912
+51	2506	8039285728921183	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	d4ed0ce7d5447d18
+61	2616	8039285730249150	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	238450c0e2350231
+30	2959	8039285733744579	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	8e20ff780401be7f
+71	297	8040986669406105	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	2b59f6f55d6cdd9a
+298	463	8040986670900434	E:/UnityProjects/DwarfsCrypt/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4765f43q/obj/arm64-v8a/libswappywrapper.so	c7156772526331ed
+13	1591	8040986682291655	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	d4ed0ce7d5447d18
+33	1597	8040986682361988	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	238450c0e2350231
+25	1609	8040986682472564	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	15b997bb5dde5912
+53	1669	8040986683078833	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	f021925d2e8f955e
+18	1679	8040986683169360	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	4a1e09c00b4ce6a
+62	1743	8040986683842077	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	99f3828b60bc6ff0
+45	1868	8040986685107199	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	8e20ff780401be7f
+6	1994	8040986686227769	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	7a68731252748f58
+1994	2087	8040986687284454	E:/UnityProjects/DwarfsCrypt/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4765f43q/obj/arm64-v8a/libgame.so	b975c79569f69603

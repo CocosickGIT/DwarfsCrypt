@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using DwarfsCrypt.Domain.Characters;
 using DwarfsCrypt.Presentation.Combat;
 using DwarfsCrypt.Presentation.Windows;
+using Core.Items;
 using Core.Player;
 using Core.Rewards;
 using Core.Scenes;
@@ -38,6 +39,10 @@ namespace DwarfsCrypt.Presentation.Player
         [Tooltip("Seconds to let the death animation play before the reward summary appears.")]
         [SerializeField] private float _deathScreenDelay = 1.5f;
 
+        [Header("Consumables")]
+        [Tooltip("Item id consumed by the HUD's health-potion button.")]
+        [SerializeField] private string _healthPotionItemId = "health_potion";
+
         [Header("Dash Phasing")]
         [Tooltip("Layers the player stops colliding with while dashing (e.g. Enemy + Environment). " +
                  "Do NOT include the Boundary layer, so the map walls still block a dashing player.")]
@@ -67,6 +72,26 @@ namespace DwarfsCrypt.Presentation.Player
         private Dictionary<PlayerState, int> _animationIndex = new();
         private int _facingSign = 0; // 0 = unset, 1 = right (-x scale), -1 = left (+x scale)
 
+        /// <summary>Fires whenever the player's HP changes (damage or heal). Args: currentHp, maxHp.
+        /// Used by the on-screen HP bar.</summary>
+        public event Action<float, float> HealthChanged;
+
+        /// <summary>Fires whenever the player's mana changes (spend or regen). Args: currentMana, maxMana.
+        /// Used by the on-screen mana bar.</summary>
+        public event Action<float, float> ManaChanged;
+
+        public float CurrentHp => _character != null ? _character.CurrentHp : 0f;
+        public int MaxHp => _character != null ? _character.MaxHp : 0;
+        public float CurrentMana => _character != null && _character.Character != null ? _character.CurrentMana : 0f;
+        public int MaxMana => _character != null && _character.Character != null ? _character.MaxMana : 0;
+        public bool IsDead => _isDead;
+
+        /// <summary>The direction the player is currently aiming attacks, matching the basic attack
+        /// (isometric-projected facing). Used by the SkillCaster to orient directional skills.</summary>
+        public Vector2 AimDirection => _useIsometric
+            ? ToIsometric(_lastMoveDirection).normalized
+            : _lastMoveDirection;
+
         /// <summary>Called by CharacterSpawner before Start to bind the HUD.</summary>
         public void SetHUD(GameHUD hud) => _hud = hud;
 
@@ -84,15 +109,25 @@ namespace DwarfsCrypt.Presentation.Player
         {
             if (_hud == null)
                 _hud = FindObjectsByType<GameHUD>(FindObjectsSortMode.None)[0];
+            
 
             _hud.OnDashPressed += RequestDash;
             _hud.OnAttackPressed += RequestAttack;
+            _hud.OnHealthPotionPressed += ConsumeHealthPotion;
 
             if (_character != null)
             {
-                _character.OnDamaged += OnCharacterDamaged;
+                _character.OnDamaged += OnCharacterHealthChanged; // HP bar (damage + heal)
+                _character.OnDamageTaken += OnCharacterDamageTaken; // damaged flinch (damage only)
+                _character.OnManaChanged += OnCharacterManaChanged; // mana bar (spend + regen)
                 _character.OnDied += HandleDied;
+
+                // Push initial HP/mana and potion count so the HUD shows correct values before the first hit.
+                HealthChanged?.Invoke(_character.CurrentHp, _character.MaxHp);
+                ManaChanged?.Invoke(_character.CurrentMana, _character.MaxMana);
             }
+
+            RefreshHealthPotionButton();
 
             InitSpum();
         }
@@ -109,11 +144,14 @@ namespace DwarfsCrypt.Presentation.Player
             {
                 _hud.OnDashPressed -= RequestDash;
                 _hud.OnAttackPressed -= RequestAttack;
+                _hud.OnHealthPotionPressed -= ConsumeHealthPotion;
             }
 
             if (_character != null)
             {
-                _character.OnDamaged -= OnCharacterDamaged;
+                _character.OnDamaged -= OnCharacterHealthChanged;
+                _character.OnDamageTaken -= OnCharacterDamageTaken;
+                _character.OnManaChanged -= OnCharacterManaChanged;
                 _character.OnDied -= HandleDied;
             }
         }
@@ -156,6 +194,10 @@ namespace DwarfsCrypt.Presentation.Player
         private void Update()
         {
             if (_isDead) return;
+
+            // Passive MEN-based mana regeneration (ManaRegen attribute, mana per second).
+            if (_character != null && _character.Character != null)
+                _character.Character.RegenerateMana(Time.deltaTime);
 
             if (_dashCooldownTimer > 0f)
                 _dashCooldownTimer -= Time.deltaTime;
@@ -280,10 +322,50 @@ namespace DwarfsCrypt.Presentation.Player
             _spum.PlayAnimation(state, index);
         }
 
-        private void OnCharacterDamaged(float _currentHp, float _maxHp)
+        /// <summary>Plays the attack swing animation. Used by the SkillCaster so melee skills
+        /// reuse the same visual as a basic attack.</summary>
+        public void PlayAttackAnimation() =>
+            PlayAnimation(PlayerState.ATTACK, _animationIndex[PlayerState.ATTACK]);
+
+        // HP changed for any reason (damage or heal) — forward to the HP bar.
+        private void OnCharacterManaChanged(float currentMana, float maxMana)
+        {
+            ManaChanged?.Invoke(currentMana, maxMana);
+        }
+
+        private void OnCharacterHealthChanged(float currentHp, float maxHp)
+        {
+            HealthChanged?.Invoke(currentHp, maxHp);
+        }
+
+        // Only play the flinch animation when damage is actually taken, not when healing.
+        private void OnCharacterDamageTaken(float _amount, bool _isCrit)
         {
             if (_isDead) return;
             PlayAnimation(PlayerState.DAMAGED);
+        }
+
+        private void ConsumeHealthPotion()
+        {
+            if (_isDead || _character == null) return;
+
+            // The service validates ownership / full-HP and persists the profile;
+            // Heal() raises OnDamaged, which refreshes the HP bar.
+            ConsumableService.TryConsume(PlayerProfileService.Current, _healthPotionItemId, _character.Character);
+
+            RefreshHealthPotionButton();
+        }
+
+        // Sync the HUD button's count label / interactable state with the profile inventory.
+        private void RefreshHealthPotionButton()
+        {
+            if (_hud == null) return;
+
+            int count = PlayerProfileService.Current != null
+                ? PlayerProfileService.Current.CountItem(_healthPotionItemId)
+                : 0;
+
+            _hud.SetHealthPotionCount(count);
         }
 
         private void HandleDied()
@@ -384,6 +466,8 @@ namespace DwarfsCrypt.Presentation.Player
             SetDashing(true);
             _dashTimer = _dashDuration;
             _dashCooldownTimer = _dashCooldown;
+
+            _hud?.StartDashCooldown(_dashCooldown);
         }
 
         // Toggles the dash state. While dashing, the collider excludes the phase layers

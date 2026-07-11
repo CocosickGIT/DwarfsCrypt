@@ -14,6 +14,7 @@ namespace DwarfsCrypt.Domain.Characters
         MaxHp,
         MaxStamina,
         MaxMana,
+        ManaRegen,
 
         // Offense
         PhysicalAttack,

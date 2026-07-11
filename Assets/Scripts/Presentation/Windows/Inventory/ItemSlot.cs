@@ -17,14 +17,6 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
         // Wired by InventoryGrid
         public Action<BaseSlot, ItemSlot> OnDropOnSlot;
 
-        // Called when slot is created from code (no prefab inspector refs)
-        public void Setup(Image background, Image icon, TextMeshProUGUI quantityText)
-        {
-            _background = background;
-            _icon = icon;
-            _quantityText = quantityText;
-        }
-
         public void Initialize(int index)
         {
             SlotIndex = index;

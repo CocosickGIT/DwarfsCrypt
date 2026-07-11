@@ -24,6 +24,8 @@ namespace DwarfsCrypt.Domain.Characters
 
         public RewardTable Rewards { get; protected set; }
 
+        public IReadOnlyList<BossAttackPattern> BossAttacks { get; protected set; }
+
         protected CharacterBase(CharacterConfig config)
         {
             ApplyConfig(config);
@@ -42,8 +44,9 @@ namespace DwarfsCrypt.Domain.Characters
             CurrentStamina = MaxStamina;
             CurrentMana    = MaxMana;
 
-            Equipment = config.Equipment ?? new List<string>();
-            Rewards   = config.Rewards ?? new RewardTable();
+            Equipment   = config.Equipment ?? new List<string>();
+            Rewards     = config.Rewards ?? new RewardTable();
+            BossAttacks = config.BossAttacks ?? new List<BossAttackPattern>();
         }
     }
 }

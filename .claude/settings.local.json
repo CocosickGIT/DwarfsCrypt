@@ -29,7 +29,11 @@
       "Bash(printf 'fileFormatVersion: 2\\\\nguid: b14717c3dc934bca86e2ddc07e0f599d\\\\nShaderImporter:\\\\n  externalObjects: {}\\\\n  defaultTextures: []\\\\n  nonModifiableTextures: []\\\\n  preprocessorOverride: 0\\\\n  userData: \\\\n  assetBundleName: \\\\n  assetBundleVariant: \\\\n')",
       "Bash(printf 'fileFormatVersion: 2\\\\nguid: 4f2e8b652a924e208bbda64e4eac5f3b\\\\nMonoImporter:\\\\n  externalObjects: {}\\\\n  serializedVersion: 2\\\\n  defaultReferences: []\\\\n  executionOrder: 0\\\\n  icon: {instanceID: 0}\\\\n  userData: \\\\n  assetBundleName: \\\\n  assetBundleVariant: \\\\n')",
       "Bash(grep -iv \"m_Name: $\")",
-      "Bash(grep -n \"m_Name: UI$\\\\|m_Name: Canvas\" Assets/Scenes/Town.unity)"
+      "Bash(grep -n \"m_Name: UI$\\\\|m_Name: Canvas\" Assets/Scenes/Town.unity)",
+      "Bash(set -e)",
+      "Bash(git mv *)",
+      "Bash(git rm *)",
+      "Bash(rmdir Assets/StreamingAssets/Items)"
     ]
   },
   "enableAllProjectMcpServers": true,

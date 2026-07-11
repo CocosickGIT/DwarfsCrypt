@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DwarfsCrypt.Domain.Items;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace DwarfsCrypt.Presentation.Windows.Inventory
 {
     public class InventoryGrid : MonoBehaviour
     {
+        [SerializeField] private ItemSlot _slotPrefab;
         [SerializeField] private int _baseSlots = 24;
         [SerializeField] private int _expandAmount = 6;
 
@@ -180,36 +179,8 @@ namespace DwarfsCrypt.Presentation.Windows.Inventory
 
         private ItemSlot BuildSlotObject(int index)
         {
-            var go = new GameObject($"Slot_{index}", typeof(RectTransform));
-            go.transform.SetParent(transform, false);
-
-            var bg = go.AddComponent<Image>();
-            bg.color = new Color(0.18f, 0.18f, 0.18f);
-
-            var iconGO = new GameObject("Icon", typeof(RectTransform));
-            iconGO.transform.SetParent(go.transform, false);
-            var iconRT = (RectTransform)iconGO.transform;
-            iconRT.anchorMin = new Vector2(0.05f, 0.05f);
-            iconRT.anchorMax = new Vector2(0.95f, 0.95f);
-            iconRT.offsetMin = iconRT.offsetMax = Vector2.zero;
-            var icon = iconGO.AddComponent<Image>();
-            icon.color = Color.clear;
-            icon.raycastTarget = false;
-
-            var textGO = new GameObject("Quantity", typeof(RectTransform));
-            textGO.transform.SetParent(go.transform, false);
-            var textRT = (RectTransform)textGO.transform;
-            textRT.anchorMin = Vector2.zero;
-            textRT.anchorMax = Vector2.one;
-            textRT.offsetMin = textRT.offsetMax = Vector2.zero;
-            var qty = textGO.AddComponent<TextMeshProUGUI>();
-            qty.fontSize = 11;
-            qty.color = Color.black;
-            qty.alignment = TextAlignmentOptions.BottomRight;
-            qty.raycastTarget = false;
-
-            var slot = go.AddComponent<ItemSlot>();
-            slot.Setup(bg, icon, qty);
+            var slot = Instantiate(_slotPrefab, transform, false);
+            slot.name = $"Slot_{index}";
             slot.Initialize(index);
             slot.OnDropOnSlot = HandleDrop;
             return slot;

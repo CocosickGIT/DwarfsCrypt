@@ -1,0 +1,66 @@
+{
+    "Name": "Skeleton King",
+    "Race": "Skeleton",
+    "Level": 5,
+    "Stats": {
+        "Str": 14,
+        "Dex": 6,
+        "Con": 16,
+        "Wit": 4,
+        "Men": 6,
+        "Luc": 3
+    },
+    "MaxHp": 900,
+    "MaxStamina": 100,
+    "MaxMana": 60,
+    "Equipment": [],
+    "Rewards": {
+        "Exp": 400,
+        "Gold": 200,
+        "Drops": [
+            { "ItemId": "health_potion", "Chance": 1.0, "MinQuantity": 2, "MaxQuantity": 3 },
+            { "ItemId": "iron_ingot", "Chance": 0.6, "MinQuantity": 1, "MaxQuantity": 2 },
+            { "ItemId": "epic_axe", "Chance": 0.15, "MinQuantity": 1, "MaxQuantity": 1 },
+            { "ItemId": "legendary_sword", "Chance": 0.03, "MinQuantity": 1, "MaxQuantity": 1 }
+        ]
+    },
+    "BossAttacks": [
+        {
+            "Id": "cleave",
+            "Windup": 0.8,
+            "Recovery": 0.4,
+            "Cooldown": 4,
+            "DamageMultiplier": 1.5,
+            "Radius": 2.4,
+            "HalfAngle": 70,
+            "MinRange": 0,
+            "MaxRange": 2.0,
+            "Weight": 3
+        },
+        {
+            "Id": "ground_slam",
+            "Windup": 1.2,
+            "Recovery": 0.8,
+            "Cooldown": 8,
+            "DamageMultiplier": 2.5,
+            "Radius": 3.2,
+            "HalfAngle": 180,
+            "MinRange": 0,
+            "MaxRange": 2.8,
+            "Weight": 1
+        },
+        {
+            "Id": "enrage_quake",
+            "Windup": 1.6,
+            "Recovery": 1.0,
+            "Cooldown": 12,
+            "DamageMultiplier": 3.5,
+            "Radius": 4.5,
+            "HalfAngle": 180,
+            "MinRange": 0,
+            "MaxRange": 4.0,
+            "Weight": 2,
+            "EnrageOnly": true
+        }
+    ]
+}

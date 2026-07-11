@@ -5,7 +5,7 @@ namespace Core.Quests
 {
     /// <summary>
     /// In-memory list of every quest definition, loaded once from
-    /// StreamingAssets/Quests/quests.json. Mirrors <c>BlueprintCatalog</c>.
+    /// Resources/Quests/quests.json. Mirrors <c>BlueprintCatalog</c>.
     /// </summary>
     public static class QuestCatalog
     {
@@ -30,7 +30,7 @@ namespace Core.Quests
             _all = new List<QuestDefinition>();
             _byId = new Dictionary<string, QuestDefinition>();
 
-            var collection = QuestConfigLoader.LoadFromStreamingAssets(QuestsPath);
+            var collection = QuestConfigLoader.LoadFromResources(QuestsPath);
             if (collection?.Quests == null) return;
 
             foreach (var quest in collection.Quests)

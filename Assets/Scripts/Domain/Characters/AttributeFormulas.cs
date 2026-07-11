@@ -8,6 +8,10 @@ namespace DwarfsCrypt.Domain.Characters
 {
     public class AttributeFormulas
     {
+        /// <summary>Physical Attack gained per point of Strength. Shared so runtime Strength buffs
+        /// can mirror the same factor into PhysicalAttack (the stat combat actually reads).</summary>
+        public const float PhysicalAttackPerStrength = 2f;
+
         private readonly Dictionary<AttributeType, Func<CharacterStats, float>> _formulas = new();
 
         public IReadOnlyDictionary<AttributeType, Func<CharacterStats, float>> All => _formulas;
@@ -31,6 +35,7 @@ namespace DwarfsCrypt.Domain.Characters
                 .Register(AttributeType.MaxHp,           s => baseMaxHp      + s.Con * 10f)
                 .Register(AttributeType.MaxStamina,      s => baseMaxStamina + s.Con * 5f)
                 .Register(AttributeType.MaxMana,         s => baseMaxMana    + s.Men * 5f)
+                .Register(AttributeType.ManaRegen,       s => 0.5f + s.Men * 0.2f) // mana per second
                 // Offense
                 .Register(AttributeType.PhysicalAttack,  CalcPhysicalAttack)
                 .Register(AttributeType.MagicAttack,     s => s.Wit * 2f)
@@ -47,7 +52,7 @@ namespace DwarfsCrypt.Domain.Characters
         // otherwise a crit deals the same damage as a regular hit. 150% base, +5% per Luck.
         private static float CalcCritDamage(CharacterStats s) => 1.5f + s.Luc * 0.05f;
         private static float CalcCritChance(CharacterStats s) => s.Luc;
-        private static float CalcPhysicalAttack(CharacterStats s) => s.Str * 2f;
+        private static float CalcPhysicalAttack(CharacterStats s) => s.Str * PhysicalAttackPerStrength;
 
         public static DamageResult RollPhysicalDamage(CharacterAttributes attrs)
         {

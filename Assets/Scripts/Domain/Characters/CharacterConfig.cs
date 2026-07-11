@@ -18,5 +18,8 @@ namespace DwarfsCrypt.Domain.Characters
 
         // Rewards granted when this character is killed. Authored for enemies; null/ignored for the player.
         public RewardTable Rewards;
+
+        // Telegraphed attack patterns. Authored for bosses; null/empty for everyone else.
+        public List<BossAttackPattern> BossAttacks;
     }
 }
