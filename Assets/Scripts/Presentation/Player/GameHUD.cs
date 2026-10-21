@@ -33,6 +33,11 @@ namespace DwarfsCrypt.Presentation.Player
 
         [Header("Menu")]
         [SerializeField] private Button _menuButton;
+
+        [Tooltip("Opens the world map. Hidden automatically while a run is active, so it only shows " +
+                 "in town — travelling mid-fight would abandon the run.")]
+        [SerializeField] private Button _mapButton;
+
         [Tooltip("Window service used to open the Menu window when the menu button is pressed.")]
         [SerializeField] private WindowService _windowService;
 
@@ -46,6 +51,7 @@ namespace DwarfsCrypt.Presentation.Player
         public event Action OnInteractPressed;
         public event Action OnHealthPotionPressed;
         public event Action OnMenuPressed;
+        public event Action OnMapPressed;
 
         private void Awake()
         {
@@ -60,6 +66,15 @@ namespace DwarfsCrypt.Presentation.Player
 
             if (_menuButton != null)
                 _menuButton.onClick.AddListener(OpenMenu);
+
+            if (_mapButton != null)
+            {
+                _mapButton.onClick.AddListener(OpenMap);
+
+                // The same HUD serves the town hub and the zone scenes; a run being active is what
+                // tells them apart (RunContext is cleared on return to town).
+                _mapButton.gameObject.SetActive(string.IsNullOrEmpty(Core.Towns.RunContext.SceneName));
+            }
         }
 
         public void SetInteractVisible(bool visible) =>
@@ -106,6 +121,16 @@ namespace DwarfsCrypt.Presentation.Player
         {
             var root = transform.parent != null ? transform.parent.gameObject : gameObject;
             root.SetActive(false);
+        }
+
+        private void OpenMap()
+        {
+            OnMapPressed?.Invoke();
+
+            if (_windowService != null)
+                _windowService.Open(WindowType.Map);
+            else
+                Debug.LogWarning("[GameHUD] Map button pressed but no WindowService is assigned.");
         }
 
         private void OpenMenu()

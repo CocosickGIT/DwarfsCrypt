@@ -1,43 +1,55 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
 namespace DwarfsCrypt.Presentation.Combat
 {
-    // A single floating combat-damage number that pops in, rises while fading out,
-    // then destroys itself. Created entirely at runtime by DamagePopupSpawner — no
-    // prefab or scene wiring required.
+    // A single floating combat-damage number that pops in, rises while fading out, then signals
+    // that it is finished so it can be reused. Instances are pooled by DamagePopupPool — building
+    // a TextMeshPro at runtime is expensive and destroying it churns the GC, so heavy combat reuses
+    // a handful of these instead of allocating one per hit.
     [RequireComponent(typeof(TextMeshPro))]
     public class DamagePopup : MonoBehaviour
     {
         private TextMeshPro _text;
+        private MeshRenderer _meshRenderer;
         private Color _baseColor;
         private float _lifetime;
         private float _riseSpeed;
         private Vector3 _drift;
+
+        /// <summary>Raised when the animation completes. The pool listens to reclaim this instance.</summary>
+        public event Action<DamagePopup> Finished;
+
+        private void Awake()
+        {
+            _text = GetComponent<TextMeshPro>();
+            _meshRenderer = GetComponent<MeshRenderer>();
+            _text.alignment = TextAlignmentOptions.Center;
+            _text.autoSizeTextContainer = true;
+            _text.fontStyle = FontStyles.Bold;
+        }
 
         public void Play(
             string label, Color color, float fontSize,
             float lifetime, float riseSpeed, float horizontalDrift,
             string sortingLayerName, int sortingOrder, TMP_FontAsset font)
         {
-            _text = GetComponent<TextMeshPro>();
-            if (font != null) _text.font = font;
+            if (font != null && _text.font != font) _text.font = font;
             _text.text = label;
             _text.color = color;
             _text.fontSize = fontSize;
-            _text.fontStyle = FontStyles.Bold;
-            _text.alignment = TextAlignmentOptions.Center;
-            _text.autoSizeTextContainer = true;
 
-            var meshRenderer = GetComponent<MeshRenderer>();
-            meshRenderer.sortingLayerName = sortingLayerName;
-            meshRenderer.sortingOrder = sortingOrder;
+            _meshRenderer.sortingLayerName = sortingLayerName;
+            _meshRenderer.sortingOrder = sortingOrder;
 
             _baseColor = color;
             _lifetime = Mathf.Max(0.01f, lifetime);
             _riseSpeed = riseSpeed;
             _drift = new Vector3(horizontalDrift, 0f, 0f);
+
+            transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 
             StartCoroutine(Animate());
         }
@@ -64,7 +76,7 @@ namespace DwarfsCrypt.Presentation.Combat
                 yield return null;
             }
 
-            Destroy(gameObject);
+            Finished?.Invoke(this);
         }
     }
 }

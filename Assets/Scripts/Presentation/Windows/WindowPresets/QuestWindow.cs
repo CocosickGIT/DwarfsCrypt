@@ -252,6 +252,10 @@ namespace DwarfsCrypt.Presentation.Windows
                 foreach (var d in def.Reward.Drops)
                     if (d != null && !string.IsNullOrEmpty(d.ItemId))
                         parts.Add(d.ItemId);
+            if (def.Reward.Blueprints != null)
+                foreach (var blueprintId in def.Reward.Blueprints)
+                    if (BlueprintCatalog.TryGet(blueprintId, out var bp))
+                        parts.Add($"{bp.Name} blueprint");
             return parts.Count > 0 ? "Reward: " + string.Join(", ", parts) : string.Empty;
         }
 

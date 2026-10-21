@@ -170,7 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DwarfsCrypt.Presentation.Save.SaveSelectMenu
   _slotButtonPrefab: {fileID: 7326653746279934550, guid: 621cf3540289f7445bb1fd95edb7f9d3, type: 3}
   _slotContainer: {fileID: 38542080}
-  _sceneToLoad: Town
+  _sceneToLoad:
 --- !u!114 &38542082
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -60,17 +60,13 @@ namespace DwarfsCrypt.Presentation.Combat
             float drift  = Random.Range(-_horizontalDrift, _horizontalDrift);
 
             Vector3 scatter  = new Vector3(Random.Range(-_spawnScatter, _spawnScatter), 0f, 0f);
-            // Spawn unparented and in world space so the character's facing-flip
+            // Spawn in world space (the pool root is unscaled) so the character's facing-flip
             // (negative localScale.x) never mirrors the text.
             Vector3 worldPos = transform.position + _spawnOffset + scatter;
 
-            var go = new GameObject("DamagePopup");
-            go.transform.position = worldPos;
-
-            go.AddComponent<TextMeshPro>();
-            var popup = go.AddComponent<DamagePopup>();
-            popup.Play(label, color, size, _lifetime, _riseSpeed, drift,
-                       _sortingLayerName, _sortingOrder, _font);
+            DamagePopupPool.Instance.Spawn(
+                worldPos, label, color, size, _lifetime, _riseSpeed, drift,
+                _sortingLayerName, _sortingOrder, _font);
         }
     }
 }

@@ -40,7 +40,6 @@ namespace DwarfsCrypt.Presentation.Enemy
 
         private bool _isEnraged;
         private bool _isEnraging;
-        private float _baseMoveSpeed;
         private float _baseAttackCooldown;
 
         private IReadOnlyList<BossAttackPattern> _patterns;
@@ -52,9 +51,9 @@ namespace DwarfsCrypt.Presentation.Enemy
         protected override void Awake()
         {
             base.Awake();
-            // Enrage buffs _moveSpeed/_attackCooldown; cache the authored values so a
-            // pooled boss comes back un-enraged with its original stats.
-            _baseMoveSpeed = _moveSpeed;
+            // Enrage buffs _attackCooldown; cache the authored value so a pooled boss comes back
+            // un-enraged with its original cooldown. (_moveSpeed is cached/reset by the base
+            // EnemyController, which owns _baseMoveSpeed.)
             _baseAttackCooldown = _attackCooldown;
         }
 
@@ -64,7 +63,7 @@ namespace DwarfsCrypt.Presentation.Enemy
             ActiveBosses.Add(this);
             _isEnraged = false;
             _isEnraging = false;
-            _moveSpeed = _baseMoveSpeed;
+            // base.OnEnable already restored _moveSpeed to its base value.
             _attackCooldown = _baseAttackCooldown;
             _queuedPattern = null;
 

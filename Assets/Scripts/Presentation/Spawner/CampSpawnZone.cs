@@ -39,12 +39,20 @@ namespace DwarfsCrypt.Presentation.Spawner
         // luck = player's final Luck attribute value (0 = no bonus, ~100 = strong rare bias).
         // Each slot rolls a weighted pick; luck power-compresses the weights so rarer entries
         // (lower Weight) become proportionally cheaper as luck rises.
-        public IEnumerable<(GameObject prefab, string configPath, Vector3 position)> GetSpawnData(float luck = 0f)
+        //
+        // roster overrides which enemies this camp draws from — it comes from the entered zone's
+        // MonsterTable, so one scene can host a different bestiary per town. Null keeps the camp on
+        // the Enemies authored on it. Either way Count, Radius and the placement are this zone's:
+        // the roster says what spawns, the scene says how many and where.
+        public IEnumerable<(GameObject prefab, string configPath, Vector3 position)> GetSpawnData(
+            float luck = 0f, List<CampEnemyEntry> roster = null)
         {
+            var source = roster ?? Enemies;
+
             var valid = new List<CampEnemyEntry>();
-            foreach (var entry in Enemies)
+            foreach (var entry in source)
             {
-                if (entry.Prefab == null || entry.Weight <= 0f) continue;
+                if (entry == null || entry.Prefab == null || entry.Weight <= 0f) continue;
                 valid.Add(entry);
             }
 

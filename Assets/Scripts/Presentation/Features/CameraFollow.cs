@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Presentation.Features
@@ -19,8 +20,11 @@ namespace Presentation.Features
         [SerializeField] private float _followSmoothTime = 0.25f;
         [SerializeField] private float _maxFollowSpeed = 20f;
 
+        [Header("Settings")] [SerializeField] private float _cameraViewSize = 7f;
         private Vector3 _followVelocity;
         private float _delayTimer;
+
+        private void Awake() => CameraSetUp();
 
         private void Start()
         {
@@ -76,6 +80,12 @@ namespace Presentation.Features
             if (_target == null) return;
             Vector2 pos = (Vector2)_target.position + _offset;
             transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+        }
+        
+        private void CameraSetUp()
+        {
+            var cameraComponent = GetComponent<Camera>();
+            cameraComponent.orthographicSize = _cameraViewSize;
         }
 
         private void OnDrawGizmos()

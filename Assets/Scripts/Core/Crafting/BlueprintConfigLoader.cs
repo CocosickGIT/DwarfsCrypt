@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using DwarfsCrypt.Domain.Crafting;
 using UnityEngine;
@@ -10,6 +11,9 @@ namespace Core.Crafting
     /// </summary>
     public static class BlueprintConfigLoader
     {
+        // Parsed configs are read-only lookups shared across callers, so cache per path instead of
+        // re-running Resources.Load + JsonUtility.FromJson (which allocates) on every call.
+        private static readonly Dictionary<string, BlueprintCollection> _resourceCache = new();
         public static BlueprintCollection LoadFromFile(string filePath)
         {
             if (!File.Exists(filePath))
@@ -27,11 +31,16 @@ namespace Core.Crafting
 
         public static BlueprintCollection LoadFromResources(string resourcePath)
         {
+            if (_resourceCache.TryGetValue(resourcePath, out var cached))
+                return cached;
+
             TextAsset asset = Resources.Load<TextAsset>(resourcePath);
             if (asset == null)
                 throw new InvalidOperationException($"Blueprints config not found in Resources: {resourcePath}");
 
-            return JsonUtility.FromJson<BlueprintCollection>(asset.text);
+            var parsed = JsonUtility.FromJson<BlueprintCollection>(asset.text);
+            _resourceCache[resourcePath] = parsed;
+            return parsed;
         }
     }
 }

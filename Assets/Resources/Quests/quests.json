@@ -13,7 +13,8 @@
                 "Gold": 25,
                 "Drops": [
                     { "ItemId": "health_potion", "Chance": 1.0, "MinQuantity": 2, "MaxQuantity": 2 }
-                ]
+                ],
+                "Blueprints": []
             }
         },
         {
@@ -29,13 +30,14 @@
                 "Gold": 60,
                 "Drops": [
                     { "ItemId": "iron_ore", "Chance": 1.0, "MinQuantity": 5, "MaxQuantity": 5 }
-                ]
+                ],
+                "Blueprints": [ "bp_reinforced_helm" ]
             }
         },
         {
             "Id": "q_apprentice_smith",
             "Name": "Apprentice Smith",
-            "Description": "Learn the forge: smelt iron ore into ingots.",
+            "Description": "Learn the forge: smelt iron ore into ingots. The smith will part with a sword blueprint for a steady hand.",
             "Category": "Normal",
             "Objectives": [
                 { "Type": "Craft", "TargetId": "bp_iron_ingot", "Amount": 3 }
@@ -43,7 +45,42 @@
             "Reward": {
                 "Exp": 40,
                 "Gold": 20,
-                "Drops": []
+                "Drops": [
+                    { "ItemId": "tough_hide", "Chance": 1.0, "MinQuantity": 2, "MaxQuantity": 2 }
+                ],
+                "Blueprints": [ "bp_iron_sword" ]
+            }
+        },
+        {
+            "Id": "q_silversmith",
+            "Name": "Silversmith",
+            "Description": "Smelt silver at the forge until the alloy behaves. Fine work earns fine blueprints.",
+            "Category": "Normal",
+            "Objectives": [
+                { "Type": "Craft", "TargetId": "bp_silver_ingot", "Amount": 5 }
+            ],
+            "Reward": {
+                "Exp": 150,
+                "Gold": 80,
+                "Drops": [],
+                "Blueprints": [ "bp_silver_ring" ]
+            }
+        },
+        {
+            "Id": "q_deep_seams",
+            "Name": "The Deep Seams",
+            "Description": "Clear the lower galleries so the miners can reach the steel-grade seams.",
+            "Category": "Normal",
+            "Objectives": [
+                { "Type": "Kill", "TargetId": "", "Amount": 30 }
+            ],
+            "Reward": {
+                "Exp": 250,
+                "Gold": 120,
+                "Drops": [
+                    { "ItemId": "coal", "Chance": 1.0, "MinQuantity": 5, "MaxQuantity": 8 }
+                ],
+                "Blueprints": [ "bp_steel_greaves", "bp_vitality_amulet" ]
             }
         },
         {
@@ -57,7 +94,10 @@
             "Reward": {
                 "Exp": 80,
                 "Gold": 50,
-                "Drops": []
+                "Drops": [
+                    { "ItemId": "coal", "Chance": 0.5, "MinQuantity": 1, "MaxQuantity": 3 }
+                ],
+                "Blueprints": []
             }
         },
         {
@@ -74,7 +114,8 @@
                 "Gold": 200,
                 "Drops": [
                     { "ItemId": "silver_ring", "Chance": 1.0, "MinQuantity": 1, "MaxQuantity": 1 }
-                ]
+                ],
+                "Blueprints": [ "bp_steel_sword" ]
             }
         }
     ]

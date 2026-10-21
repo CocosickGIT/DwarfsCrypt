@@ -22,7 +22,8 @@
             { "ItemId": "iron_ingot", "Chance": 0.6, "MinQuantity": 1, "MaxQuantity": 2 },
             { "ItemId": "epic_axe", "Chance": 0.15, "MinQuantity": 1, "MaxQuantity": 1 },
             { "ItemId": "legendary_sword", "Chance": 0.03, "MinQuantity": 1, "MaxQuantity": 1 }
-        ]
+        ],
+        "Blueprints": [ "bp_warlords_axe" ]
     },
     "BossAttacks": [
         {

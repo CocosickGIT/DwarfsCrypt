@@ -20,22 +20,37 @@ namespace DwarfsCrypt.Presentation.Player
 
         private PlayerController _player;
 
-        private void OnDisable() => Unbind();
-
-        private void Update()
+        // Bind via PlayerController's spawn/despawn events instead of scanning the scene every frame.
+        private void OnEnable()
         {
-            // The player is spawned at runtime; keep trying until found, and rebind if it despawns.
-            if (_player == null)
-                TryBind();
+            PlayerController.Spawned += Bind;
+            PlayerController.Despawned += HandleDespawned;
+
+            // The player may already exist (bar enabled after spawn) — bind to it now.
+            if (PlayerController.Current != null)
+                Bind(PlayerController.Current);
         }
 
-        private void TryBind()
+        private void OnDisable()
         {
-            _player = FindFirstObjectByType<PlayerController>();
-            if (_player == null) return;
+            PlayerController.Spawned -= Bind;
+            PlayerController.Despawned -= HandleDespawned;
+            Unbind();
+        }
 
+        private void Bind(PlayerController player)
+        {
+            if (player == null || _player == player) return;
+            Unbind();
+
+            _player = player;
             _player.ManaChanged += OnManaChanged;
             OnManaChanged(_player.CurrentMana, _player.MaxMana);
+        }
+
+        private void HandleDespawned(PlayerController player)
+        {
+            if (_player == player) Unbind();
         }
 
         private void Unbind()

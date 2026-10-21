@@ -30,6 +30,11 @@ namespace Presentation.Features
         [Tooltip("If the object never moves, sort once on Awake instead of every frame.")]
         [SerializeField] private bool isStatic = false;
 
+        // Last order actually written, so we only touch the renderer when it changes. Writing
+        // sortingOrder dirties the renderer, so skipping unchanged writes matters for objects that
+        // are technically dynamic but momentarily still.
+        private int _lastOrder = int.MinValue;
+
         private void Awake()
         {
             if (sr == null) sr = GetComponent<SpriteRenderer>();
@@ -39,18 +44,27 @@ namespace Presentation.Features
 
         private void Start()
         {
-            if (isStatic) Sort();
+            if (isStatic)
+            {
+                // Sort once, then disable so Unity stops invoking LateUpdate on this component
+                // entirely — a scene full of static scenery otherwise pays per-frame call overhead
+                // for objects that never move.
+                Sort();
+                enabled = false;
+            }
         }
 
         private void LateUpdate()
         {
-            if (!isStatic) Sort();
+            Sort();
         }
 
         private void Sort()
         {
             int order = Mathf.RoundToInt(-sortPoint.position.y * multiplier) + offset;
+            if (order == _lastOrder) return;
 
+            _lastOrder = order;
             if (sg != null)
                 sg.sortingOrder = order;
             else if (sr != null)

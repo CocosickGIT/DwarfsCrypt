@@ -22,6 +22,13 @@
     ],
     "Inventory": [
         { "ItemId": "health_potion", "Quantity": 3 },
-        { "ItemId": "iron_ore", "Quantity": 10 }
-    ]
+        { "ItemId": "iron_ore", "Quantity": 10 },
+        { "ItemId": "coal", "Quantity": 4 },
+        { "ItemId": "tough_hide", "Quantity": 2 }
+    ],
+    "CraftingMastery": 1,
+    "CraftingExp": 0,
+    "KnownBlueprints": [],
+    "ClearedZones": [],
+    "CurrentTownId": ""
 }

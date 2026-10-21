@@ -3,13 +3,133 @@
         {
             "Id": "town_ironhold",
             "Name": "Ironhold",
+            "Scene": "1_Town",
+            "EnvironmentPrefab": "Towns/Environments/Ironhold",
             "LevelBand": { "Min": 1, "Max": 15 },
+            "MapPosition": { "X": 0.28, "Y": 0.32 },
+            "UnlockedBy": "",
+            "Zones": [
+                {
+                    "Id": "forest_edge",
+                    "Scene": "1_1_Forest",
+                    "Name": "Forest Edge",
+                    "MinLevel": 1,
+                    "AfkEnemyConfigPath": "Characters/example_enemy",
+                    "MonsterTable": [
+                        { "MonsterId": "skeleton_small", "Weight": 0.8 },
+                        { "MonsterId": "skeleton_medium", "Weight": 0.2 }
+                    ]
+                },
+                {
+                    "Id": "deep_forest",
+                    "Scene": "1_2_Forest1",
+                    "Name": "Deep Forest",
+                    "MinLevel": 5,
+                    "AfkEnemyConfigPath": "Characters/example_enemy",
+                    "MonsterTable": [
+                        { "MonsterId": "skeleton_small", "Weight": 0.5 },
+                        { "MonsterId": "skeleton_medium", "Weight": 0.4 },
+                        { "MonsterId": "skeleton_large", "Weight": 0.1 }
+                    ]
+                }
+            ],
             "Modifiers": [
                 { "Type": "SmithingBonus", "Value": 0.15 },
                 { "Type": "TradeDiscount", "Value": 0.05 },
                 { "Type": "XpGain", "Value": 0.10 },
                 { "Type": "HealingRate", "Value": 0.20 },
-                { "Type": "RecruitCostReduction", "Value": 0.08 }
+                { "Type": "RecruitCostReduction", "Value": 0.08 },
+
+                { "Type": "enemy_hp_mult", "Value": 1.15 },
+                { "Type": "enemy_damage_mult", "Value": 1.10 },
+                { "Type": "enemy_speed_mult", "Value": 1.05 }
+            ]
+        },
+        {
+            "Id": "town_frostmere",
+            "Name": "Frostmere",
+            "Scene": "1_Town",
+            "EnvironmentPrefab": "Towns/Environments/Ironhold",
+            "LevelBand": { "Min": 16, "Max": 30 },
+            "MapPosition": { "X": 0.66, "Y": 0.68 },
+            "UnlockedBy": "town_ironhold",
+            "Zones": [
+                {
+                    "Id": "frozen_pass",
+                    "Scene": "1_1_Forest",
+                    "Name": "Frozen Pass",
+                    "MinLevel": 16,
+                    "AfkEnemyConfigPath": "Characters/example_enemy",
+                    "MonsterTable": [
+                        { "MonsterId": "skeleton_small", "Weight": 0.3 },
+                        { "MonsterId": "skeleton_medium", "Weight": 0.6 },
+                        { "MonsterId": "skeleton_large", "Weight": 0.1 }
+                    ]
+                },
+                {
+                    "Id": "glacier_hollow",
+                    "Scene": "1_2_Forest1",
+                    "Name": "Glacier Hollow",
+                    "MinLevel": 22,
+                    "AfkEnemyConfigPath": "Characters/example_enemy",
+                    "MonsterTable": [
+                        { "MonsterId": "skeleton_medium", "Weight": 0.6 },
+                        { "MonsterId": "skeleton_large", "Weight": 0.4 }
+                    ]
+                }
+            ],
+            "Modifiers": [
+                { "Type": "SmithingBonus", "Value": 0.05 },
+                { "Type": "XpGain", "Value": 0.25 },
+                { "Type": "HealingRate", "Value": 0.10 },
+
+                { "Type": "enemy_hp_mult", "Value": 1.60 },
+                { "Type": "enemy_damage_mult", "Value": 1.45 },
+                { "Type": "enemy_speed_mult", "Value": 1.15 }
+            ]
+        },
+        {
+            "Id": "town_emberdeep",
+            "Name": "Emberdeep",
+            "Scene": "1_Town",
+            "EnvironmentPrefab": "Towns/Environments/Ironhold",
+            "LevelBand": { "Min": 31, "Max": 45 },
+            "MapPosition": { "X": 0.62, "Y": 0.28 },
+            "UnlockedBy": "town_frostmere",
+            "Zones": [
+                {
+                    "Id": "cinder_tunnels",
+                    "Scene": "1_1_Forest",
+                    "Name": "Cinder Tunnels",
+                    "MinLevel": 31,
+                    "AfkEnemyConfigPath": "Characters/example_enemy",
+                    "MonsterTable": [
+                        { "MonsterId": "skeleton_medium", "Weight": 0.4 },
+                        { "MonsterId": "skeleton_large", "Weight": 0.6 }
+                    ]
+                },
+                {
+                    "Id": "magma_vault",
+                    "Scene": "1_2_Forest1",
+                    "Name": "Magma Vault",
+                    "MinLevel": 38,
+                    "AfkEnemyConfigPath": "Characters/example_enemy",
+                    "MonsterTable": [
+                        { "MonsterId": "skeleton_large", "Weight": 0.8 },
+                        { "MonsterId": "skeleton_king", "ConfigPath": "Characters/boss_skeleton_king", "Weight": 0.2 }
+                    ]
+                }
+            ],
+            "Modifiers": [
+                { "Type": "SmithingBonus", "Value": 0.40 },
+                { "Type": "TradeDiscount", "Value": 0.02 },
+                { "Type": "XpGain", "Value": 0.15 },
+                { "Type": "HealingRate", "Value": 0.05 },
+                { "Type": "RecruitCostReduction", "Value": 0.12 },
+
+                { "Type": "enemy_hp_mult", "Value": 2.10 },
+                { "Type": "enemy_damage_mult", "Value": 1.85 },
+                { "Type": "enemy_speed_mult", "Value": 1.25 }
             ]
         }
     ]

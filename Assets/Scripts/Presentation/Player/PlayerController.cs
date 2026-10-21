@@ -72,6 +72,20 @@ namespace DwarfsCrypt.Presentation.Player
         private Dictionary<PlayerState, int> _animationIndex = new();
         private int _facingSign = 0; // 0 = unset, 1 = right (-x scale), -1 = left (+x scale)
 
+        // Tracks the last state pushed to SPUM so a looping state (IDLE/MOVE) isn't re-sent every
+        // frame — SPUM.PlayAnimation allocates strings and does dictionary work on each call.
+        private PlayerState _lastPlayedState;
+        private bool _hasPlayed;
+
+        /// <summary>The player spawned in the current scene, or null if none is alive. Lets UI (HP/mana
+        /// bars) bind directly instead of scanning the scene with FindObjectByType every frame.</summary>
+        public static PlayerController Current { get; private set; }
+
+        /// <summary>Raised when a player is spawned (in Awake) and despawned (in OnDestroy), so UI can
+        /// bind/unbind without polling. <see cref="Current"/> is set before <see cref="Spawned"/> fires.</summary>
+        public static event Action<PlayerController> Spawned;
+        public static event Action<PlayerController> Despawned;
+
         /// <summary>Fires whenever the player's HP changes (damage or heal). Args: currentHp, maxHp.
         /// Used by the on-screen HP bar.</summary>
         public event Action<float, float> HealthChanged;
@@ -103,6 +117,9 @@ namespace DwarfsCrypt.Presentation.Player
             _input = new PlayerInputActions();
             _input.Dash.performed += OnDashPerformed;
             _input.Enable();
+
+            Current = this;
+            Spawned?.Invoke(this);
         }
 
         private void Start()
@@ -134,6 +151,12 @@ namespace DwarfsCrypt.Presentation.Player
 
         private void OnDestroy()
         {
+            if (Current == this)
+            {
+                Current = null;
+                Despawned?.Invoke(this);
+            }
+
             if (_input != null)
             {
                 _input.Dash.performed -= OnDashPerformed;
@@ -185,7 +208,7 @@ namespace DwarfsCrypt.Presentation.Player
             // position reset (snap to 0,0) that the rebind causes.
             foreach (PlayerState state in Enum.GetValues(typeof(PlayerState)))
             {
-                string key = state.ToString();
+                string key = SpumStateNames.Name(state);
                 if (_spum.StateAnimationPairs.TryGetValue(key, out var list) && list.Count > 0)
                     _spum.OverrideController[key] = list[0];
             }
@@ -310,16 +333,24 @@ namespace DwarfsCrypt.Presentation.Player
         private void PlayStateAnimation(PlayerState state)
         {
             if (_spum == null) return;
+            if (_hasPlayed && _lastPlayedState == state) return;
+
             _currentState = state;
             _spum.PlayAnimation(_currentState, _animationIndex[_currentState]);
+            _lastPlayedState = state;
+            _hasPlayed = true;
         }
 
         // Call externally to trigger one-shot states (ATTACK, DAMAGED, DEATH, etc.)
+        // Always re-plays so repeated triggers restart the clip; records the played state so the
+        // next looping call sees a mismatch and re-triggers IDLE/MOVE afterwards.
         public void PlayAnimation(PlayerState state, int index = 0)
         {
             if (_spum == null) return;
             _animationIndex[state] = index;
             _spum.PlayAnimation(state, index);
+            _lastPlayedState = state;
+            _hasPlayed = true;
         }
 
         /// <summary>Plays the attack swing animation. Used by the SkillCaster so melee skills
@@ -417,8 +448,11 @@ namespace DwarfsCrypt.Presentation.Player
             if (rewardWindow != null)
                 rewardWindow.Closed -= OnDeathRewardClosed;
 
+            // Resolve which town to return to (the one this run started from) before clearing.
+            string townScene = Core.Towns.RunContext.ResolveTownScene();
             RunRewards.Reset();
-            SceneLoader.Load(SceneNames.Town);
+            Core.Towns.RunContext.Clear();
+            SceneLoader.Load(townScene);
         }
 
         private RewardWindow GetRewardWindow()

@@ -3,19 +3,153 @@
         {
             "Id": "bp_iron_ingot",
             "Name": "Iron Ingot",
+            "Station": "Forge",
             "ResultItemId": "iron_ingot",
             "ResultQuantity": 1,
+            "RequiresLearning": false,
+            "RequiredMastery": 1,
+            "MasteryExp": 5,
             "Ingredients": [
                 { "ItemId": "iron_ore", "Quantity": 2 }
             ]
         },
         {
+            "Id": "bp_leather_strip",
+            "Name": "Leather Strips",
+            "Station": "Forge",
+            "ResultItemId": "leather_strip",
+            "ResultQuantity": 3,
+            "RequiresLearning": false,
+            "RequiredMastery": 1,
+            "MasteryExp": 4,
+            "Ingredients": [
+                { "ItemId": "tough_hide", "Quantity": 1 }
+            ]
+        },
+        {
+            "Id": "bp_silver_ingot",
+            "Name": "Silver Ingot",
+            "Station": "Forge",
+            "ResultItemId": "silver_ingot",
+            "ResultQuantity": 1,
+            "RequiresLearning": false,
+            "RequiredMastery": 2,
+            "MasteryExp": 8,
+            "Ingredients": [
+                { "ItemId": "silver_ore", "Quantity": 2 }
+            ]
+        },
+        {
+            "Id": "bp_steel_ingot",
+            "Name": "Steel Ingot",
+            "Station": "Forge",
+            "ResultItemId": "steel_ingot",
+            "ResultQuantity": 1,
+            "RequiresLearning": false,
+            "RequiredMastery": 3,
+            "MasteryExp": 14,
+            "Ingredients": [
+                { "ItemId": "iron_ingot", "Quantity": 2 },
+                { "ItemId": "coal", "Quantity": 1 }
+            ]
+        },
+
+        {
             "Id": "bp_iron_sword",
             "Name": "Iron Sword",
+            "Station": "Workshop",
             "ResultItemId": "iron_sword",
             "ResultQuantity": 1,
+            "RequiresLearning": true,
+            "RequiredMastery": 1,
+            "MasteryExp": 20,
             "Ingredients": [
-                { "ItemId": "iron_ingot", "Quantity": 3 }
+                { "ItemId": "iron_ingot", "Quantity": 3 },
+                { "ItemId": "leather_strip", "Quantity": 1 }
+            ]
+        },
+        {
+            "Id": "bp_reinforced_helm",
+            "Name": "Reinforced Helm",
+            "Station": "Workshop",
+            "ResultItemId": "iron_helmet",
+            "ResultQuantity": 1,
+            "RequiresLearning": true,
+            "RequiredMastery": 2,
+            "MasteryExp": 25,
+            "Ingredients": [
+                { "ItemId": "iron_ingot", "Quantity": 3 },
+                { "ItemId": "leather_strip", "Quantity": 2 }
+            ]
+        },
+        {
+            "Id": "bp_silver_ring",
+            "Name": "Silver Ring",
+            "Station": "Workshop",
+            "ResultItemId": "silver_ring",
+            "ResultQuantity": 1,
+            "RequiresLearning": true,
+            "RequiredMastery": 3,
+            "MasteryExp": 30,
+            "Ingredients": [
+                { "ItemId": "silver_ingot", "Quantity": 2 }
+            ]
+        },
+        {
+            "Id": "bp_steel_sword",
+            "Name": "Steel Sword",
+            "Station": "Workshop",
+            "ResultItemId": "steel_sword",
+            "ResultQuantity": 1,
+            "RequiresLearning": true,
+            "RequiredMastery": 4,
+            "MasteryExp": 45,
+            "Ingredients": [
+                { "ItemId": "steel_ingot", "Quantity": 4 },
+                { "ItemId": "leather_strip", "Quantity": 2 }
+            ]
+        },
+        {
+            "Id": "bp_steel_greaves",
+            "Name": "Steel Greaves",
+            "Station": "Workshop",
+            "ResultItemId": "steel_legs",
+            "ResultQuantity": 1,
+            "RequiresLearning": true,
+            "RequiredMastery": 5,
+            "MasteryExp": 50,
+            "Ingredients": [
+                { "ItemId": "steel_ingot", "Quantity": 3 },
+                { "ItemId": "leather_strip", "Quantity": 3 }
+            ]
+        },
+        {
+            "Id": "bp_vitality_amulet",
+            "Name": "Amulet of Vitality",
+            "Station": "Workshop",
+            "ResultItemId": "amulet_of_vitality",
+            "ResultQuantity": 1,
+            "RequiresLearning": true,
+            "RequiredMastery": 6,
+            "MasteryExp": 60,
+            "Ingredients": [
+                { "ItemId": "silver_ingot", "Quantity": 2 },
+                { "ItemId": "steel_ingot", "Quantity": 1 }
+            ]
+        },
+        {
+            "Id": "bp_warlords_axe",
+            "Name": "Axe of Legends",
+            "Station": "Workshop",
+            "ResultItemId": "epic_axe",
+            "ResultQuantity": 1,
+            "RequiresLearning": true,
+            "RequiredMastery": 8,
+            "MasteryExp": 100,
+            "Ingredients": [
+                { "ItemId": "steel_ingot", "Quantity": 6 },
+                { "ItemId": "silver_ingot", "Quantity": 2 },
+                { "ItemId": "leather_strip", "Quantity": 4 }
             ]
         }
     ]

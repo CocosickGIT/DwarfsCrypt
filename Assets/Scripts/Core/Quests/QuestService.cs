@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core.Player;
 using Core.Rewards;
 using Core.Statistics;
+using Core.Towns;
 using DwarfsCrypt.Domain.Player;
 using DwarfsCrypt.Domain.Quests;
 
@@ -21,7 +22,14 @@ namespace Core.Quests
     {
         // --- Queries ---
 
-        /// <summary>Quests the giver can offer right now: not currently active, and off cooldown.</summary>
+        /// <summary>
+        /// Quests this town's giver can offer right now: not currently active, off cooldown, and
+        /// offered here (untagged quests are offered everywhere — see <see cref="TownAvailability"/>).
+        ///
+        /// The town scope stops at the offer. <see cref="GetActive"/>, <see cref="Evaluate"/> and
+        /// claiming stay town-blind on purpose: a quest accepted in one town must keep counting after
+        /// the player travels, or its statistic baseline would read as lost progress.
+        /// </summary>
         public static List<QuestDefinition> GetAvailable()
         {
             PlayerProfileService.EnsureLoaded();
@@ -31,6 +39,7 @@ namespace Core.Quests
             foreach (var def in QuestCatalog.All)
             {
                 if (def == null) continue;
+                if (!TownAvailability.IsOfferedHere(def.Towns)) continue;
                 if (IsAvailable(profile, def))
                     available.Add(def);
             }

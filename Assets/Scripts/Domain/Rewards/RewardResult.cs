@@ -13,6 +13,9 @@ namespace DwarfsCrypt.Domain.Rewards
         public int Gold;
         public List<ItemStack> Items = new List<ItemStack>();
 
+        /// <summary>Blueprint ids this payout newly taught the player (already-known ones are dropped).</summary>
+        public List<string> LearnedBlueprints = new List<string>();
+
         /// <summary>Fold another result into this one (used to accumulate a run total).</summary>
         public void Add(RewardResult other)
         {
@@ -23,6 +26,10 @@ namespace DwarfsCrypt.Domain.Rewards
 
             foreach (var stack in other.Items)
                 AddItem(stack.ItemId, stack.Quantity);
+
+            foreach (var blueprintId in other.LearnedBlueprints)
+                if (!LearnedBlueprints.Contains(blueprintId))
+                    LearnedBlueprints.Add(blueprintId);
         }
 
         public void AddItem(string itemId, int quantity)
