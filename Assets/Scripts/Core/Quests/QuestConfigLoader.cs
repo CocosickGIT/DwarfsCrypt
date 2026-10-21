@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using DwarfsCrypt.Domain.Quests;
 using UnityEngine;
@@ -10,6 +11,9 @@ namespace Core.Quests
     /// </summary>
     public static class QuestConfigLoader
     {
+        // Parsed configs are read-only lookups shared across callers, so cache per path instead of
+        // re-running Resources.Load + JsonUtility.FromJson (which allocates) on every call.
+        private static readonly Dictionary<string, QuestCollection> _resourceCache = new();
         public static QuestCollection LoadFromFile(string filePath)
         {
             if (!File.Exists(filePath))
@@ -27,11 +31,16 @@ namespace Core.Quests
 
         public static QuestCollection LoadFromResources(string resourcePath)
         {
+            if (_resourceCache.TryGetValue(resourcePath, out var cached))
+                return cached;
+
             TextAsset asset = Resources.Load<TextAsset>(resourcePath);
             if (asset == null)
                 throw new InvalidOperationException($"Quests config not found in Resources: {resourcePath}");
 
-            return JsonUtility.FromJson<QuestCollection>(asset.text);
+            var parsed = JsonUtility.FromJson<QuestCollection>(asset.text);
+            _resourceCache[resourcePath] = parsed;
+            return parsed;
         }
     }
 }

@@ -20,6 +20,9 @@
         "Drops": [
             { "ItemId": "health_potion", "Chance": 0.5, "MinQuantity": 1, "MaxQuantity": 2 },
             { "ItemId": "iron_ore", "Chance": 0.3, "MinQuantity": 1, "MaxQuantity": 3 },
+            { "ItemId": "coal", "Chance": 0.25, "MinQuantity": 1, "MaxQuantity": 2 },
+            { "ItemId": "tough_hide", "Chance": 0.2, "MinQuantity": 1, "MaxQuantity": 2 },
+            { "ItemId": "silver_ore", "Chance": 0.12, "MinQuantity": 1, "MaxQuantity": 2 },
             { "ItemId": "silver_ring", "Chance": 0.05, "MinQuantity": 1, "MaxQuantity": 1 }
         ]
     }

@@ -1,9 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Core.Player;
 using DwarfsCrypt.Domain.Characters;
 using DwarfsCrypt.Presentation.Combat;
+using DwarfsCrypt.Presentation.Enemy;
 using DwarfsCrypt.Presentation.Player;
+using DwarfsCrypt.Presentation.Towns;
 using Presentation.Features;
 using UnityEngine;
 
@@ -21,8 +24,28 @@ namespace DwarfsCrypt.Presentation.Spawner
         [Header("Camp Zones")]
         [SerializeField] private List<CampSpawnZone> _campZones = new();
 
+        [Tooltip("Resolves the monster ids in the entered zone's roster (towns.json) to prefabs. " +
+                 "Found in the scene when left empty. Without one the camps spawn whatever they were " +
+                 "authored with, so a scene with no registry still works.")]
+        [SerializeField] private MonsterRegistry _monsterRegistry;
+
+        [Tooltip("Enemies instantiated per frame at scene start. Spawning every enemy in one frame " +
+                 "causes a launch hitch (Instantiate + animation-clip loading); spreading them over " +
+                 "frames smooths it. Higher = faster full spawn but a bigger spike. Set very high to " +
+                 "spawn all at once.")]
+        [SerializeField, Min(1)] private int _enemiesPerFrame = 3;
+
         public GameObject Player { get; private set; }
         public IReadOnlyList<GameObject> SpawnedEnemies => _spawnedEnemies;
+
+        /// <summary>True once every camp zone has finished spawning. Enemies are instantiated over
+        /// several frames, so anything watching for "the scene is empty" (e.g. ZoneClearTracker)
+        /// must wait for this before treating an empty enemy list as a clear.</summary>
+        public bool SpawnComplete { get; private set; }
+
+        /// <summary>Total enemies instantiated this scene, including ones already killed and pooled.
+        /// Zero after <see cref="SpawnComplete"/> means the scene has no enemies at all.</summary>
+        public int TotalEnemiesSpawned { get; private set; }
 
         private CharacterFactory _factory;
         private readonly List<GameObject> _spawnedEnemies = new();
@@ -32,6 +55,9 @@ namespace DwarfsCrypt.Presentation.Spawner
         private void Awake()
         {
             _factory = GetComponent<CharacterFactory>();
+
+            if (_monsterRegistry == null)
+                _monsterRegistry = FindAnyObjectByType<MonsterRegistry>();
         }
 
         private void Start()
@@ -42,7 +68,7 @@ namespace DwarfsCrypt.Presentation.Spawner
         private void SpawnAll()
         {
             SpawnPlayer();
-            SpawnEnemies();
+            StartCoroutine(SpawnEnemiesRoutine());
         }
 
         private void SpawnPlayer()
@@ -63,28 +89,70 @@ namespace DwarfsCrypt.Presentation.Spawner
                 Player.GetComponent<PlayerController>()?.SetHUD(_gameHUD);
         }
 
-        public void SpawnEnemies()
+        /// <summary>
+        /// Put the already-spawned player back on the spawn point. Used when a town is swapped in
+        /// place (see <see cref="Towns.TownBuilder.Rebuild"/>): with no scene reload nothing else
+        /// re-places the player, so they would arrive standing wherever the previous town's layout
+        /// left them.
+        /// </summary>
+        public void MovePlayerToSpawn()
+        {
+            if (Player == null || _playerConfig == null) return;
+            Player.transform.position = FirstPosition(_playerConfig);
+        }
+
+        /// <summary>Spawns all camp-zone enemies, spread across frames to avoid a scene-load spike.</summary>
+        public void SpawnEnemies() => StartCoroutine(SpawnEnemiesRoutine());
+
+        private IEnumerator SpawnEnemiesRoutine()
         {
             float luck = Player != null
                 ? Player.GetComponent<CharacterComponent>()?.Character?.Attributes.GetFinal(AttributeType.Luck) ?? 0f
                 : 0f;
 
+            SpawnComplete = false;
+
+            // The entered zone's roster, resolved once for the whole scene. Null when the zone
+            // authors none (or nothing in it resolved), which leaves every camp on its own enemies.
+            var roster = _monsterRegistry != null ? _monsterRegistry.BuildEntriesForCurrentRun() : null;
+
+            int sinceYield = 0;
             foreach (var zone in _campZones)
             {
                 if (zone == null) continue;
 
-                foreach (var (prefab, configPath, position) in zone.GetSpawnData(luck))
+                foreach (var (prefab, configPath, position) in zone.GetSpawnData(luck, roster))
                 {
-                    var enemy = _factory.Spawn(prefab, configPath, position, zone.transform);
-                    _spawnedEnemies.Add(enemy);
-                    _enemyPrefabs[enemy] = prefab;
+                    SpawnEnemy(prefab, configPath, position, zone.transform);
 
-                    // Pool the unit only once its death dissolve has finished playing.
-                    var dissolve = enemy.GetComponentInChildren<DissolveOnDeath>();
-                    if (dissolve != null)
-                        dissolve.Dissolved += HandleEnemyDissolved;
+                    // Amortize the Instantiate + SPUM animation-clip loading across frames.
+                    if (++sinceYield >= _enemiesPerFrame)
+                    {
+                        sinceYield = 0;
+                        yield return null;
+                    }
                 }
             }
+
+            SpawnComplete = true;
+        }
+
+        private void SpawnEnemy(GameObject prefab, string configPath, Vector3 position, Transform parent)
+        {
+            var enemy = _factory.Spawn(prefab, configPath, position, parent);
+            _spawnedEnemies.Add(enemy);
+            _enemyPrefabs[enemy] = prefab;
+            TotalEnemiesSpawned++;
+
+            // Apply the active town's run modifiers to this freshly built enemy (no-op outside a run).
+            EnemyRunModifiers.Apply(
+                enemy.GetComponentInChildren<CharacterComponent>(),
+                enemy.GetComponentInChildren<EnemyController>());
+
+            // Pool the unit only once its death dissolve has finished playing.
+            var dissolve = enemy.GetComponentInChildren<DissolveOnDeath>();
+            if (dissolve != null)
+                dissolve.Dissolved += HandleEnemyDissolved;
         }
 
         // Death animation + dissolve are done — return the corpse to the pool.

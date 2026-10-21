@@ -50,10 +50,24 @@ namespace DwarfsCrypt.Presentation.Enemy
         private System.Collections.Generic.Dictionary<PlayerState, int> _animationIndex = new();
         private int _facingSign;
 
+        // Tracks the last state actually pushed to SPUM so a looping state (IDLE/MOVE) isn't
+        // re-sent every frame. SPUM.PlayAnimation allocates strings and does dictionary work on
+        // each call, so skipping the redundant calls removes per-frame GC churn per enemy.
+        private PlayerState _lastPlayedState;
+        private bool _hasPlayed;
+
+        // Base (unmodified) move speed, captured once so run modifiers scale from it and pool reuse
+        // can reset back to it (multipliers must never compound across respawns).
+        private float _baseMoveSpeed;
+
         protected virtual void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _baseMoveSpeed = _moveSpeed;
         }
+
+        /// <summary>Scale move speed relative to the prefab's base value. Applied by run modifiers.</summary>
+        public void SetMoveSpeedMultiplier(float multiplier) => _moveSpeed = _baseMoveSpeed * multiplier;
 
         // Reset combat/AI state on every (re)activation so a unit pulled from the pool
         // doesn't come back stuck in its previous Dead state.
@@ -65,6 +79,13 @@ namespace DwarfsCrypt.Presentation.Enemy
             _attackCooldownTimer = 0f;
             _hitStaggerTimer = 0f;
             _desiredVelocity = Vector2.zero;
+
+            // Force the next animation call to re-push to SPUM, so a unit pulled from the pool
+            // doesn't stay visually frozen on the state it "last played" before being recycled.
+            _hasPlayed = false;
+
+            // Reset speed to the prefab base; run modifiers reapply their multiplier after spawn.
+            _moveSpeed = _baseMoveSpeed;
         }
 
         protected virtual void Start()
@@ -114,7 +135,7 @@ namespace DwarfsCrypt.Presentation.Enemy
             // position reset (snap to 0,0) that the rebind causes.
             foreach (PlayerState state in Enum.GetValues(typeof(PlayerState)))
             {
-                string key = state.ToString();
+                string key = SpumStateNames.Name(state);
                 if (_spum.StateAnimationPairs.TryGetValue(key, out var list) && list.Count > 0)
                     _spum.OverrideController[key] = list[0];
             }
@@ -298,29 +319,39 @@ namespace DwarfsCrypt.Presentation.Enemy
         }
 
         // For looping states (IDLE, MOVE) — safe to call every frame, mirrors PlayerController.
+        // Skips the SPUM call when the looping state is already playing, since a looping clip keeps
+        // playing on its own and re-sending it every frame only burns CPU/GC.
         protected void PlayStateAnimation(PlayerState state)
         {
             if (_spum == null) return;
+            if (_hasPlayed && _lastPlayedState == state) return;
+
             int idx = _animationIndex[state];
             if (!HasAnimation(state, idx)) return;
             _currentState = state;
             _spum.PlayAnimation(_currentState, idx);
             _spum._anim.applyRootMotion = false;
+            _lastPlayedState = state;
+            _hasPlayed = true;
         }
 
         // For one-shot states (ATTACK, DAMAGED, DEATH) — stores variant index, mirrors PlayerController.
+        // Always re-plays (no skip guard) so repeated hits restart the flinch; records the played
+        // state so the next looping call sees a mismatch and re-triggers IDLE/MOVE afterwards.
         protected void PlayAnimation(PlayerState state, int index = 0)
         {
             if (_spum == null || !HasAnimation(state, index)) return;
             _animationIndex[state] = index;
             _spum.PlayAnimation(state, index);
             _spum._anim.applyRootMotion = false;
+            _lastPlayedState = state;
+            _hasPlayed = true;
         }
 
         // Guard: prevents IndexOutOfRangeException when an animation list isn't populated,
         // which would otherwise leave the animator in a partial state and cause position resets.
         protected bool HasAnimation(PlayerState state, int index) =>
-            _spum.StateAnimationPairs.TryGetValue(state.ToString(), out var list) && index < list.Count;
+            _spum.StateAnimationPairs.TryGetValue(SpumStateNames.Name(state), out var list) && index < list.Count;
 
         protected void UpdateFacing(float dirX)
         {

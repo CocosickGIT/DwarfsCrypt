@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace DwarfsCrypt.Domain.Characters
 {
@@ -14,6 +13,17 @@ namespace DwarfsCrypt.Domain.Characters
 
         public Character(CharacterConfig config) : base(config) { }
 
+        /// <summary>
+        /// Reset current HP/stamina/mana to their maxima. Used after run modifiers change an enemy's
+        /// MaxHp post-construction, so it spawns at the new full pool instead of its pre-modifier value.
+        /// </summary>
+        public void RefillVitals()
+        {
+            CurrentHp = MaxHp;
+            CurrentStamina = MaxStamina;
+            CurrentMana = MaxMana;
+        }
+
         public void TakeDamage(float damage, bool isCrit = false)
         {
             if (IsDead || damage <= 0f) return;
@@ -26,13 +36,8 @@ namespace DwarfsCrypt.Domain.Characters
             OnDamageTaken?.Invoke(applied, isCrit);
             OnDamaged?.Invoke(CurrentHp, MaxHp);
 
-            Debug.Log($"{this.Name} take {applied} damage  CurrentHp= {CurrentHp}");
-
             if (CurrentHp <= 0f)
-            {
                 Die();
-                Debug.Log("IsDEAD= " + $"{IsDead}");
-            }
         }
 
         public void Heal(float amount)

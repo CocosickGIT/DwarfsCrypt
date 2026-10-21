@@ -47,8 +47,10 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Presentation\Towns\Editor\TownIdDrawer.cs" />
     <Compile Include="Assets\SPUM\Sample\Script\Editor\PlayerManagerEditor.cs" />
     <Compile Include="Assets\Scripts\Presentation\Skills\Editor\SkillIdDrawer.cs" />
+    <Compile Include="Assets\Scripts\Presentation\Towns\Editor\TownConfigValidator.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

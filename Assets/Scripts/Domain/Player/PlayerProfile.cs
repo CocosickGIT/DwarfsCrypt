@@ -27,10 +27,29 @@ namespace DwarfsCrypt.Domain.Player
         public List<string> Equipment = new List<string>();   // item ids
         public List<ItemStack> Inventory = new List<ItemStack>();
 
+        // World-map progression: keys of the zones the player has cleared at least once, in the
+        // "townId/zoneId" form produced by TownProgressService. A town unlocks once every zone of
+        // the town that gates it (TownConfig.UnlockedBy) appears here, so unlock state is always
+        // derived from this one list rather than stored separately and kept in sync.
+        public List<string> ClearedZones = new List<string>();
+
+        // Id of the town the player is currently standing in, written on travel so that quitting in
+        // a town and loading the slot again resumes there instead of in the starting town. Empty or
+        // an unknown id (e.g. a town removed from towns.json) resolves back to the starting town.
+        public string CurrentTownId;
+
         // Lifetime statistic counters (kills, crafts, ...) and the player's quest log.
         // Quests measure progress against a baseline snapshotted from Statistics at accept-time.
         public List<StatEntry> Statistics = new List<StatEntry>();
         public List<QuestProgress> QuestLog = new List<QuestProgress>();
+
+        // Smithing progression. Mastery is its own experience track (see CraftingMastery) and decides
+        // the quality tier rolled at the workshop. KnownBlueprints holds the ids of the workshop
+        // recipes the player has learned from quest/mission blueprint rewards; forge recipes are
+        // common knowledge and are never listed here.
+        public int CraftingMastery = 1;
+        public int CraftingExp;
+        public List<string> KnownBlueprints = new List<string>();
 
         /// <summary>
         /// Build the runtime <see cref="CharacterConfig"/> the spawner uses for the player.

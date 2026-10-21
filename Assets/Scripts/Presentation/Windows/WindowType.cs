@@ -7,6 +7,7 @@ namespace DwarfsCrypt.Presentation.Windows
         Error,
         Reward,
         LevelSelect,
+        Map,
         Craft,
         Quest,
         GameHUD

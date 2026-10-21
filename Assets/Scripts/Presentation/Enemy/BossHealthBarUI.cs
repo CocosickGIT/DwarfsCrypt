@@ -37,6 +37,16 @@ namespace DwarfsCrypt.Presentation.Enemy
         private CanvasGroup _canvasGroup;
         private BossController _boss;
 
+        // Cached last-shown values so the per-frame Update only rebuilds the label / rewrites the
+        // slider / retints the fill when something actually changed. The label in particular built a
+        // new string via interpolation every frame, which is steady GC pressure during a boss fight.
+        private int _lastCurCeil = int.MinValue;
+        private int _lastMaxCeil = int.MinValue;
+        private float _lastSliderMax = float.NaN;
+        private bool _lastEnraged;
+        private bool _hasEnragedState;
+        private bool _lastVisible = true;
+
         private void Awake()
         {
             if (_slider == null)
@@ -81,6 +91,12 @@ namespace DwarfsCrypt.Presentation.Enemy
                 _boss = boss;
                 if (_nameLabel != null)
                     _nameLabel.text = _boss.Character.Character.Name;
+
+                // New boss: force every cached display value to re-push this frame.
+                _lastCurCeil = int.MinValue;
+                _lastMaxCeil = int.MinValue;
+                _lastSliderMax = float.NaN;
+                _hasEnragedState = false;
             }
 
             float max = _boss.Character.MaxHp;
@@ -88,22 +104,40 @@ namespace DwarfsCrypt.Presentation.Enemy
 
             if (_slider != null)
             {
-                _slider.minValue = 0f;
-                _slider.maxValue = max;
-                _slider.value = cur;
+                if (_lastSliderMax != max)
+                {
+                    _slider.minValue = 0f;
+                    _slider.maxValue = max;
+                    _lastSliderMax = max;
+                }
+                _slider.value = cur; // Slider.value early-outs internally when unchanged.
             }
 
-            if (_hpLabel != null)
-                _hpLabel.text = $"{Mathf.CeilToInt(cur)} / {Mathf.CeilToInt(max)}";
+            int curCeil = Mathf.CeilToInt(cur);
+            int maxCeil = Mathf.CeilToInt(max);
+            if (_hpLabel != null && (curCeil != _lastCurCeil || maxCeil != _lastMaxCeil))
+            {
+                _hpLabel.text = $"{curCeil} / {maxCeil}";
+                _lastCurCeil = curCeil;
+                _lastMaxCeil = maxCeil;
+            }
 
-            if (_fillImage != null)
-                _fillImage.color = _boss.IsEnraged ? _enragedFillColor : _fillColor;
+            bool enraged = _boss.IsEnraged;
+            if (_fillImage != null && (!_hasEnragedState || enraged != _lastEnraged))
+            {
+                _fillImage.color = enraged ? _enragedFillColor : _fillColor;
+                _lastEnraged = enraged;
+                _hasEnragedState = true;
+            }
 
             SetVisible(true);
         }
 
         private void SetVisible(bool visible)
         {
+            if (visible == _lastVisible) return;
+            _lastVisible = visible;
+
             _canvasGroup.alpha = visible ? 1f : 0f;
 
             // If the root is a different object that someone left inactive, activate it on

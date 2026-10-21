@@ -1,3 +1,4 @@
+using Core.Crafting;
 using Core.Player;
 using DwarfsCrypt.Domain.Rewards;
 
@@ -32,6 +33,15 @@ namespace Core.Rewards
             profile.Gold += result.Gold;
             foreach (var stack in result.Items)
                 profile.AddItem(stack.ItemId, stack.Quantity);
+
+            // Blueprints are taught outright rather than rolled — they are the reason a quest or
+            // mission was worth running, so rewardScale doesn't apply and duplicates are ignored.
+            if (table.Blueprints != null)
+            {
+                foreach (var blueprintId in table.Blueprints)
+                    if (CraftingService.LearnBlueprint(profile, blueprintId))
+                        result.LearnedBlueprints.Add(blueprintId);
+            }
 
             if (foldIntoRun)
                 RunRewards.Add(result);

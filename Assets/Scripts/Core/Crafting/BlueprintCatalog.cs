@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Towns;
 using DwarfsCrypt.Domain.Crafting;
 
 namespace Core.Crafting
@@ -39,6 +40,26 @@ namespace Core.Crafting
                 _all.Add(bp);
                 _byId[bp.Id] = bp;
             }
+        }
+
+        /// <summary>
+        /// Every blueprint one town's station works, in authored order. Untagged recipes are shared
+        /// smithing knowledge and appear at every town — see <see cref="TownAvailability"/>.
+        ///
+        /// This filters what a station *shows*; it is deliberately not enforced in
+        /// <see cref="CraftingService"/>, so anything resolving a blueprint by id (quest rewards, AFK
+        /// runs, the reward screen) keeps working from any town.
+        /// </summary>
+        public static List<Blueprint> ForStation(CraftStation station, string townId)
+        {
+            EnsureLoaded();
+
+            var matching = new List<Blueprint>();
+            foreach (var bp in _all)
+                if (bp.StationValue == station && TownAvailability.IsOfferedIn(bp.Towns, townId))
+                    matching.Add(bp);
+
+            return matching;
         }
 
         public static bool TryGet(string id, out Blueprint blueprint)

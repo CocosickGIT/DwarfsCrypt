@@ -22,6 +22,7 @@ namespace DwarfsCrypt.Presentation.Boosters
         [SerializeField] private TMP_Text _timerLabel;
 
         private ActiveBuff _buff;
+        private int _lastShownSeconds = int.MinValue;
 
         public ActiveBuff Buff => _buff;
 
@@ -45,8 +46,18 @@ namespace DwarfsCrypt.Presentation.Boosters
         {
             if (_radialFill != null)
                 _radialFill.fillAmount = _buff.Normalized;
+
+            // The label only changes once per second, but Refresh runs every frame — rebuild the
+            // string (an allocation) only when the whole-second value actually ticks over.
             if (_timerLabel != null)
-                _timerLabel.text = Mathf.CeilToInt(_buff.Remaining).ToString();
+            {
+                int seconds = Mathf.CeilToInt(_buff.Remaining);
+                if (seconds != _lastShownSeconds)
+                {
+                    _timerLabel.text = seconds.ToString();
+                    _lastShownSeconds = seconds;
+                }
+            }
         }
     }
 }

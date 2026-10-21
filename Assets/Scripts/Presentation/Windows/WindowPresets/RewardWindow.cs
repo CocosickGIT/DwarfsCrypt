@@ -1,4 +1,5 @@
 using System;
+using Core.Crafting;
 using Core.Items;
 using DwarfsCrypt.Domain.Items;
 using DwarfsCrypt.Domain.Rewards;
@@ -82,16 +83,46 @@ namespace DwarfsCrypt.Presentation.Windows
                     BuildCodeCell(data, stack.Quantity);
                 }
             }
+
+            // Blueprints learned from this payout — shown after the loot as the recipe's result item
+            // with a "NEW" tag, so it reads as "you can now make this" rather than "you got this".
+            foreach (var blueprintId in summary.LearnedBlueprints)
+            {
+                if (!BlueprintCatalog.TryGet(blueprintId, out var blueprint)) continue;
+
+                ItemCatalog.TryGet(blueprint.ResultItemId, out var result);
+                var cell = BuildCodeCell(result, 1);
+                SetCellTag(cell, "NEW");
+            }
+        }
+
+        /// <summary>Overlay a short label across the top of a built cell.</summary>
+        private static void SetCellTag(GameObject cell, string tag)
+        {
+            var tagGO = new GameObject("Tag", typeof(RectTransform), typeof(TextMeshProUGUI));
+            tagGO.transform.SetParent(cell.transform, false);
+            var tagRT = (RectTransform)tagGO.transform;
+            tagRT.anchorMin = Vector2.zero;
+            tagRT.anchorMax = Vector2.one;
+            tagRT.offsetMin = new Vector2(2f, 2f);
+            tagRT.offsetMax = new Vector2(-2f, -2f);
+
+            var text = tagGO.GetComponent<TextMeshProUGUI>();
+            text.text = tag;
+            text.fontSize = 14f;
+            text.color = new Color(1f, 0.85f, 0.3f);
+            text.alignment = TextAlignmentOptions.TopLeft;
+            text.raycastTarget = false;
         }
 
         // Builds a square cell from code (no prefab needed), mirroring InventoryGrid.BuildSlotObject:
         // a rarity-colored background, an inset icon, and a quantity overlay. A Grid Layout Group on
         // the list root sizes/arranges these into a row.
-        private void BuildCodeCell(ItemData data, int quantity)
+        private GameObject BuildCodeCell(ItemData data, int quantity)
         {
             var cell = new GameObject("RewardCell", typeof(RectTransform), typeof(Image));
             cell.transform.SetParent(_itemListRoot, false);
-            cell.GetComponent<Image>().color = RarityColor(data?.Rarity ?? ItemRarity.Common);
+            cell.GetComponent<Image>().color = ItemQuality.RarityColor(data?.Rarity ?? ItemRarity.Common);
 
             // Icon — inset inside the cell like the inventory slot.
             var iconGO = new GameObject("Icon", typeof(RectTransform), typeof(Image));
@@ -124,6 +155,8 @@ namespace DwarfsCrypt.Presentation.Windows
             qty.color = Color.white;
             qty.alignment = TextAlignmentOptions.BottomRight;
             qty.raycastTarget = false;
+
+            return cell;
         }
 
         // Shown in the icon box when an item has no sprite yet (placeholder, not transparent).
@@ -135,15 +168,5 @@ namespace DwarfsCrypt.Presentation.Windows
             return Resources.Load<Sprite>(data.IconPath);
         }
 
-        // Same palette as the inventory slot (ItemSlot.ApplyRarityStyle).
-        private static Color RarityColor(ItemRarity rarity) => rarity switch
-        {
-            ItemRarity.Common    => new Color(0.25f, 0.25f, 0.25f),
-            ItemRarity.Uncommon  => new Color(0.08f, 0.40f, 0.08f),
-            ItemRarity.Rare      => new Color(0.08f, 0.20f, 0.65f),
-            ItemRarity.Epic      => new Color(0.40f, 0.08f, 0.60f),
-            ItemRarity.Legendary => new Color(0.80f, 0.35f, 0.00f),
-            _                    => new Color(0.18f, 0.18f, 0.18f)
-        };
     }
 }

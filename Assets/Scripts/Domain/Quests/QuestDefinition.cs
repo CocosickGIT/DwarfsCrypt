@@ -32,6 +32,12 @@ namespace DwarfsCrypt.Domain.Quests
         public List<QuestObjective> Objectives = new List<QuestObjective>();
         public RewardTable Reward = new RewardTable();
 
+        /// <summary>
+        /// Ids of the towns whose quest-giver offers this. Empty = every town. Scopes only the
+        /// *offer*: an accepted quest stays in the log and keeps counting wherever the player goes.
+        /// </summary>
+        public List<string> Towns;
+
         public QuestCategory CategoryValue =>
             Enum.TryParse<QuestCategory>(Category, ignoreCase: true, out var c) ? c : QuestCategory.Normal;
     }

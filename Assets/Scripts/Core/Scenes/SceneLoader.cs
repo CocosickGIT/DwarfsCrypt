@@ -6,7 +6,7 @@ namespace Core.Scenes
     public static class SceneNames
     {
         public const string Init = "InitScene";
-        public const string Town = "Town";
+        public const string Town = "1_Town";
         public const string Game = "Game_TestScene";
     }
 

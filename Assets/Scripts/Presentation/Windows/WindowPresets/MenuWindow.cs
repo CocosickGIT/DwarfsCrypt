@@ -59,8 +59,11 @@ namespace DwarfsCrypt.Presentation.Windows
             if (rewardWindow != null)
                 rewardWindow.Closed -= OnRewardClosed;
 
+            // Return to the town this run started from (default town when no run is active).
+            string townScene = Core.Towns.RunContext.ResolveTownScene();
             RunRewards.Reset();
-            SceneLoader.Load(SceneNames.Town);
+            Core.Towns.RunContext.Clear();
+            SceneLoader.Load(townScene);
         }
 
         private void ResetProgress()

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using DwarfsCrypt.Domain.Characters;
 using UnityEngine;
@@ -7,6 +8,10 @@ namespace Core.Characters
 {
     public static class CharacterConfigLoader
     {
+        // Parsed configs are read-only: Character copies the values it needs and never mutates the
+        // config (CharacterAttributes only reads Stats), so many enemies can share one cached
+        // instance instead of re-parsing the JSON on every spawn.
+        private static readonly Dictionary<string, CharacterConfig> _resourceCache = new();
         /// <summary>
         /// Loads a CharacterConfig from an absolute file path.
         /// </summary>
@@ -35,11 +40,16 @@ namespace Core.Characters
         /// </summary>
         public static CharacterConfig LoadFromResources(string resourcePath)
         {
+            if (_resourceCache.TryGetValue(resourcePath, out var cached))
+                return cached;
+
             TextAsset asset = Resources.Load<TextAsset>(resourcePath);
             if (asset == null)
                 throw new InvalidOperationException($"Character config not found in Resources: {resourcePath}");
 
-            return JsonUtility.FromJson<CharacterConfig>(asset.text);
+            var parsed = JsonUtility.FromJson<CharacterConfig>(asset.text);
+            _resourceCache[resourcePath] = parsed;
+            return parsed;
         }
     }
 }
